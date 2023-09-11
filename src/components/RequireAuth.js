@@ -189,7 +189,8 @@ const RequireAuth = (props) => {
                 <img className={classes.logo} src={logo} />
               </Hidden>
             )}
-            <FormattedMessage module="core" id="appName" defaultMessage={<FormattedMessage id="root.appName" />} />
+            CAMU
+
           </Button>
           <Hidden smDown implementation="css">
             <Tooltip title={modulesManager.getModulesVersions().join(", ")}>

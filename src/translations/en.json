@@ -12,6 +12,7 @@
   "core.roleManagement.null": "Any",
   "core.roleManagement.true": "True",
   "core.roleManagement.false": "False",
+  "core.displayAppName": "CAMU",
   "core.roleManagement.createButton.tooltip": "Create new Role",
   "core.roleManagement.role.page.title": "Role Details {label}",
   "core.roleManagement.requiredFieldsEmptyError": "* These fields are required",
