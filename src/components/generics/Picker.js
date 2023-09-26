@@ -22,7 +22,7 @@ import FakeInput from "../inputs/FakeInput";
 
 const styles = (theme) => ({
   label: {
-    color: theme.palette.primary.main,
+    color: theme.palette.text.primary,
   },
   dialogTitle: theme.dialog.title,
   dialogContent: theme.dialog.content,

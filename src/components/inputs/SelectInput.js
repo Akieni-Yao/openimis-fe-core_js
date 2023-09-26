@@ -8,7 +8,7 @@ import _ from "lodash-uuid";
 
 const styles = (theme) => ({
   label: {
-    color: theme.palette.primary.main,
+    color: theme.palette.text.primary,
   },
 });
 
