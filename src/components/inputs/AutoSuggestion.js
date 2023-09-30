@@ -16,7 +16,9 @@ const styles = (theme) => ({
   },
   header: theme.table.title,
   label: {
-    color: theme.palette.primary.main,
+    // color: theme.palette.primary.main,
+    color: theme.palette.text.primary,
+
   },
   textField: {
     width: "100%",

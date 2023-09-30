@@ -35,7 +35,7 @@ const styles = (theme) => ({
   },
   paper: theme.paper.body,
   paperHeader: theme.paper.header,
-  paperHeaderTitle: theme.paper.title,
+  paperHeaderTitle: theme.paper.headerTitles,
   paperHeaderMessage: theme.paper.message,
   paperHeaderAction: {
     paddingInline: 5,
@@ -430,7 +430,7 @@ class Searcher extends Component {
           />
         )}
         {!!contributionKey && <Contributions contributionKey={contributionKey} />}
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} >
           <Grid container className={classes.tableContainer}>
             {errorItems ? (
               <ProgressOrError error={errorItems} />

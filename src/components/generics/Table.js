@@ -203,7 +203,7 @@ class Table extends Component {
         )}
         <MUITable className={classes.table} size={size}>
           {!!localPreHeaders && localPreHeaders.length > 0 && (
-            <TableHead>
+            <TableHead style={{backgroundColor:"rgba(0,145,62,5%)"}}>
               <TableRow>
                 {localPreHeaders.map((h, idx) => {
                   if (headerSpans.length > idx && !headerSpans[idx]) return null;
@@ -221,7 +221,7 @@ class Table extends Component {
             </TableHead>
           )}
           {!!localHeaders && localHeaders.length > 0 && (
-            <TableHead>
+            <TableHead style={{backgroundColor:"rgba(0,145,62,5%)"}}>
               <TableRow>
                 {localHeaders.map((h, idx) => {
                   if (headerSpans.length > idx && !headerSpans[idx]) return null;
