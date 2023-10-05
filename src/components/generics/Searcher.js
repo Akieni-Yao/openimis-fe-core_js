@@ -32,6 +32,7 @@ import Table from "./Table";
 const styles = (theme) => ({
   root: {
     width: "100%",
+    margin:24
   },
   paper: theme.paper.body,
   paperHeader: theme.paper.header,

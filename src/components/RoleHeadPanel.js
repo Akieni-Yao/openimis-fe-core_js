@@ -70,6 +70,7 @@ class RoleHeadPanel extends FormPanel {
               label={formatMessage(intl, "core", "roleManagement.isSystem")}
               control={
                 <Checkbox
+                  color="primary"
                   checked={!!edited && !!edited.isSystem && edited.isSystem}
                   onChange={(event) => this.updateAttribute("isSystem", event.target.checked)}
                   disabled
@@ -82,6 +83,7 @@ class RoleHeadPanel extends FormPanel {
               label={formatMessage(intl, "core", "roleManagement.isBlocked")}
               control={
                 <Checkbox
+                  color="primary"
                   checked={!!edited && !!edited.isBlocked && edited.isBlocked}
                   onChange={(event) => this.updateAttribute("isBlocked", event.target.checked)}
                   disabled={!!isReadOnly}

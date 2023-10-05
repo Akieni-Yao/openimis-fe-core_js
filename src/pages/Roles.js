@@ -122,6 +122,7 @@ class RawRoleFilter extends Component {
             label={formatMessage(intl, "core", "roleManagement.showHistory")}
             control={
               <Checkbox
+                color="primary"
                 checked={!!this._filterValue("showHistory")}
                 onChange={(event) => this._onChangeFilter("showHistory", event.target.checked)}
               />
@@ -189,12 +190,12 @@ class Roles extends Component {
         language === null
           ? role.name
           : language === LANGUAGE_EN
-          ? role.name
-          : role.altLanguage === null
-          ? role.name
-          : role.altLanguage,
-      (role) => (role.isSystem !== null ? <Checkbox checked={!!role.isSystem} disabled /> : ""),
-      (role) => (role.isBlocked !== null ? <Checkbox checked={role.isBlocked} disabled /> : ""),
+            ? role.name
+            : role.altLanguage === null
+              ? role.name
+              : role.altLanguage,
+      (role) => (role.isSystem !== null ? <Checkbox checked={!!role.isSystem} disabled color="primary"/> : ""),
+      (role) => (role.isBlocked !== null ? <Checkbox checked={role.isBlocked} disabled color="primary"/> : ""),
       (role) => (!!role.validityFrom ? formatDateFromISO(modulesManager, intl, role.validityFrom) : ""),
       (role) => (!!role.validityTo ? formatDateFromISO(modulesManager, intl, role.validityTo) : ""),
     ];
