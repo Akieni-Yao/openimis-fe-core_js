@@ -195,7 +195,7 @@ const RequireAuth = (props) => {
           <Hidden smDown implementation="css">
             <Tooltip title={modulesManager.getModulesVersions().join(", ")}>
               <Typography variant="caption" className={classes.appVersions}>
-                {modulesManager.getOpenIMISVersion()}
+                {/* {modulesManager.getOpenIMISVersion()} */}
               </Typography>
             </Tooltip>
           </Hidden>
@@ -210,7 +210,7 @@ const RequireAuth = (props) => {
             <div className={classes.grow} />
           </Contributions>
           <LogoutButton />
-          <Help />
+          {/* <Help /> */}
         </Toolbar>
       </AppBar>
       {isOpen && (
