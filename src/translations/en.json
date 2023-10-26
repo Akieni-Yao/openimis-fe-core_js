@@ -39,6 +39,7 @@
   "core.Autocomplete.placeholder": "Search...",
   "core.LoginPage.username.label": "Nom d'utilisateur",
   "core.LoginPage.password.label": "Mot de passe",
+  "core.LoginPage.rememberMe": "Remember Me",
   "core.LoginPage.loginBtn": "Connexion",
   "core.LoginPage.authError": "The password or the username you've entered is incorrect.",
   "core.LoginPage.pageTitle": "Log In",
