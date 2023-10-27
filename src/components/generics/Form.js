@@ -10,12 +10,35 @@ import Contributions from "./Contributions";
 import withHistory from "../../helpers/history";
 import { withTooltip, formatMessage } from "../../helpers/i18n";
 import _ from "lodash";
+import CheckIcon from "@material-ui/icons/Check";
+import CloseIcon from "@material-ui/icons/Close";
+import SendIcon from "@material-ui/icons/Send";
 
 const styles = (theme) => ({
   paper: theme.paper.paper,
   paperHeader: theme.paper.header,
   paperHeaderAction: theme.paper.action,
   fab: theme.fab,
+  fabAbove: {
+    position: "fixed",
+    bottom: 20,
+    right: 8,
+    zIndex: 2000,
+    marginBottom: "70px",
+  },
+  fabMargin: {
+    marginBottom: "140px",
+  },
+  customFab: {
+    background: "#fff",
+    border: "2px solid #FF841C", // Your desired border color
+    color: "#FF841C", // Your desired text/icon color
+  },
+  customFabReject: {
+    background: "#fff",
+    border: "2px solid #FF0000", // Your desired border color
+    color: "#FF0000", // Your desired text/icon color
+  },
 });
 
 class Form extends Component {
@@ -69,6 +92,10 @@ class Form extends Component {
       headPanelContributionsKey,
       Panels,
       contributedPanelsKey = null,
+      hasReject,
+      allApproved,
+      approveorreject,
+      handleDialogOpen,
       ...others
     } = this.props;
     return (
@@ -155,8 +182,57 @@ class Form extends Component {
             />
           )}
         </form>
+        {title == "Insuree.title" && this.props.edited?.biometricsStatus ? (
+          hasReject ? (
+            <>
+              {withTooltip(
+                <div className={`${classes.fabAbove} ${classes.fabMargin}`}>
+                  <Fab className={classes.customFab} onClick={() => handleDialogOpen("rework", this.props.edited)}>
+                    <SendIcon />
+                  </Fab>
+                </div>,
+                addTooltip || formatMessage(this.props.intl, module, "addTooltip"),
+              )}
+
+              {withTooltip(
+                <div className={classes.fabAbove}>
+                  <Fab
+                    className={classes.customFabReject}
+                    onClick={() => handleDialogOpen("reject", this.props.edited)}
+                  >
+                    <CloseIcon />
+                  </Fab>
+                </div>,
+                addTooltip || formatMessage(this.props.intl, module, "addTooltip"),
+              )}
+            </>
+          ) : allApproved ? (
+            <>
+              {withTooltip(
+                <div className={`${classes.fabAbove} ${classes.fabMargin}`}>
+                  <Fab
+                    className={classes.customFabReject}
+                    onClick={() => handleDialogOpen("reject", this.props.edited)}
+                  >
+                    <CloseIcon />
+                  </Fab>
+                </div>,
+                addTooltip || formatMessage(this.props.intl, module, "addTooltip"),
+              )}
+              {withTooltip(
+                <div className={classes.fabAbove}>
+                  <Fab color="primary" onClick={() => approveorreject({ ...this.props.edited, status: "APPROVED" })}>
+                    <CheckIcon />
+                  </Fab>
+                </div>,
+                addTooltip || formatMessage(this.props.intl, module, "addTooltip"),
+              )}
+            </>
+          ) : null
+        ) : null}
         {!this.state.dirty &&
-          !!add && !save && 
+          !!add &&
+          !save &&
           withTooltip(
             <div className={classes.fab}>
               <Fab color="primary" onClick={add}>
