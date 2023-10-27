@@ -69,7 +69,7 @@ const ForgotPasswordPage = (props) => {
       }}>
         <div style={{
           height: "100vh", width: "100vw",
-          backgroundImage: "url('images/backgroundNewImage.png')",
+          backgroundImage: `url(${props.backgroundImage})`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'fill',
