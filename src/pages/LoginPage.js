@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LOGIN_PAGE_CONTRIBUTION_KEY = "core.LoginPage";
 
-const LoginPage = ({ logo }) => {
+const LoginPage = ({ logo, backgroundImage }) => {
   const classes = useStyles();
   const history = useHistory();
   const modulesManager = useModulesManager();
@@ -39,10 +39,42 @@ const LoginPage = ({ logo }) => {
   const [hasError, setError] = useState(false);
   const auth = useAuthentication();
   const [isAuthenticating, setAuthenticating] = useState(false);
+  const initialState = localStorage.getItem('rememberMe') === 'true';
+  const [rememberMe, setRememberMe] = useState(initialState);
+
+  const handleRememberMeChange = (event) => {
+    const isChecked = event.target.checked;
+    setRememberMe(isChecked);
+    
+    console.log('Remember Me is checked:', isChecked);
+  
+    if (!isChecked) {
+      // If "Remember Me" is unchecked, clear the saved credentials.
+      localStorage.removeItem('rememberedUsername');
+      localStorage.removeItem('rememberedPassword');
+    } else {
+      // If "Remember Me" is checked, save the username and password.
+      localStorage.setItem('rememberedUsername', credentials.username);
+      localStorage.setItem('rememberedPassword', credentials.password);
+  
+      console.log('Saved username and password:', credentials.username, credentials.password);
+    }
+  
+    localStorage.setItem('rememberMe', isChecked.toString());
+  };
 
   useEffect(() => {
     if (auth.isAuthenticated) {
       history.push("/");
+    } else {
+      // If "Remember Me" is checked, retrieve and set the saved credentials.
+      if (rememberMe) {
+        const savedUsername = localStorage.getItem('rememberedUsername');
+        const savedPassword = localStorage.getItem('rememberedPassword');
+        if (savedUsername && savedPassword) {
+          setCredentials({ username: savedUsername, password: savedPassword });
+        }
+      }
     }
   }, []);
 
@@ -62,7 +94,6 @@ const LoginPage = ({ logo }) => {
     e.preventDefault();
     history.push("/forgot_password");
   };
-  const MyBackgroundImage = 'openimis-fe-core_js/src/pages/backgroundNewImage.png';
   return (
     <>
       {isAuthenticating && (
@@ -76,7 +107,7 @@ const LoginPage = ({ logo }) => {
   }}>
 <div style={{
         height: "100vh", width: "100vw",
-        backgroundImage: "url('images/backgroundNewImage.png')",
+        backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'fill',
@@ -142,6 +173,8 @@ const LoginPage = ({ logo }) => {
                           <Checkbox
                             color="primary"
                             style={{ paddingLeft: '20px' }}
+                            checked={rememberMe}
+                            onChange={handleRememberMeChange}
                           />
                         }
                       />
@@ -189,7 +222,6 @@ const LoginPage = ({ logo }) => {
       </div>
 </div>
     </>
-  );
-};
+  )}
 
 export default LoginPage;
