@@ -183,7 +183,9 @@ class Form extends Component {
           )}
         </form>
         {title == "Insuree.title" && this.props.edited?.biometricsStatus ? (
-          hasReject ? (
+          (hasReject && (this.props?.edited?.status !== "REJECTED" || this.props?.edited?.status !== "REWORK")) ||
+          !this.props?.edited?.biometricsIsMaster ? (
+            //  && this.props?.edited?.biometricsIsMaster == false
             <>
               {withTooltip(
                 <div className={`${classes.fabAbove} ${classes.fabMargin}`}>
@@ -206,7 +208,8 @@ class Form extends Component {
                 addTooltip || formatMessage(this.props.intl, module, "addTooltip"),
               )}
             </>
-          ) : allApproved ? (
+          ) : allApproved && this.props.edited.biometricsIsMaster && this.props?.edited?.status !== "APPROVED" ? (
+            // && this.props?.edited?.biometricsIsMaster
             <>
               {withTooltip(
                 <div className={`${classes.fabAbove} ${classes.fabMargin}`}>
