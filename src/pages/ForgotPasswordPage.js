@@ -78,7 +78,7 @@ const ForgotPasswordPage = (props) => {
         <Helmet title={formatMessage("pageTitle")} />
         <Paper className={classes.paper} elevation={2}>
           <form onSubmit={onSubmit}>
-            <Box p={3} width={500}>
+            <Box p={6} width={530}>
               {!isDone && (
                 <Grid container spacing={2} direction="column" alignItems="stretch">
                   <Grid item container direction="row" alignItems="center">
@@ -130,7 +130,7 @@ const ForgotPasswordPage = (props) => {
                     }}
                     onClick={handleBackToLogin}
                     >
-                      Back to Login
+                      {formatMessage("backButton")}
                     </Button>
                   </Grid>
                 </Grid>
@@ -147,16 +147,16 @@ const ForgotPasswordPage = (props) => {
               </Grid>
               <div style={{
                   textAlign: 'center',
-                  font: 'normal normal bold 24px/42px Roboto',
+                  font: 'normal normal bold 24px/34px Roboto',
                   color: '#333333',
                   marginTop: "10px"
-                }}>An e-mail with Verification link has been sent to your e-mail address.</div>
+                }}>{formatMessage('done.Verification')}</div>
               <div style={{
                   textAlign: 'center',
                   font: 'normal normal normal 15px/34px Roboto',
                   color: '#333333',
                   marginTop: "10px"
-                }}>If you do not receive an e-mail, please check with your administrator.</div>
+                }}>{formatMessage('done.Administrator')}</div>
               <Grid item container direction="row" alignItems="center">
                 <Button
                   startIcon={<ArrowBackIcon/>}
@@ -168,7 +168,7 @@ const ForgotPasswordPage = (props) => {
                 }}
                 onClick={handleBackToLogin}
                 >
-                  Back to Login
+                  {formatMessage("backButton")}
                 </Button>
               </Grid>
             </Grid>

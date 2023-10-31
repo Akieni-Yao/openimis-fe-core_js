@@ -117,7 +117,7 @@ const LoginPage = ({ logo, backgroundImage }) => {
 
           <Paper className={classes.paper} elevation={2}>
             <form onSubmit={onSubmit}>
-              <Box p={6} width={450}>
+              <Box p={6} width={530}>
                 <Grid container spacing={2} direction="column" alignItems="stretch" justifyContent="center">
                   <Grid item container direction="row" alignItems="center">
                     <img className={classes.logo} src={logo} style={{ margin: "0 auto" }} />
@@ -156,7 +156,7 @@ const LoginPage = ({ logo, backgroundImage }) => {
                   </Grid>
                   {hasError && (
                     <Grid item>
-                      <Box color="error.main">{formatMessage("authError")}</Box>
+                      <Box color="#FF0000">{formatMessage("authError")}</Box>
                     </Grid>
                   )}
                   <Grid container justifyContent="space-between" alignItems="center">
