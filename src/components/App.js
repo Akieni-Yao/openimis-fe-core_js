@@ -95,7 +95,7 @@ const App = (props) => {
 
   return (
     <>
-      <Helmet titleTemplate="%s - openIMIS" defaultTitle="openIMIS" />
+      <Helmet titleTemplate="%s - CAMU IMS" defaultTitle="CAMU IMS" />
       <CssBaseline />
       <ModulesManagerProvider value={modulesManager}>
         <IntlProvider locale={locale} messages={allMessages}>
