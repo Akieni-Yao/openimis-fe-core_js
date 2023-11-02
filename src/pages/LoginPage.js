@@ -133,7 +133,7 @@ const LoginPage = ({ logo, backgroundImage }) => {
                     font: 'normal normal bold 24px/42px Roboto',
                     color: '#333333',
                     marginTop: "10px"
-                  }}>CAMUIMS</div>
+                  }}>CAMU IMS</div>
                   <Grid item>
                     <TextInput
                       required
