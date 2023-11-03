@@ -3,7 +3,7 @@ import { withTheme, withStyles } from "@material-ui/core/styles";
 import { injectIntl } from "react-intl";
 import { Fab, Grid, Paper, IconButton, Typography, Divider, Tooltip } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import SaveIcon from "@material-ui/icons/SaveAlt";
+import SaveIcon from "@material-ui/icons/Save";
 import EmailIcon from "@material-ui/icons/Email";
 import PrintIcon from "@material-ui/icons/Print";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -101,6 +101,7 @@ class Form extends Component {
       allApproved,
       approveorreject,
       handleDialogOpen,
+      printButton,
       ...others
     } = this.props;
     return (
@@ -267,7 +268,7 @@ class Form extends Component {
                 <Fab
                   color="primary"
                   // disabled={!!this.state.saving || (!!canSave && !canSave())}
-                  onClick={(e) => this.save(this.props.edited)}
+                  onClick={(e) =>printButton(this.props.edited)}
                 >
                   <PrintIcon />
                 </Fab>
