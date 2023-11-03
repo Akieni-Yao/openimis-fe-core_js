@@ -28,8 +28,8 @@ const LANGUAGE_FULL_PROJECTION = () => ["name", "code", "sortOrder"];
 const MODULEPERMISSION_FULL_PROJECTION = () => ["modulePermsList{moduleName, permissions{permsName, permsValue}}"];
 
 function getApiUrl() {
-  let _baseApiUrl = process.env.REACT_APP_API_URL ?? '/api';
-  if (_baseApiUrl.indexOf('/') !== 0) {
+  let _baseApiUrl = process.env.REACT_APP_API_URL ?? "/api";
+  if (_baseApiUrl.indexOf("/") !== 0) {
     _baseApiUrl = `/${_baseApiUrl}`;
   }
   return _baseApiUrl;
@@ -187,7 +187,14 @@ export function waitForMutation(clientMutationId, additionalRequest = "") {
   };
 }
 
-export function graphqlMutation(mutation, variables, type = "CORE_TRIGGER_MUTATION", params = {}, wait = true, additionalRequest = "") {
+export function graphqlMutation(
+  mutation,
+  variables,
+  type = "CORE_TRIGGER_MUTATION",
+  params = {},
+  wait = true,
+  additionalRequest = "",
+) {
   let clientMutationId;
   if (variables?.input) {
     clientMutationId = uuid.uuid();
@@ -206,7 +213,13 @@ export function graphqlMutation(mutation, variables, type = "CORE_TRIGGER_MUTATI
   };
 }
 
-export function graphqlMutationLegacy(payload, type = "CORE_TRIGGER_MUTATION", params = {}, wait = true, additionalRequest = "") {
+export function graphqlMutationLegacy(
+  payload,
+  type = "CORE_TRIGGER_MUTATION",
+  params = {},
+  wait = true,
+  additionalRequest = "",
+) {
   if (wait && !params.clientMutationId) {
     console.error("graphqlMutationLegacy cannot wait with a specified clientMutationId");
   }
@@ -229,7 +242,6 @@ export function fetch(config) {
         ...config,
         headers: {
           "Content-Type": "application/json",
-          // 'ngrok-skip-browser-warning': 'true',
           ...config.headers,
         },
       },
@@ -262,6 +274,7 @@ export function login(credentials) {
       await dispatch(refreshAuthToken());
     }
     const action = await dispatch(loadUser());
+    localStorage.setItem("userLanguage", action.payload.i_user.language);
     return action.type !== "CORE_AUTH_ERR";
   };
 }
@@ -306,6 +319,7 @@ export function logout() {
       }
     `;
     await dispatch(graphqlMutation(mutation, {}));
+    localStorage.removeItem("userLanguage")
     return dispatch({ type: "CORE_AUTH_LOGOUT" });
   };
 }
@@ -466,12 +480,12 @@ export function roleNameSetValid() {
 
 export function saveCurrentPaginationPage(page, afterCursor, beforeCursor, module) {
   return (dispatch) => {
-    dispatch({ type: "CORE_PAGINATION_PAGE", payload: { page, afterCursor, beforeCursor, module} });
+    dispatch({ type: "CORE_PAGINATION_PAGE", payload: { page, afterCursor, beforeCursor, module } });
   };
 }
 
 export function clearCurrentPaginationPage() {
   return (dispatch) => {
-    dispatch({ type: "CORE_PAGINATION_PAGE_CLEAR" })
-  }
+    dispatch({ type: "CORE_PAGINATION_PAGE_CLEAR" });
+  };
 }

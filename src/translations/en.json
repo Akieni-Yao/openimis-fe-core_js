@@ -62,5 +62,8 @@
   "core.NumberInput.notApplicable": "N/A",
   "core.ForgotPasswordPage.recoverTitle": "Récupérer votre compte",
   "core.ForgotPasswordPage.explanationMessage": "Saisissez votre nom d'utilisateur pour pouvoir récupérer votre compte. Un e-mail contenant les instructions sera envoyé à votre adresse e-mail.",
-  "core.ForgotPasswordPage.contactAdministrator": "Si vous ne recevez pas d'e-mail, veuillez contacter votre administrateur."
+  "core.ForgotPasswordPage.contactAdministrator": "Si vous ne recevez pas d'e-mail, veuillez contacter votre administrateur.",
+  "core.datePicker.ok":"OK",
+  "core.datePicker.cancel":"CANCEL",
+  "core.datePicker.clear":"CLEAR"
 }

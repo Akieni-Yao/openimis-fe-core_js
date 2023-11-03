@@ -5,6 +5,9 @@ import { injectIntl } from "react-intl";
 import { FormControl } from "@material-ui/core";
 import { DatePicker as MUIDatePicker } from "@material-ui/pickers";
 import { formatMessage, toISODate } from "../helpers/i18n";
+import MomentUtils from "@date-io/moment";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import "moment/locale/fr";
 
 const styles = (theme) => ({
   label: {
@@ -49,23 +52,34 @@ class AdDatePicker extends Component {
       ...otherProps
     } = this.props;
 
+    let userlang = localStorage.getItem("userLanguage");
+    let locale = userlang === "fr" ? "fr" : "en";
+    moment.locale(locale);
     return (
       <FormControl fullWidth={fullWidth}>
-        <MUIDatePicker
-          {...otherProps}
-          format={format}
-          disabled={readOnly}
-          required={required}
-          clearable
-          value={this.state.value}
-          InputLabelProps={{
-            className: classes.label,
-          }}
-          label={!!label ? formatMessage(intl, module, label) : null}
-          onChange={this.dateChange}
-          reset={reset}
-          disablePast={disablePast}
-        />
+        <MuiPickersUtilsProvider utils={MomentUtils} locale={locale} libInstance={moment}>
+          <MUIDatePicker
+            {...otherProps}
+            format={format}
+            // format="L"
+            // format={customFormat}
+            disabled={readOnly}
+            required={required}
+            clearable
+            value={this.state.value}
+            InputLabelProps={{
+              className: classes.label,
+            }}
+            label={!!label ? formatMessage(intl, module, label) : null}
+            onChange={this.dateChange}
+            reset={reset}
+            disablePast={disablePast}
+            views={["year", "month", "date"]}
+            okLabel={formatMessage(intl, "core", "datePicker.ok")}
+            clearLabel={formatMessage(intl, "core", "datePicker.clear")}
+            cancelLabel={formatMessage(intl, "core", "datePicker.cancel")}
+          />
+        </MuiPickersUtilsProvider>
       </FormControl>
     );
   }
