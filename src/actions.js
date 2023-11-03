@@ -274,7 +274,7 @@ export function login(credentials) {
       await dispatch(refreshAuthToken());
     }
     const action = await dispatch(loadUser());
-    localStorage.setItem("userLanguage", action.payload.i_user.language);
+    localStorage.setItem("userLanguage", action?.payload?.i_user?.language);
     return action.type !== "CORE_AUTH_ERR";
   };
 }
@@ -319,7 +319,7 @@ export function logout() {
       }
     `;
     await dispatch(graphqlMutation(mutation, {}));
-    localStorage.removeItem("userLanguage")
+    localStorage.removeItem("userLanguage");
     return dispatch({ type: "CORE_AUTH_LOGOUT" });
   };
 }
