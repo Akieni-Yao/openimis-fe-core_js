@@ -252,7 +252,7 @@ class AutoSuggestion extends Component {
   };
 
   renderSelect = () => {
-    const { module, withNull, nullLabel, label, required = false, getSuggestionValue } = this.props;
+    const { module, withNull, nullLabel, label, required = false, getSuggestionValue, readOnly } = this.props;
     const { suggestions, selected } = this.state;
     var options = suggestions.map((r) => ({ value: r, label: getSuggestionValue(r) }));
     if (withNull) {
@@ -271,7 +271,7 @@ class AutoSuggestion extends Component {
   };
 
   renderAutoselect = () => {
-    const { classes, label, disabled = false, required = false, placeholder, getSuggestionValue } = this.props;
+    const { classes, label, disabled = false, required = false, placeholder, getSuggestionValue, readOnly } = this.props;
     const { suggestions, value } = this.state;
     const inputProps = {
       className: classes.suggestionInputField,
@@ -282,6 +282,7 @@ class AutoSuggestion extends Component {
       disabled,
       onChange: this._onAutoselectChange,
       required,
+
     };
     return (
       <Autosuggest
@@ -301,6 +302,11 @@ class AutoSuggestion extends Component {
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={this._render}
         shouldRenderSuggestions={this._shouldRenderSuggestions}
+        InputProps={{
+          style: {
+            color: readOnly ? '#4c4c4c' : '#4c4c4c',
+          },
+        }}
       />
     );
   };
@@ -309,7 +315,17 @@ class AutoSuggestion extends Component {
     const { classes, label, readOnly = false, selectThreshold = null } = this.props;
     const { value, suggestions } = this.state;
     if (!!readOnly) {
-      return <TextField label={label} className={classes.textField} disabled value={value} />;
+      return <TextField label={label} className={classes.textField} disabled value={value} InputLabelProps={{
+        className: classes.label,
+        style: {
+          color: !!readOnly && '#7f7f7f',
+        },
+
+      }} InputProps={{
+        style: {
+          color: !!readOnly && '#7f7f7f',
+        },
+      }} />;
     }
     if (
       !value &&

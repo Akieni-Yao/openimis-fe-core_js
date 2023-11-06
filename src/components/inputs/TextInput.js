@@ -11,15 +11,15 @@ const styles = (theme) => ({
   // NOTE: This is used to hide the increment/decrement arrows from the number input
   numberInput: {
     '& input[type=number]': {
-        '-moz-appearance': 'textfield'
+      '-moz-appearance': 'textfield'
     },
     '& input[type=number]::-webkit-outer-spin-button': {
-        '-webkit-appearance': 'none',
-        margin: 0
+      '-webkit-appearance': 'none',
+      margin: 0
     },
     '& input[type=number]::-webkit-inner-spin-button': {
-        '-webkit-appearance': 'none',
-        margin: 0
+      '-webkit-appearance': 'none',
+      margin: 0
     }
   },
 });
@@ -49,7 +49,7 @@ class TextInput extends Component {
     }
   }
   _onChange = (e) => {
-    let {value} = e.target;
+    let { value } = e.target;
     if (this.props.formatInput) {
       value = this.props.formatInput(value);
     }
@@ -73,17 +73,26 @@ class TextInput extends Component {
       type,
       ...others
     } = this.props;
+    const inputClass = readOnly ? classes.disabledInput : '';
     return (
       <TextField
         {...others}
-        className={classes.numberInput}
+        // className={classes.numberInput}
+        className={`${classes.numberInput} ${inputClass}`}
         fullWidth
         disabled={readOnly}
         label={!!label && formatMessage(intl, module, label)}
         InputLabelProps={{
           className: classes.label,
+          style: {
+            color: !!readOnly && '#7f7f7f',
+          },
         }}
-        InputProps={{ inputProps, startAdornment, endAdornment }}
+        InputProps={{
+          style: {
+            color: !!readOnly && '#7f7f7f',
+          },
+        }}
         onChange={this._onChange}
         value={this.state.value}
         error={Boolean(error)}

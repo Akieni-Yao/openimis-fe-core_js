@@ -104,6 +104,7 @@ class Form extends Component {
       printButton,
       ...others
     } = this.props;
+    // console.log(this.props.edited, "editedsdf")
     return (
       <Fragment>
         <form noValidate autoComplete="off">
@@ -262,33 +263,34 @@ class Form extends Component {
             </div>,
             // saveTooltip || formatMessage(this.props.intl, module, "saveTooltip"),
           )}
-        {!!this.props.email
-          ? withTooltip(
-              <div className={classes.fab} style={{ marginBottom: "140px" }}>
+        {(!!this.props.email && this.props.edited.email != null) ?
+          withTooltip(
+            <div>
+              <div className={classes.fab} style={{ marginBottom: "320px" }}>
                 <Fab
                   color="primary"
                   // disabled={!!this.state.saving || (!!canSave && !canSave())}
-                  onClick={(e) =>printButton(this.props.edited)}
+                  onClick={(e) => printButton(this.props.edited)}
                 >
                   <PrintIcon />
                 </Fab>
-              </div>,
-              // saveTooltip || formatMessage(this.props.intl, module, "saveTooltip"),
-            )
-          : ""}
-        {!!this.props.email
-          ? withTooltip(
-              <div className={classes.fab} style={{ marginBottom: "70px" }}>
-                <Fab
-                  color="primary"
-                  // disabled={!!this.state.saving || (!!canSave && !canSave())}
-                  onClick={(e) => emailButton(this.props.edited)}
-                >
-                  <EmailIcon />
-                </Fab>
-              </div>,
-              // saveTooltip || formatMessage(this.props.intl, module, "saveTooltip"),
-            )
+              </div>
+            </div>
+            // saveTooltip || formatMessage(this.props.intl, module, "saveTooltip"),
+          ) : ""}
+        {(!!this.props.email && this.props.edited.email != null) ?
+          withTooltip(
+            <div className={classes.fab} style={{ marginBottom: "250px" }}>
+              <Fab
+                color="primary"
+                // disabled={!!this.state.saving || (!!canSave && !canSave())}
+                onClick={(e) => emailButton(this.props.edited)}
+              >
+                <EmailIcon />
+              </Fab>
+            </div>,
+            // saveTooltip || formatMessage(this.props.intl, module, "saveTooltip"),
+          )
           : ""}
         {!this.state.dirty &&
           !!fab &&

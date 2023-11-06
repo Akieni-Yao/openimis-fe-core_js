@@ -51,7 +51,6 @@ class AdDatePicker extends Component {
       reset,
       ...otherProps
     } = this.props;
-
     let userlang = localStorage.getItem("userLanguage");
     let locale = userlang === "fr" ? "fr" : "en";
     moment.locale(locale);
@@ -67,8 +66,16 @@ class AdDatePicker extends Component {
             required={required}
             clearable
             value={this.state.value}
-            InputLabelProps={{
-              className: classes.label,
+              InputLabelProps={{
+                className: classes.label,
+              style: {
+                color: readOnly ? '#7f7f7f' : "'#4c4c4c'",
+              },
+            }}
+          InputProps={{
+            style: {
+              color: readOnly ? '#7f7f7f' : '#4c4c4c',
+            },
             }}
             label={!!label ? formatMessage(intl, module, label) : null}
             onChange={this.dateChange}
