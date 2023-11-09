@@ -102,6 +102,8 @@ class Form extends Component {
       approveorreject,
       handleDialogOpen,
       printButton,
+      paymentPrint,
+      success,
       ...others
     } = this.props;
     // console.log(this.props.edited, "editedsdf")
@@ -263,13 +265,13 @@ class Form extends Component {
             </div>,
             // saveTooltip || formatMessage(this.props.intl, module, "saveTooltip"),
           )}
-        {(!!this.props.email && this.props.edited.email != null) ?
+        {(!!this.props.paymentPrint) ?
           withTooltip(
             <div>
-              <div className={classes.fab} style={{ marginBottom: "320px" }}>
+              <div className={classes.fab} style={{ marginBottom: "65px" }}>
                 <Fab
                   color="primary"
-                  // disabled={!!this.state.saving || (!!canSave && !canSave())}
+                  disabled={!!success ? true : false}
                   onClick={(e) => printButton(this.props.edited)}
                 >
                   <PrintIcon />
@@ -278,11 +280,30 @@ class Form extends Component {
             </div>
             // saveTooltip || formatMessage(this.props.intl, module, "saveTooltip"),
           ) : ""}
-        {(!!this.props.email && this.props.edited.email != null) ?
+        {(!!this.props.email && this.props.edited.email != "") ?
+          withTooltip(
+            <div>
+              <div className={classes.fab} style={{ marginBottom: "320px" }}>
+                <Fab
+                  color="primary"
+                  disabled={!!success ? true : false}
+                  // disabled={!!this.state.saving || (!!canSave && !canSave())}
+                  onClick={(e) => printButton(this.props.edited)}
+
+                >
+                  <PrintIcon />
+                </Fab>
+              </div>
+            </div>
+            // saveTooltip || formatMessage(this.props.intl, module, "saveTooltip"),
+          ) : ""}
+        {(!!this.props.email && this.props.edited.email != "") ?
           withTooltip(
             <div className={classes.fab} style={{ marginBottom: "250px" }}>
               <Fab
                 color="primary"
+                disabled={!!success ? true : false}
+
                 // disabled={!!this.state.saving || (!!canSave && !canSave())}
                 onClick={(e) => emailButton(this.props.edited)}
               >
