@@ -92,6 +92,14 @@ const styles = (theme) => ({
     width: "100%",
     margin: theme.spacing(1),
   },
+  listContainer: {
+    height: "40vh",
+    overflowX: "scroll",
+    overflowY: "scroll",
+    scrollbarWidth: "none",
+    "&::-ms-overflow-style": "none",
+    "&::-webkit-scrollbar": {width: 0, height: 0}
+  },
 });
 
 class Messages extends Component {
@@ -323,12 +331,12 @@ class JournalDrawer extends Component {
               </Grid>
             </Grid>
             <Divider />
-            <List>
+            <List className={classes.listContainer} style={{ height: "40vh"} }>
               {this.state.displayedMutations.map((m, idx) => (
                 <Fragment key={`mutation${idx}`}>
                   <ListItem key={`mutation-label${idx}`} className={classes.jrnlItem}>
                     {m.status == 0 && (
-                      <ListItemIcon className={classes.jrnlIcon}>
+                      <ListItemIcon>
                         <CircularProgress size={theme.jrnlDrawer.iconSize} />
                       </ListItemIcon>
                     )}
@@ -364,6 +372,7 @@ class JournalDrawer extends Component {
                       </IconButton>
                     )}
                   </ListItem>
+
                   {!!m.clientMutationDetails && (
                     <Collapse
                       key={`mutation-detail${idx}`}
