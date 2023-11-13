@@ -102,11 +102,12 @@ class Form extends Component {
       approveorreject,
       handleDialogOpen,
       printButton,
+      approverData,
       paymentPrint,
       success,
       ...others
     } = this.props;
-    // console.log(this.props.edited, "editedsdf")
+    let userId = localStorage.getItem("userId");
     return (
       <Fragment>
         <form noValidate autoComplete="off">
@@ -191,7 +192,8 @@ class Form extends Component {
             />
           )}
         </form>
-        {title == "Insuree.title" && this.props.edited?.biometricsStatus ? (
+
+        {title == "Insuree.title" && this.props.edited?.biometricsStatus && approverData == userId ? (
           hasReject && this.props?.edited?.status !== "REJECTED" && this.props?.edited?.status !== "REWORK" ? (
             <>
               {withTooltip(

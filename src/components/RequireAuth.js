@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import withWidth from "@material-ui/core/withWidth";
 import { Redirect } from "../helpers/history";
 import { alpha, useTheme, makeStyles } from "@material-ui/core/styles";
@@ -23,6 +23,10 @@ import Contributions from "./generics/Contributions";
 import FormattedMessage from "./generics/FormattedMessage";
 import JournalDrawer from "./JournalDrawer";
 import { useBoolean, useAuthentication } from "../helpers/hooks";
+import { useGraphqlQuery } from "@openimis/fe-core";
+import { formatMessageWithValues, withModulesManager, withHistory, historyPush } from "@openimis/fe-core";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import { useDispatch } from "react-redux";
 
 export const APP_BAR_CONTRIBUTION_KEY = "core.AppBar";
 export const MAIN_MENU_CONTRIBUTION_KEY = "core.MainMenu";
@@ -150,6 +154,25 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  iconContainer: {
+    position: "relative",
+    cursor: "pointer",
+    margin: "3px 9px 0 0",
+  },
+  iconBtn: {
+    position: "absolute",
+    top: "5",
+    right: "0",
+    width: "15px",
+    height: "15px",
+    background: "red",
+    borderRadius: "50%",
+    marginBottom: "20px",
+    textAlign: "center",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 }));
 
 const RequireAuth = (props) => {
@@ -160,7 +183,28 @@ const RequireAuth = (props) => {
   const classes = useStyles();
   const modulesManager = useModulesManager();
   const auth = useAuthentication();
-
+  const [searchString, setSearchString] = useState();
+  const dispatch = useDispatch();
+  const { isLoading, data, error } = useGraphqlQuery(
+    `
+    query ApproverFamiliesCount {
+      approverFamiliesCount {
+          approverFamiliesCount
+      }
+  }
+  `,
+    { str: searchString },
+  );
+  useEffect(() => {
+    if (!!data) {
+      dispatch({ type: "INSUREE_COUNT_RESP", payload: data });
+    }
+  }, [data]);
+  const bellIcon = () => {
+    if (data?.approverFamiliesCount?.approverFamiliesCount > 0) {
+      historyPush(modulesManager, props.history, "insuree.route.pendingApproval");
+    }
+  };
   const isAppBarMenu = useMemo(() => theme.menu.variant.toUpperCase() === "APPBAR", [theme.menu.variant]);
 
   if (!auth.isAuthenticated) {
@@ -190,7 +234,6 @@ const RequireAuth = (props) => {
               </Hidden>
             )}
             CAMU
-
           </Button>
           <Hidden smDown implementation="css">
             <Tooltip title={modulesManager.getModulesVersions().join(", ")}>
@@ -208,7 +251,14 @@ const RequireAuth = (props) => {
           )}
           <Contributions {...others} contributionKey={APP_BAR_CONTRIBUTION_KEY}>
             <div className={classes.grow} />
+            <div onClick={bellIcon} className={classes.iconContainer}>
+              <div>
+                <div className={classes.iconBtn}>{data?.approverFamiliesCount?.approverFamiliesCount}</div>
+                <NotificationsIcon />
+              </div>
+            </div>
           </Contributions>
+
           <LogoutButton />
           {/* <Help /> */}
         </Toolbar>
