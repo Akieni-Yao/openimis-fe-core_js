@@ -47,7 +47,7 @@ class AdDatePicker extends Component {
       readOnly = false,
       required = false,
       fullWidth = true,
-      format = "YYYY-MM-DD",
+      format = "DD-MM-YYYY",
       reset,
       ...otherProps
     } = this.props;
