@@ -87,11 +87,9 @@ import {
   sort,
   formatSorter,
   formatGQLString,
-  formatNodeQuery
+  formatNodeQuery,
 } from "./helpers/api";
-import {
-  downloadExport
-} from "./helpers/downloadExport"
+import { downloadExport } from "./helpers/downloadExport";
 import {
   useDebounceCb,
   usePrevious,
@@ -136,14 +134,14 @@ const DEFAULT_CONFIG = {
     { path: ROUTE_ROLES, component: Roles },
     { path: ROUTE_ROLE + "/:role_uuid?", component: Role },
   ],
-  "admin.MainMenu": [
-    {
-      text: <FormattedMessage module="core" id="roleManagement.label" />,
-      icon: <AccountBox />,
-      route: "/" + ROUTE_ROLES,
-      filter: (rights) => rights.includes(RIGHT_ROLE_SEARCH),
-    },
-  ],
+  // "admin.MainMenu": [
+  //   {
+  //     text: <FormattedMessage module="core" id="roleManagement.label" />,
+  //     icon: <AccountBox />,
+  //     route: "/" + ROUTE_ROLES,
+  //     filter: (rights) => rights.includes(RIGHT_ROLE_SEARCH),
+  //   },
+  // ],
 };
 
 export const CoreModule = (cfg) => {
