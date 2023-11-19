@@ -12,7 +12,7 @@ import { useGraphqlMutation } from "../helpers/hooks";
 const useStyles = makeStyles((theme) => ({
   container: {
     position: "absolute",
-    top: "30%",
+    top: "20%",
     left: 0,
     right: 0,
     margin: "auto",
@@ -23,9 +23,12 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     maxHeight: 100,
   },
+  setBox: {
+    boxShadow: '0px 0px 0px #eee'
+  }
 }));
 
-const SetPasswordPage = () => {
+const SetPasswordPage = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const modulesManager = useModulesManager();
@@ -78,12 +81,32 @@ const SetPasswordPage = () => {
 
   return (
     <>
+              <div style={{
+        background: '#000000B2 0% 0%',
+        opacity: '0.9'
+      }}>
+        <div style={{
+          height: "100vh", width: "100vw",
+          backgroundImage: `url(${props.backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'fill',
+        }}></div>
       <div className={classes.container}>
         <Helmet title={formatMessage("pageTitle")} />
-        <Paper className={classes.paper} elevation={2}>
+        <Paper className={`${classes.paper} ${classes.setBox}`} elevation={2}>
           <form onSubmit={onSubmit}>
-            <Box p={6} width={450}>
+            <Box p={6} width={530}>
               <Grid container spacing={2} direction="column" alignItems="stretch">
+              <Grid item container direction="row" alignItems="center">
+                    <img className={classes.logo} src={props.logo} style={{ margin: "0 auto" }} />
+                  </Grid>
+                  <div style={{
+                      textAlign: 'center',
+                      font: 'normal normal bold 24px/42px Roboto',
+                      color: '#333333',
+                      marginTop: "10px"
+                    }}>{formatMessage("pageTitle")}</div>
                 <Grid item>
                   <TextInput
                     required
@@ -126,6 +149,7 @@ const SetPasswordPage = () => {
             </Box>
           </form>
         </Paper>
+      </div>
       </div>
     </>
   );
