@@ -68,5 +68,6 @@
   "core.ForgotPasswordPage.contactAdministrator": "Si vous ne recevez pas d'e-mail, veuillez contacter votre administrateur.",
   "core.datePicker.ok":"OK",
   "core.datePicker.cancel":"CANCEL",
-  "core.datePicker.clear":"CLEAR"
+  "core.datePicker.clear":"CLEAR",
+  "core.common.errorBoundary":"An error was not properly caught. Refer to console log."
 }
