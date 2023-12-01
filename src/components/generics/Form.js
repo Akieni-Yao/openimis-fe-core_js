@@ -194,7 +194,8 @@ class Form extends Component {
           )}
         </form>
 
-        {title == "Insuree.title" && this.props.edited?.biometricsStatus && approverData == userId ? (
+        {title == "Insuree.title" && this.props.edited?.biometricsStatus ? (
+          // {title == "Insuree.title" && this.props.edited?.biometricsStatus && approverData == userId ? (
           hasReject && this.props?.edited?.status !== "REJECTED" && this.props?.edited?.status !== "REWORK" ? (
             <>
               {withTooltip(
