@@ -42,7 +42,8 @@ class AlertDialog extends Component {
                 </Grid>
                 <Grid item>
                   <Grid container onClick={this.toggleOpen}>
-                    {ensureArray(alert.message ?? formatMessage(intl, "core", "FatalError.message")).map(
+                    {/* {ensureArray(alert.message ?? formatMessage(intl, "core", "FatalError.message")).map( */}
+                    {ensureArray(formatMessage(intl, "core", `FatalError.${alert.message}`)) ?? formatMessage(intl, "core", "FatalError.message").map(
                       (message, i) => (
                         <Grid key={`message-${i}`} item>
                           <DialogContentText>{message}</DialogContentText>

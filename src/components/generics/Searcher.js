@@ -106,6 +106,7 @@ class SelectionMenu extends Component {
   );
 
   renderMenu = (entries, contributionKey) => {
+    console.log('-------', this.openMenu)
     return (
       <Grid item className={this.props.classes.paperHeader}>
         <Grid container alignItems="center">
