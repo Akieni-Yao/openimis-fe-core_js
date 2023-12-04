@@ -27,6 +27,8 @@ import { useGraphqlQuery } from "@openimis/fe-core";
 import { formatMessageWithValues, withModulesManager, withHistory, historyPush } from "@openimis/fe-core";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { useDispatch } from "react-redux";
+import { useIdleTimer } from "react-idle-timer/dist/index.legacy.cjs.js"; // otherwise not building: https://github.com/SupremeTechnopriest/react-idle-timer/issues/350
+import { logout } from "../actions";
 
 export const APP_BAR_CONTRIBUTION_KEY = "core.AppBar";
 export const MAIN_MENU_CONTRIBUTION_KEY = "core.MainMenu";
@@ -206,6 +208,19 @@ const RequireAuth = (props) => {
     }
   };
   const isAppBarMenu = useMemo(() => theme.menu.variant.toUpperCase() === "APPBAR", [theme.menu.variant]);
+  const idleTimeout = modulesManager.getConf("fe-core", "auth.idleTimeout", Math.floor(30 * 60 * 1000)); // TODO: fix modulesManager - is always empty at this stage, so always using default value
+  const onIdle = async () => {
+    await dispatch(logout());
+    // history.push("/");
+  };
+  const { startIdleTimer } = useIdleTimer({
+    onIdle: onIdle,
+    timeout: idleTimeout,
+    throttle: 500,
+  });
+  useEffect(() => {
+    startIdleTimer;
+  }, [startIdleTimer]);
 
   if (!auth.isAuthenticated) {
     return <Redirect to={redirectTo} />;

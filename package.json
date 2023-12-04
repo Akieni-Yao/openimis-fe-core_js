@@ -51,6 +51,7 @@
   ],
   "dependencies": {
     "history": "^5.2.0",
+    "react-idle-timer": "^5.7.2",
     "react-router": "^5.2.1",
     "react-router-dom": "^5.2.1"
   }
