@@ -208,7 +208,12 @@ const RequireAuth = (props) => {
     }
   };
   const isAppBarMenu = useMemo(() => theme.menu.variant.toUpperCase() === "APPBAR", [theme.menu.variant]);
-  const idleTimeout = modulesManager.getConf("fe-core", "auth.idleTimeout", Math.floor(30 * 60 * 1000)); // TODO: fix modulesManager - is always empty at this stage, so always using default value
+  console.log('process.env.REACT_APP_IDLE_LOGOUT_TIME',Math.floor(process.env.REACT_APP_IDLE_LOGOUT_TIME));
+  const idleTimeout = modulesManager.getConf(
+    "fe-core",
+    "auth.idleTimeout",
+    Math.floor(process.env.REACT_APP_IDLE_LOGOUT_TIME),
+  ); // TODO: fix modulesManager - is always empty at this stage, so always using default value
   const onIdle = async () => {
     await dispatch(logout());
     // history.push("/");
