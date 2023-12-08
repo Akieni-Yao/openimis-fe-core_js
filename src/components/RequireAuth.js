@@ -28,7 +28,7 @@ import { formatMessageWithValues, withModulesManager, withHistory, historyPush }
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { useDispatch } from "react-redux";
 import { useIdleTimer } from "react-idle-timer/dist/index.legacy.cjs.js"; // otherwise not building: https://github.com/SupremeTechnopriest/react-idle-timer/issues/350
-import { logout } from "../actions";
+import { CheckAssignedProfile, logout } from "../actions";
 
 export const APP_BAR_CONTRIBUTION_KEY = "core.AppBar";
 export const MAIN_MENU_CONTRIBUTION_KEY = "core.MainMenu";
@@ -208,14 +208,18 @@ const RequireAuth = (props) => {
     }
   };
   const isAppBarMenu = useMemo(() => theme.menu.variant.toUpperCase() === "APPBAR", [theme.menu.variant]);
-  console.log('process.env.REACT_APP_IDLE_LOGOUT_TIME',Math.floor(process.env.REACT_APP_IDLE_LOGOUT_TIME));
+  console.log("process.env.REACT_APP_IDLE_LOGOUT_TIME", Math.floor(process.env.REACT_APP_IDLE_LOGOUT_TIME));
   const idleTimeout = modulesManager.getConf(
     "fe-core",
     "auth.idleTimeout",
-    Math.floor(process.env.REACT_APP_IDLE_LOGOUT_TIME),
+    Math.floor(30 * 60 * 1000),
+    // Math.floor(process.env.REACT_APP_IDLE_LOGOUT_TIME),
   ); // TODO: fix modulesManager - is always empty at this stage, so always using default value
   const onIdle = async () => {
-    await dispatch(logout());
+    const response = await CheckAssignedProfile();
+    if (!!response.payload.data.checkAssignedProfiles.status) {
+      await dispatch(logout());
+    }
     // history.push("/");
   };
   const { startIdleTimer } = useIdleTimer({
