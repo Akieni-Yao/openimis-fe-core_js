@@ -207,16 +207,14 @@ const RequireAuth = (props) => {
       historyPush(modulesManager, props.history, "insuree.route.pendingApproval");
     }
   };
+
   const isAppBarMenu = useMemo(() => theme.menu.variant.toUpperCase() === "APPBAR", [theme.menu.variant]);
+  const idleTimeSet = 30 * 60 * 1000;
   console.log("process.env.REACT_APP_IDLE_LOGOUT_TIME", Math.floor(process.env.REACT_APP_IDLE_LOGOUT_TIME));
-  const idleTimeout = modulesManager.getConf(
-    "fe-core",
-    "auth.idleTimeout",
-    Math.floor(30 * 60 * 1000),
-    // Math.floor(process.env.REACT_APP_IDLE_LOGOUT_TIME),
-  ); // TODO: fix modulesManager - is always empty at this stage, so always using default value
+  const idleTimeout = modulesManager.getConf("fe-core", "auth.idleTimeout", Math.floor(idleTimeSet)); // TODO: fix modulesManager - is always empty at this stage, so always using default value
   const onIdle = async () => {
-    const response = await CheckAssignedProfile();
+    const userid = localStorage.getItem("userId");
+    const response = await dispatch(CheckAssignedProfile(userid));
     if (!!response.payload.data.checkAssignedProfiles.status) {
       await dispatch(logout());
     }
