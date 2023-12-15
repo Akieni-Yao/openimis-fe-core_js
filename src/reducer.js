@@ -43,6 +43,7 @@ function reducer(
     afterCursor: null,
     beforeCursor: null,
     module: null,
+    assigned: null,
   },
   action,
 ) {
@@ -357,6 +358,21 @@ function reducer(
         modulePermissions: [],
         role: null,
         roleRights: [],
+      };
+    case "CHECK_ASSIGNED_PROFILE_REQ":
+      return {
+        ...state,
+        assigned: null,
+      };
+    case "CHECK_ASSIGNED_PROFILE_RES":
+      return {
+        ...state,
+        assigned: action.payload,
+      };
+    case "CHECK_ASSIGNED_PROFILE_ERR":
+      return {
+        ...state,
+        assigned: null,
       };
     case "CORE_PAGINATION_PAGE":
       return {

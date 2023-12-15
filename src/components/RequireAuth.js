@@ -27,6 +27,8 @@ import { useGraphqlQuery } from "@openimis/fe-core";
 import { formatMessageWithValues, withModulesManager, withHistory, historyPush } from "@openimis/fe-core";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { useDispatch } from "react-redux";
+import { useIdleTimer } from "react-idle-timer/dist/index.legacy.cjs.js"; // otherwise not building: https://github.com/SupremeTechnopriest/react-idle-timer/issues/350
+import { CheckAssignedProfile, logout } from "../actions";
 
 export const APP_BAR_CONTRIBUTION_KEY = "core.AppBar";
 export const MAIN_MENU_CONTRIBUTION_KEY = "core.MainMenu";
@@ -205,7 +207,27 @@ const RequireAuth = (props) => {
       historyPush(modulesManager, props.history, "insuree.route.pendingApproval");
     }
   };
+
   const isAppBarMenu = useMemo(() => theme.menu.variant.toUpperCase() === "APPBAR", [theme.menu.variant]);
+  const idleTimeSet = 30 * 60 * 1000;
+  console.log("process.env.REACT_APP_IDLE_LOGOUT_TIME", Math.floor(process.env.REACT_APP_IDLE_LOGOUT_TIME));
+  const idleTimeout = modulesManager.getConf("fe-core", "auth.idleTimeout", Math.floor(idleTimeSet)); // TODO: fix modulesManager - is always empty at this stage, so always using default value
+  const onIdle = async () => {
+    const userid = localStorage.getItem("userId");
+    const response = await dispatch(CheckAssignedProfile(userid));
+    if (!!response.payload.data.checkAssignedProfiles.status) {
+      await dispatch(logout());
+    }
+    // history.push("/");
+  };
+  const { startIdleTimer } = useIdleTimer({
+    onIdle: onIdle,
+    timeout: idleTimeout,
+    throttle: 500,
+  });
+  useEffect(() => {
+    startIdleTimer;
+  }, [startIdleTimer]);
 
   if (!auth.isAuthenticated) {
     return <Redirect to={redirectTo} />;

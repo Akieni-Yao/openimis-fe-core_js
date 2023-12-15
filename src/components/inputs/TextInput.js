@@ -10,17 +10,17 @@ const styles = (theme) => ({
   },
   // NOTE: This is used to hide the increment/decrement arrows from the number input
   numberInput: {
-    '& input[type=number]': {
-      '-moz-appearance': 'textfield'
+    "& input[type=number]": {
+      "-moz-appearance": "textfield",
     },
-    '& input[type=number]::-webkit-outer-spin-button': {
-      '-webkit-appearance': 'none',
-      margin: 0
+    "& input[type=number]::-webkit-outer-spin-button": {
+      "-webkit-appearance": "none",
+      margin: 0,
     },
-    '& input[type=number]::-webkit-inner-spin-button': {
-      '-webkit-appearance': 'none',
-      margin: 0
-    }
+    "& input[type=number]::-webkit-inner-spin-button": {
+      "-webkit-appearance": "none",
+      margin: 0,
+    },
   },
 });
 
@@ -71,9 +71,16 @@ class TextInput extends Component {
       formatInput = null,
       helperText,
       type,
+      capitalize,
       ...others
     } = this.props;
-    const inputClass = readOnly ? classes.disabledInput : '';
+    const inputClass = readOnly ? classes.disabledInput : "";
+    let transformedValue = this.state.value;
+
+    // Capitalize the value if the capitalize prop is true
+    // if (capitalize && transformedValue) {
+    //   transformedValue = transformedValue.toUpperCase();
+    // }
     return (
       <TextField
         {...others}
@@ -85,15 +92,21 @@ class TextInput extends Component {
         InputLabelProps={{
           className: classes.label,
           style: {
-            color: !!readOnly && '#7f7f7f',
+            color: !!readOnly && "#7f7f7f",
           },
         }}
         InputProps={{
           style: {
-            color: !!readOnly && '#7f7f7f',
+            color: !!readOnly && "#7f7f7f",
+          },
+          inputProps: {
+            style: {
+              textTransform: !!capitalize && "capitalize",
+            },
           },
         }}
         onChange={this._onChange}
+        // value={transformedValue}
         value={this.state.value}
         error={Boolean(error)}
         helperText={error ?? helperText}

@@ -194,10 +194,13 @@ class Form extends Component {
           )}
         </form>
 
-        {/* {title == "Insuree.title" && this.props.edited?.biometricsStatus && approverData == userId ? ( */}
+        {/* {title == "Insuree.title" &&
+        this.props.edited?.biometricsStatus &&
+        this.props.edited?.status == "WAITING_FOR_APPROVAL" ? ( */}
         {title == "Insuree.title" &&
-          this.props.edited?.biometricsStatus &&
-          this.props.edited?.status == "WAITING_FOR_APPROVAL" ? (
+        this.props.edited?.biometricsStatus &&
+        approverData == userId &&
+        this.props.edited?.status == "WAITING_FOR_APPROVAL" ? (
           hasReject && this.props?.edited?.status !== "REJECTED" && this.props?.edited?.status !== "REWORK" ? (
             <>
               {withTooltip(

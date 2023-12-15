@@ -39,6 +39,7 @@ export const baseApiUrl = getApiUrl();
 
 export function apiHeaders() {
   let headers = {
+    // "ngrok-skip-browser-warning": "true",
     "Content-Type": "application/json",
   };
   return headers;
@@ -241,6 +242,7 @@ export function fetch(config) {
       [RSAA]: {
         ...config,
         headers: {
+          // "ngrok-skip-browser-warning": "true",
           "Content-Type": "application/json",
           ...config.headers,
         },
@@ -325,6 +327,17 @@ export function logout() {
     return dispatch({ type: "CORE_AUTH_LOGOUT" });
   };
 }
+
+export function CheckAssignedProfile(userID) {
+  const mutation = `mutation CheckAssignedProfiles {
+      checkAssignedProfiles(userId:"${userID}") {
+          status
+      }
+  }
+    `;
+  return graphql(mutation, "CHECK_ASSIGNED_PROFILE", {});
+}
+// }
 
 export function fetchMutation(clientMutationId) {
   const payload = formatPageQuery(
