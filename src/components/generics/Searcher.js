@@ -427,6 +427,7 @@ class Searcher extends Component {
                 onChangeFilters={this.onChangeFilters}
                 FilterExt={FilterExt}
                 filterPaneContributionsKey={filterPaneContributionsKey}
+                reset={this.resetFilters}
               />
             }
           />
