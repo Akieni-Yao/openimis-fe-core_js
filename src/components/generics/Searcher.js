@@ -32,7 +32,7 @@ import Table from "./Table";
 const styles = (theme) => ({
   root: {
     width: "100%",
-    margin:24
+    margin: 24
   },
   paper: theme.paper.body,
   paperHeader: theme.paper.header,
@@ -40,6 +40,7 @@ const styles = (theme) => ({
   paperHeaderMessage: theme.paper.message,
   paperHeaderAction: {
     paddingInline: 5,
+    color: "#00913E"
   },
   paperDivider: theme.paper.divider,
   tableHeaderAction: theme.table.headerAction,
@@ -84,12 +85,12 @@ class SelectionMenu extends Component {
       <Grid container alignItems="center" className={this.props.classes.paperHeaderAction}>
         {entries.map((i, idx) => (
           <Grid key={`selectionsButtons-${idx}`} item className={this.props.classes.paperHeaderAction}>
-            <Button onClick={(e) => this.action(i.action)}>{i.text}</Button>
+            <Button style={{backgroundColor:"#00913E",color:"#FFF"}} onClick={(e) => this.action(i.action)}>{i.text}</Button>
           </Grid>
         ))}
-        {this.props.exportable && (<SearcherExport 
-          selection={this.props.selection} 
-          filters={this.props.filters} 
+        {this.props.exportable && (<SearcherExport
+          selection={this.props.selection}
+          filters={this.props.filters}
           exportFetch={this.props.exportFetch}
           exportFields={this.props.exportFields}
           exportFieldsColumns={this.props.exportFieldsColumns}
@@ -122,7 +123,7 @@ class SelectionMenu extends Component {
             </MenuItem>
           ))}
           {this.props.exportable && (
-            <SearcherExport 
+            <SearcherExport
               selection={this.props.selection} filters={this.props.filters} exportFetch={this.props.exportFetch}
               exportFields={this.props.exportFields} exportFieldsColumns={this.props.exportFieldsColumns}
             />)}
@@ -150,7 +151,7 @@ class SelectionMenu extends Component {
       processing,
       actionsContributionKey = null,
     } = this.props;
-
+    console.log(actions, "actions")
     let contributed_entries = modulesManager.getContribs(actionsContributionKey);
     if (!actions.length && !contributed_entries) return null;
     if (processing) {
@@ -170,7 +171,7 @@ class SelectionMenu extends Component {
         entries.push({ text: formatMessage(intl, "claim", a.label), action: a.action });
       }
     });
-    if (entries.length > 2 || (this.props.exportable && entries.length>=1)) {
+    if (entries.length > 2 || (this.props.exportable && entries.length >= 1)) {
       return this.renderMenu(entries, actionsContributionKey);
     } else {
       return this.renderButtons(entries, actionsContributionKey);
@@ -360,13 +361,13 @@ class Searcher extends Component {
       return this.props.sorts(filters).map((s) =>
         !!s
           ? [
-              () =>
-                this.setState(
-                  (state, props) => ({ orderBy: sort(state.orderBy, s[0], s[1]) }),
-                  (e) => this.props.fetch(this.filtersToQueryParams())
-                ),
-              () => formatSorter(this.state.orderBy, s[0], s[1]),
-            ]
+            () =>
+              this.setState(
+                (state, props) => ({ orderBy: sort(state.orderBy, s[0], s[1]) }),
+                (e) => this.props.fetch(this.filtersToQueryParams())
+              ),
+            () => formatSorter(this.state.orderBy, s[0], s[1]),
+          ]
           : [null, () => null]
       );
     }
@@ -450,7 +451,7 @@ class Searcher extends Component {
                   </Grid>
                 </Grid>
                 <Grid container alignItems="center" item xs={4} className={classes.paperHeader}>
-                  {fetchedItems && (  
+                  {fetchedItems && (
                     <Grid container direction="row" justify="flex-end" className={classes.paperHeaderAction}>
                       <StyledSelectionMenu
                         canSelectAll={canSelectAll}
