@@ -31,6 +31,9 @@ const styles = (theme) => ({
   fabMargin: {
     marginBottom: "140px",
   },
+  fabPayMargin: {
+    marginBottom: "200px",
+  },
   customFab: {
     background: "#fff",
     border: "2px solid #FF841C", // Your desired border color
@@ -104,6 +107,7 @@ class Form extends Component {
       printButton,
       approverData,
       paymentPrint,
+      paymentApprove,
       success,
       edited,
       ...others
@@ -193,7 +197,34 @@ class Form extends Component {
             />
           )}
         </form>
-
+        {paymentApprove ? (
+          <>
+            {withTooltip(
+              <div className={`${classes.fabAbove} ${classes.fabPayMargin}`}>
+                <Fab
+                  className={classes.customFabReject}
+                  onClick={() => approveorreject({ ...this.props.edited, status: -1 })}
+                  disabled={!!this.state.saving || (!!canSave && !canSave())}
+                >
+                  <CloseIcon />
+                </Fab>
+              </div>,
+              addTooltip || formatMessage(this.props.intl, module, "addTooltip"),
+            )}
+            {withTooltip(
+              <div className={`${classes.fabAbove} ${classes.fabMargin}`}>
+                <Fab
+                  color="primary"
+                  onClick={() => approveorreject({ ...this.props.edited, status: 5 })}
+                  disabled={!!this.state.saving || (!!canSave && !canSave())}
+                >
+                  <CheckIcon />
+                </Fab>
+              </div>,
+              addTooltip || formatMessage(this.props.intl, module, "addTooltip"),
+            )}
+          </>
+        ) : null}
         {/* {title == "Insuree.title" &&
         this.props.edited?.biometricsStatus &&
         this.props.edited?.status == "WAITING_FOR_APPROVAL" ? ( */}
