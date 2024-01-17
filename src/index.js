@@ -114,6 +114,7 @@ import { formatJsonField } from "./helpers/jsonExt";
 import { RIGHT_ROLE_SEARCH } from "./constants";
 import { authMiddleware } from "./middlewares";
 import RefreshAuthToken from "./components/RefreshAuthToken";
+import CommonSnackbar from "./components/generics/CommonSnakbar";
 const ROUTE_ROLES = "roles";
 const ROUTE_ROLE = "roles/role";
 
@@ -259,4 +260,5 @@ export {
   ConfirmDialog,
   useAuthentication,
   useBoolean,
+  CommonSnackbar
 };
