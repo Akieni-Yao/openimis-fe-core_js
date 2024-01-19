@@ -49,6 +49,7 @@ class AdDatePicker extends Component {
       fullWidth = true,
       format = "DD-MM-YYYY",
       reset,
+      monthtrue,
       ...otherProps
     } = this.props;
     let userlang = localStorage.getItem("userLanguage");
@@ -81,7 +82,7 @@ class AdDatePicker extends Component {
             onChange={this.dateChange}
             reset={reset}
             disablePast={disablePast}
-            views={["year", "month", "date"]}
+            views={monthtrue?["year", "month"]:["year", "month", "date"]}
             okLabel={formatMessage(intl, "core", "datePicker.ok")}
             clearLabel={formatMessage(intl, "core", "datePicker.clear")}
             cancelLabel={formatMessage(intl, "core", "datePicker.cancel")}
