@@ -276,6 +276,7 @@ export function login(credentials) {
       await dispatch(refreshAuthToken());
     }
     const action = await dispatch(loadUser());
+    localStorage.setItem("userName", action?.payload?.username);
     localStorage.setItem("userLanguage", action?.payload?.i_user?.language);
     localStorage.setItem("userId", action?.payload?.id);
     return action.type !== "CORE_AUTH_ERR";
