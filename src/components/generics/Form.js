@@ -29,7 +29,7 @@ const styles = (theme) => ({
     marginBottom: "70px",
   },
   fabMargin: {
-    marginBottom: "140px",
+    marginBottom: "135px",
   },
   fabPayMargin: {
     marginBottom: "200px",
