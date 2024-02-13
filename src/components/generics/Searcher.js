@@ -85,7 +85,7 @@ class SelectionMenu extends Component {
       <Grid container alignItems="center" className={this.props.classes.paperHeaderAction}>
         {entries.map((i, idx) => (
           <Grid key={`selectionsButtons-${idx}`} item className={this.props.classes.paperHeaderAction}>
-            <Button style={{backgroundColor:"#00913E",color:"#FFF"}} onClick={(e) => this.action(i.action)}>{i.text}</Button>
+            <Button style={{ backgroundColor: "#00913E", color: "#FFF" }} onClick={(e) => this.action(i.action)}>{i.text}</Button>
           </Grid>
         ))}
         {this.props.exportable && (<SearcherExport
@@ -251,7 +251,15 @@ class Searcher extends Component {
         filters[filter.id] = { value: filter.value, filter: filter.filter };
       }
     });
-    this.setState({ filters }, (e) => this.applyFilters());
+    // console.log("this.props.updateIsVerifyInsuree", this.props.updateIsVerifyInsuree)
+    // this.setState({ filters }, (e) => this.applyFilters());
+    this.setState({ filters }, () => {
+      if (this.props.updateIsVerifyInsuree) {
+        this.props.updateIsVerifyInsuree(false); // Update isVerifyInsuree in the parent component
+        this.applyFilters();
+      }
+      this.applyFilters();
+    });
   };
 
   _cacheAndApply = () => {
