@@ -110,6 +110,7 @@ class Form extends Component {
       paymentApprove,
       success,
       edited,
+      exceptionApprove,
       ...others
     } = this.props;
     let userId = localStorage.getItem("userId");
@@ -204,7 +205,7 @@ class Form extends Component {
                 <Fab
                   className={classes.customFabReject}
                   onClick={() => approveorreject({ ...this.props.edited, status: -1 })}
-                  // disabled={!!this.state.saving || (!!canSave && !canSave())}
+                // disabled={!!this.state.saving || (!!canSave && !canSave())}
                 >
                   <CloseIcon />
                 </Fab>
@@ -216,7 +217,35 @@ class Form extends Component {
                 <Fab
                   color="primary"
                   onClick={() => approveorreject({ ...this.props.edited, status: 5 })}
-                  // disabled={!!this.state.saving || (!!canSave && !canSave())}
+                // disabled={!!this.state.saving || (!!canSave && !canSave())}
+                >
+                  <CheckIcon />
+                </Fab>
+              </div>,
+              addTooltip || formatMessage(this.props.intl, module, "addTooltip"),
+            )}
+          </>
+        ) : null}
+        {exceptionApprove ? (
+          <>
+            {withTooltip(
+              <div className={`${classes.fabAbove} ${classes.fabPayMargin}`}>
+                <Fab
+                  className={classes.customFabReject}
+                  onClick={() => approveorreject({ ...this.props.edited, status: -1 })}
+                // disabled={!!this.state.saving || (!!canSave && !canSave())}
+                >
+                  <CloseIcon />
+                </Fab>
+              </div>,
+              addTooltip || formatMessage(this.props.intl, module, "addTooltip"),
+            )}
+            {withTooltip(
+              <div className={`${classes.fabAbove} ${classes.fabMargin}`}>
+                <Fab
+                  color="primary"
+                  onClick={() => approveorreject({ ...this.props.edited, status: 5 })}
+                // disabled={!!this.state.saving || (!!canSave && !canSave())}
                 >
                   <CheckIcon />
                 </Fab>
@@ -229,9 +258,9 @@ class Form extends Component {
         this.props.edited?.biometricsStatus &&
         this.props.edited?.status == "WAITING_FOR_APPROVAL" ? ( */}
         {title == "Insuree.title" &&
-        this.props.edited?.biometricsStatus &&
-        approverData == userId &&
-        this.props.edited?.status == "WAITING_FOR_APPROVAL" ? (
+          this.props.edited?.biometricsStatus &&
+          approverData == userId &&
+          this.props.edited?.status == "WAITING_FOR_APPROVAL" ? (
           hasReject && this.props?.edited?.status !== "REJECTED" && this.props?.edited?.status !== "REWORK" ? (
             <>
               {withTooltip(
@@ -318,52 +347,52 @@ class Form extends Component {
           )}
         {!!this.props.paymentPrint
           ? withTooltip(
-              <div>
-                <div className={classes.fab} style={{ marginBottom: "65px" }}>
-                  <Fab
-                    color="primary"
-                    disabled={!!success ? true : false}
-                    onClick={(e) => printButton(this.props.edited)}
-                  >
-                    <PrintIcon />
-                  </Fab>
-                </div>
-              </div>,
-              // saveTooltip || formatMessage(this.props.intl, module, "saveTooltip"),
-            )
+            <div>
+              <div className={classes.fab} style={{ marginBottom: "65px" }}>
+                <Fab
+                  color="primary"
+                  disabled={!!success ? true : false}
+                  onClick={(e) => printButton(this.props.edited)}
+                >
+                  <PrintIcon />
+                </Fab>
+              </div>
+            </div>,
+            // saveTooltip || formatMessage(this.props.intl, module, "saveTooltip"),
+          )
           : ""}
         {/* {(!!this.props.email && this.props.edited.email != "") ? */}
         {!!this.props.print && this.props.edited.email != ""
           ? withTooltip(
-              <div>
-                <div className={classes.fab} style={{ marginBottom: "320px" }}>
-                  <Fab
-                    color="primary"
-                    disabled={!!success ? true : false}
-                    // disabled={!!this.state.saving || (!!canSave && !canSave())}
-                    onClick={(e) => printButton(this.props.edited)}
-                  >
-                    <PrintIcon />
-                  </Fab>
-                </div>
-              </div>,
-              // saveTooltip || formatMessage(this.props.intl, module, "saveTooltip"),
-            )
-          : ""}
-        {!!this.props.email && this.props.edited.email != ""
-          ? withTooltip(
-              <div className={classes.fab} style={{ marginBottom: "250px" }}>
+            <div>
+              <div className={classes.fab} style={{ marginBottom: "320px" }}>
                 <Fab
                   color="primary"
                   disabled={!!success ? true : false}
                   // disabled={!!this.state.saving || (!!canSave && !canSave())}
-                  onClick={(e) => emailButton(this.props.edited)}
+                  onClick={(e) => printButton(this.props.edited)}
                 >
-                  <EmailIcon />
+                  <PrintIcon />
                 </Fab>
-              </div>,
-              // saveTooltip || formatMessage(this.props.intl, module, "saveTooltip"),
-            )
+              </div>
+            </div>,
+            // saveTooltip || formatMessage(this.props.intl, module, "saveTooltip"),
+          )
+          : ""}
+        {!!this.props.email && this.props.edited.email != ""
+          ? withTooltip(
+            <div className={classes.fab} style={{ marginBottom: "250px" }}>
+              <Fab
+                color="primary"
+                disabled={!!success ? true : false}
+                // disabled={!!this.state.saving || (!!canSave && !canSave())}
+                onClick={(e) => emailButton(this.props.edited)}
+              >
+                <EmailIcon />
+              </Fab>
+            </div>,
+            // saveTooltip || formatMessage(this.props.intl, module, "saveTooltip"),
+          )
           : ""}
         {!this.state.dirty &&
           !!fab &&
