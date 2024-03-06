@@ -16,7 +16,8 @@ const useStyles = makeStyles((theme) => ({
 const LogoutButton = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const userid = localStorage.getItem("userId");
+  // const userid = localStorage.getItem("userId");
+  const userid = useSelector((store) => store.admin.user?.id);
   const onClick = async () => {
     const response = await dispatch(CheckAssignedProfile(userid));
     if (!!response.payload.data.checkAssignedProfiles.status) {
