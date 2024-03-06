@@ -44,6 +44,7 @@ It is dedicated to be deployed as a module of [openimis-fe_js](https://github.co
 - `Searcher`: generic searcher page (with criteria form and result table)
 - `Form`: generic form. Manage dirty state, displays add/save button,...
 - `Table`: generic table. Headers (with -sort-actions), rows,...
+- `CommonSnackbar`: generic snackbar. Display banner based on response 
 
 ## Helpers
 

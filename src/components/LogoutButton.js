@@ -16,10 +16,11 @@ const useStyles = makeStyles((theme) => ({
 const LogoutButton = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  // const userid = localStorage.getItem("userId");
+  const useridlocal = localStorage.getItem("userId");
   const userid = useSelector((store) => store.admin.user?.id);
+  // console.log("userid",useSelector((store) => store.admin),'useridlocal',useridlocal);
   const onClick = async () => {
-    const response = await dispatch(CheckAssignedProfile(userid));
+    const response = await dispatch(CheckAssignedProfile(useridlocal));
     if (!!response.payload.data.checkAssignedProfiles.status) {
       await dispatch(logout());
       history.push("/");
