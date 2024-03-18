@@ -110,6 +110,7 @@ class Form extends Component {
       paymentApprove,
       success,
       edited,
+      exceptionApprove,
       ...others
     } = this.props;
     let userId = localStorage.getItem("userId");
@@ -204,7 +205,7 @@ class Form extends Component {
                 <Fab
                   className={classes.customFabReject}
                   onClick={() => approveorreject({ ...this.props.edited, status: -1 })}
-                  // disabled={!!this.state.saving || (!!canSave && !canSave())}
+                // disabled={!!this.state.saving || (!!canSave && !canSave())}
                 >
                   <CloseIcon />
                 </Fab>
@@ -216,7 +217,35 @@ class Form extends Component {
                 <Fab
                   color="primary"
                   onClick={() => approveorreject({ ...this.props.edited, status: 5 })}
-                  // disabled={!!this.state.saving || (!!canSave && !canSave())}
+                // disabled={!!this.state.saving || (!!canSave && !canSave())}
+                >
+                  <CheckIcon />
+                </Fab>
+              </div>,
+              addTooltip || formatMessage(this.props.intl, module, "addTooltip"),
+            )}
+          </>
+        ) : null}
+        {exceptionApprove ? (
+          <>
+            {withTooltip(
+              <div className={`${classes.fabAbove} ${classes.fabPayMargin}`}>
+                <Fab
+                  className={classes.customFabReject}
+                  onClick={() => approveorreject({ ...this.props.edited, status: -1 })}
+                // disabled={!!this.state.saving || (!!canSave && !canSave())}
+                >
+                  <CloseIcon />
+                </Fab>
+              </div>,
+              addTooltip || formatMessage(this.props.intl, module, "addTooltip"),
+            )}
+            {withTooltip(
+              <div className={`${classes.fabAbove} ${classes.fabMargin}`}>
+                <Fab
+                  color="primary"
+                  onClick={() => approveorreject({ ...this.props.edited, status: 5 })}
+                // disabled={!!this.state.saving || (!!canSave && !canSave())}
                 >
                   <CheckIcon />
                 </Fab>
@@ -229,9 +258,9 @@ class Form extends Component {
         this.props.edited?.biometricsStatus &&
         this.props.edited?.status == "WAITING_FOR_APPROVAL" ? ( */}
         {title == "Insuree.title" &&
-        this.props.edited?.biometricsStatus &&
-        approverData == userId &&
-        this.props.edited?.status == "WAITING_FOR_APPROVAL" ? (
+          this.props.edited?.biometricsStatus &&
+          approverData == userId &&
+          this.props.edited?.status == "WAITING_FOR_APPROVAL" ? (
           hasReject && this.props?.edited?.status !== "REJECTED" && this.props?.edited?.status !== "REWORK" ? (
             <>
               {withTooltip(
