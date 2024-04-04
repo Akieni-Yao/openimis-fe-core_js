@@ -213,7 +213,7 @@ class Form extends Component {
                   <CloseIcon />
                 </Fab>
               </div>,
-              addTooltip || formatMessage(this.props.intl, module, "addTooltip"),
+              addTooltip || formatMessage(this.props.intl, module, "rejectTooltip"),
             )}
             {withTooltip(
               <div className={`${classes.fabAbove} ${classes.fabMargin}`}>
@@ -225,7 +225,7 @@ class Form extends Component {
                   <CheckIcon />
                 </Fab>
               </div>,
-              addTooltip || formatMessage(this.props.intl, module, "addTooltip"),
+              addTooltip || formatMessage(this.props.intl, module, "approveTooltip"),
             )}
           </>
         ) : null}
@@ -253,7 +253,7 @@ class Form extends Component {
                   <CheckIcon />
                 </Fab>
               </div>,
-              addTooltip || formatMessage(this.props.intl, module, "addTooltip"),
+              addTooltip || formatMessage(this.props.intl, module, "approveTooltip"),
             )}
           </>
         ) : null}
@@ -317,7 +317,7 @@ class Form extends Component {
                     <CheckIcon />
                   </Fab>
                 </div>,
-                addTooltip || formatMessage(this.props.intl, module, "addTooltip"),
+                addTooltip || formatMessage(this.props.intl, module, "approveTooltip"),
               )}
             </>
           ) : null
