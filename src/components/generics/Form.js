@@ -201,7 +201,7 @@ class Form extends Component {
             />
           )}
         </form>
-        {paymentApprove ? (
+        {paymentApprove && !!canSave && !canSave() ? (
           <>
             {withTooltip(
               <div className={`${classes.fabAbove} ${classes.fabPayMargin}`}>
