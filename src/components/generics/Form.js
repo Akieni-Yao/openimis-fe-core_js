@@ -16,6 +16,8 @@ import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 import SendIcon from "@material-ui/icons/Send";
 import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+
 const styles = (theme) => ({
   paper: theme.paper.paper,
   paperHeader: theme.paper.header,
@@ -129,6 +131,8 @@ class Form extends Component {
       actionRework,
       reworkRequest,
       exceptionApprove,
+      showPaidButton,
+      paid,
       ...others
     } = this.props;
     let userId = localStorage.getItem("userId");
@@ -269,6 +273,22 @@ class Form extends Component {
                 </Fab>
               </div>,
               addTooltip || formatMessage(this.props.intl, module, "rejectTooltip"),
+            )}
+          </>
+        ) : null}
+        {showPaidButton ? (
+          <>
+            {withTooltip(
+              <div className={`${classes.fabAboveRework} ${classes.fabPayMargin}`}>
+                <Fab
+                  className={classes.customFabRework}
+                  onClick={() => paid({ ...this.props.edited, status: 5 })}
+                // disabled={!!this.state.saving || (!!canSave && !canSave())}
+                >
+                  <AccountBalanceIcon />
+                </Fab>
+              </div>,
+              // addTooltip || formatMessage(this.props.intl, module, "rejectTooltip"),
             )}
           </>
         ) : null}
