@@ -39,7 +39,7 @@ export function toISODate(d) {
 }
 
 export function withTooltip(c, t) {
-  return !!t ? <Tooltip title={t}>{c}</Tooltip> : c;
+  return !!t ? <Tooltip placement="left" title={t}>{c}</Tooltip> : c;
 }
 
 export function useTranslations(moduleName, modulesManager) {

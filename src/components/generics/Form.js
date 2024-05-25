@@ -272,7 +272,7 @@ class Form extends Component {
                   <KeyboardReturnIcon />
                 </Fab>
               </div>,
-              addTooltip || formatMessage(this.props.intl, module, "rejectTooltip"),
+              addTooltip || formatMessage(this.props.intl, module, "reworkTooltip"),
             )}
           </>
         ) : null}
