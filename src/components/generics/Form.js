@@ -133,6 +133,7 @@ class Form extends Component {
       exceptionApprove,
       showPaidButton,
       paid,
+      claimStatus,
       ...others
     } = this.props;
     let userId = localStorage.getItem("userId");
@@ -159,11 +160,17 @@ class Form extends Component {
                           </Typography>
                         </Grid>
                       )}
+
                     </Grid>
                   </Grid>
                   {!!actions && (
                     <Grid item xs={4}>
                       <Grid container justify="flex-end">
+                        {claimStatus && <Grid style={{ marginTop: "1rem" }}>
+                          <Typography style={{ fontWeight: "bold" }}>
+                            {formatMessage(this.props.intl, "claim", `claimStatus.${claimStatus}`)}
+                          </Typography>
+                        </Grid>}
                         {actions.map((a, idx) => {
                           if (!!a.onlyIfDirty && !this.state.dirty) return null;
                           if (!!a.onlyIfNotDirty && !!this.state.dirty) return null;
