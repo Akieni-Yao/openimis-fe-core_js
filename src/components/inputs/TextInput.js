@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { withTheme, withStyles } from "@material-ui/core/styles";
 import { injectIntl } from "react-intl";
-import { TextField } from "@material-ui/core";
+import { TextField, InputAdornment } from "@material-ui/core";
 import { formatMessage } from "../../helpers/i18n";
-
+import { AttachMoney } from "@material-ui/icons";
 const styles = (theme) => ({
   label: {
     color: theme.palette.text.primary,
@@ -72,6 +72,7 @@ class TextInput extends Component {
       helperText,
       type,
       capitalize,
+      isNumber,
       ...others
     } = this.props;
     const inputClass = readOnly ? classes.disabledInput : "";
@@ -99,6 +100,11 @@ class TextInput extends Component {
           style: {
             color: !!readOnly && "#7f7f7f",
           },
+          startAdornment: (
+            <InputAdornment position="start">
+              {isNumber && <span style={{ fontWeight: "bold" }}>XAF</span>}
+            </InputAdornment>
+          ),
           inputProps: {
             style: {
               textTransform: !!capitalize && "capitalize",

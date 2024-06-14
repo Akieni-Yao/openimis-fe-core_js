@@ -29,7 +29,7 @@ class NumberInput extends Component {
     this.setState({ isEdited: false });
   };
   render() {
-    const { intl, module = "core", min = null, max = null, value, error, displayZero = false, displayNa = false, decimal = false, ...others } = this.props;
+    const { intl, module = "core", min = null, max = null, value, error, displayZero = false, displayNa = false, decimal = false,isNumber, ...others } = this.props;
     let inputProps = { ...this.props.inputProps, type: "number" };
     let err = error;
 
@@ -60,6 +60,7 @@ class NumberInput extends Component {
         formatInput={(v) =>this.formatInput(v, displayZero, displayNa, decimal)}
         onFocus={() => this.setState({isEdited: true})}
         onBlur={() => this.handleNaBlur()}
+        isNumber={isNumber}
       />
     );
   }
