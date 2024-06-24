@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import moment from "moment";
 import { withTheme, withStyles } from "@material-ui/core/styles";
 import { injectIntl } from "react-intl";
-import { FormControl } from "@material-ui/core";
+import { FormControl, TextField } from "@material-ui/core";
 import { DatePicker as MUIDatePicker } from "@material-ui/pickers";
 import { formatMessage, toISODate } from "../helpers/i18n";
 import MomentUtils from "@date-io/moment";
@@ -27,14 +27,14 @@ class AdDatePicker extends Component {
     this.setState((state, props) => ({ value: props.value || null }));
   }
 
-  componentDidUpdate(prevState, prevProps, snapshot) {
-    if (prevState.value !== this.props.value) {
-      this.setState((state, props) => ({ value: fromISODate(props.value) }));
+  componentDidUpdate(prevProps) {
+    if (prevProps.value !== this.props.value) {
+      this.setState({ value: fromISODate(this.props.value) });
     }
   }
 
   dateChange = (d) => {
-    this.setState({ value: d }, (i) => this.props.onChange(toISODate(d)));
+    this.setState({ value: d }, () => this.props.onChange(toISODate(d)));
   };
 
   render() {
@@ -50,42 +50,51 @@ class AdDatePicker extends Component {
       format = "DD-MM-YYYY",
       reset,
       monthtrue,
+      daytrue,
       ...otherProps
     } = this.props;
     let userlang = localStorage.getItem("userLanguage");
     let locale = userlang === "fr" ? "fr" : "en";
     moment.locale(locale);
+
+    const displayFormat = daytrue ? 'DD' : format;
+
     return (
       <FormControl fullWidth={fullWidth}>
         <MuiPickersUtilsProvider utils={MomentUtils} locale={locale} libInstance={moment}>
           <MUIDatePicker
             {...otherProps}
-            format={format}
-            // format="L"
-            // format={customFormat}
+            format={displayFormat}
             disabled={readOnly}
             required={required}
             clearable
             value={this.state.value}
-              InputLabelProps={{
-                className: classes.label,
+            InputLabelProps={{
+              className: classes.label,
               style: {
-                color: readOnly ? '#7f7f7f' : "'#4c4c4c'",
+                color: readOnly ? '#7f7f7f' : '#4c4c4c',
               },
             }}
-          InputProps={{
-            style: {
-              color: readOnly ? '#7f7f7f' : '#4c4c4c',
-            },
+            InputProps={{
+              style: {
+                color: readOnly ? '#7f7f7f' : '#4c4c4c',
+              },
             }}
             label={!!label ? formatMessage(intl, module, label) : null}
             onChange={this.dateChange}
             reset={reset}
             disablePast={disablePast}
-            views={monthtrue?["year", "month"]:["year", "month", "date"]}
+            views={monthtrue ? ["year", "month"] : ["year", "month", "date"]}
             okLabel={formatMessage(intl, "core", "datePicker.ok")}
             clearLabel={formatMessage(intl, "core", "datePicker.clear")}
             cancelLabel={formatMessage(intl, "core", "datePicker.cancel")}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                value={this.state.value ? moment(this.state.value).format(displayFormat) : ''}
+                helperText={null}
+              />
+            )}
           />
         </MuiPickersUtilsProvider>
       </FormControl>
