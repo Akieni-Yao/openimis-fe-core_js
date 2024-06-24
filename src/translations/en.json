@@ -69,5 +69,7 @@
   "core.datePicker.ok":"OK",
   "core.datePicker.cancel":"CANCEL",
   "core.datePicker.clear":"CLEAR",
-  "core.common.errorBoundary":"An error was not properly caught. Refer to console log."
+  "core.common.errorBoundary":"An error was not properly caught. Refer to console log.",
+  "core.common.Copied":"Copied!",
+  "core.common.Copy":"Copy"
 }
