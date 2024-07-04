@@ -9,7 +9,7 @@ import WarningIcon from "@material-ui/icons/Warning";
 import InfoIcon from "@material-ui/icons/Info";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { formatMessage } from "@openimis/fe-core";
 const useStyles = makeStyles((theme) => ({
   snackbar: {
     marginRight: "50px",
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CommonSnackbar = ({ open, onClose, message, severity, copyText = "" }) => {
+const CommonSnackbar = ({ intl,open, onClose, message, severity, copyText = "" }) => {
   const [isCopied, setIsCopied] = useState(false);
   const classes = useStyles();
 
@@ -112,7 +112,9 @@ const CommonSnackbar = ({ open, onClose, message, severity, copyText = "" }) => 
                 <IconButton size="small" onClick={handleCopyClick} className={classes.copyText} color="inherit">
                   <FileCopyIcon />
                 </IconButton>
-                {isCopied ? "Copied!" : "Copy"}
+                {/* {isCopied ? "Copied!" : "Copy"} */}
+              {isCopied ? formatMessage(intl, "core", "common.Copied") : formatMessage(intl, "core", "common.Copy")}
+
               </div>
             )}
             <IconButton size="small" onClick={handleClose} className={classes.copyText} color="inherit">
