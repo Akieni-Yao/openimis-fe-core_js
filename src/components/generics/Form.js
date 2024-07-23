@@ -507,7 +507,7 @@ class Form extends Component {
                   <OpenInBrowserIcon />
                 </Fab>
               </div>,
-              // addTooltip || formatMessage(this.props.intl, module, "rejectTooltip"),
+              addTooltip || formatMessage(this.props.intl, module, "Submit"),
             )}
           </>
         ) : null}
