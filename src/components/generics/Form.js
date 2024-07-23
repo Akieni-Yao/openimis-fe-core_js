@@ -63,6 +63,15 @@ const styles = (theme) => ({
     border: "2px solid green", // Your desired border color
     color: "#FFF", // Your desired text/icon color
   },
+  fabSubmitRework: {
+    position: "fixed",
+    bottom: 1,
+    right: 8,
+    zIndex: 2000,
+  },
+  fabSubmitMargin: {
+    marginBottom: "80px",
+  },
 });
 
 class Form extends Component {
@@ -489,7 +498,7 @@ class Form extends Component {
         {showSubmitButton ? (
           <>
             {withTooltip(
-              <div className={`${classes.fabAboveRework} ${classes.fabPayMargin}`}>
+              <div className={`${classes.fabSubmitRework} ${classes.fabSubmitMargin}`}>
                 <Fab
                   className={classes.submitFabRework}
                   onClick={() => submitted({ ...this.props.edited, status: 5 })}
