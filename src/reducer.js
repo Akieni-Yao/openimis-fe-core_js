@@ -44,6 +44,11 @@ function reducer(
     beforeCursor: null,
     module: null,
     assigned: null,
+    fetchingNotificationList: false,
+    fetchedNotificationList: false,
+    notificationList: null,
+    notificationListTotalCount: null,
+    errorNotificationList: null,
   },
   action,
 ) {
@@ -310,10 +315,23 @@ function reducer(
           },
         },
       };
+    case "CORE_NOTIFICATION_LIST_RESP":
+      return {
+        ...state,
+        fetchingNotificationList: false,
+        fetchedNotificationList: true,
+        notificationList: parseData(action.payload.data.camuNotifications),
+        notificationListTotalCount: !!action.payload.data.camuNotifications
+          ? action.payload.data.camuNotifications.totalCount
+          : null,
+        errorNotificationList: formatGraphQLError(action.payload),
+      };
     case "CORE_ROLE_MUTATION_REQ":
       return dispatchMutationReq(state, action);
     case "CORE_ROLE_MUTATION_ERR":
       return dispatchMutationErr(state, action);
+    case "CORE_CREATE_NOTIFICATION_RESP":
+      return dispatchMutationResp(state, "markNotificationAsRead", action);
     case "CORE_CREATE_ROLE_RESP":
       return dispatchMutationResp(state, "createRole", action);
     case "CORE_UPDATE_ROLE_RESP":
