@@ -323,7 +323,7 @@ class Table extends Component {
         </MUITable>
         {(fetching || error) && (
           <Grid className={classes.loader} container justifyContent="center" alignItems="center">
-            <ProgressOrError progress={items?.length && fetching} error={error} />{" "}
+            <ProgressOrError progress={items?.length && fetching} error={error} />
             {/* We do not want to display the spinner with the empty table */}
           </Grid>
         )}
