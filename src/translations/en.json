@@ -71,5 +71,6 @@
   "core.datePicker.clear":"CLEAR",
   "core.common.errorBoundary":"An error was not properly caught. Refer to console log.",
   "core.common.Copied":"Copied!",
-  "core.common.Copy":"Copy"
+  "core.common.Copy":"Copy",
+  "core.bank.label": "Bank"
 }
