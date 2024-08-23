@@ -8,6 +8,7 @@ import {
   formatGQLString,
   formatMutation,
   formatServerError,
+  decodeId,
 } from "./helpers/api";
 
 const ROLE_FULL_PROJECTION = () => [
@@ -279,6 +280,7 @@ export function login(credentials) {
     localStorage.setItem("userName", action?.payload?.username);
     localStorage.setItem("userLanguage", action?.payload?.i_user?.language);
     localStorage.setItem("userId", action?.payload?.id);
+    localStorage.setItem("HfId",action?.payload?.i_user?.health_facility_id)
     return action.type !== "CORE_AUTH_ERR";
   };
 }
@@ -504,4 +506,56 @@ export function clearCurrentPaginationPage() {
   return (dispatch) => {
     dispatch({ type: "CORE_PAGINATION_PAGE_CLEAR" });
   };
+}
+
+export function fetchNotification(userID,first=10) {
+  return graphql(
+    ` query CamuNotifications {
+        camuNotifications(first: ${first}, user_Id: "${userID}") {
+          totalCount
+          edgeCount
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
+            startCursor
+            endCursor
+          }
+          edges {
+            node {
+             id
+              title
+              module
+              message
+              isRead
+              createdAt
+              redirectUrl
+            }
+          }
+        }
+      }
+    `,
+    "CORE_NOTIFICATION_LIST",
+  );
+}
+
+function formatNotificationGQL(data) {
+
+  return `
+        ${!!data.userId ? `userId: "${data.userId}"` : ""}
+        ${!!data.readAll ? `readAll: ${data.readAll}` : ""}
+        ${!!data.id ? `notificationId: "${decodeId(data.id)}"` : ""}
+    `;
+}
+
+export function markNotificationAsRead(data, clientMutationLabel) {
+  let mutation = `mutation MarkNotificationAsRead {
+    markNotificationAsRead(${formatNotificationGQL(data)}) {
+        success
+    }
+}`;
+  // let mutation = formatMutation("markNotificationAsRead ", formatNotificationGQL(data), clientMutationLabel);
+  var requestedDateTime = new Date();
+  return graphql(mutation, ["CORE_ROLE_MUTATION_REQ", "CORE_CREATE_NOTIFICATION_RESP", "CORE_ROLE_MUTATION_ERR"], {
+    clientMutationLabel,
+  });
 }
