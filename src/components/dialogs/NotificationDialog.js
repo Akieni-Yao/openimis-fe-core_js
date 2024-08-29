@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import {
   IconButton,
   Popover,
@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchNotification, markNotificationAsRead } from "../../actions";
 import { historyPush, useHistory } from "../../helpers/history";
 import { useTranslations, formatMessage } from "../../helpers/i18n";
@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
 
 const NotificationDialog = ({ anchorEl, onClose, open, id, notificationData, modulesManager }) => {
   const [notifications, setNotifications] = useState([]);
+  const [hasFetchedMore, setHasFetchedMore] = useState(false);
   const intl = useIntl();
   const { formatDateFromISO } = useTranslations("core", modulesManager);
   const classes = useStyles();
@@ -63,7 +64,9 @@ const NotificationDialog = ({ anchorEl, onClose, open, id, notificationData, mod
   const history = useHistory();
   const userid = localStorage.getItem("userId");
   const userLanguage = localStorage.getItem("userLanguage");
-  const checkRes=useSelector((store)=>store.core)
+  const checkRes = useSelector((store) => store.core);
+  const listRef = useRef(null);
+
   useEffect(() => {
     // if (open) {
     dispatch(fetchNotification(userid));
@@ -77,33 +80,42 @@ const NotificationDialog = ({ anchorEl, onClose, open, id, notificationData, mod
   }, [notificationData]);
 
   const handleClearAll = () => {
-    const res=dispatch(markNotificationAsRead({ readAll:true, userId: userid }, "label"));
-    if(!!res){
+    const res = dispatch(markNotificationAsRead({ readAll: true, userId: userid }, "label"));
+    if (!!res) {
       dispatch(fetchNotification(userid));
-      // setNotifications([]);
-    }    
+      setNotifications([]);
+    }
   };
 
   const handleListItemClick = (notification) => {
     if (!!notification.redirectUrl) {
       history.push(notification.redirectUrl);
-      const res=dispatch(markNotificationAsRead({ ...notification, userId: userid }, "label"));
-      if(!!res){
+      const res = dispatch(markNotificationAsRead({ ...notification, userId: userid }, "label"));
+      if (!!res) {
         dispatch(fetchNotification(userid));
-      }    
+      }
       onClose();
     }
   };
 
   const getNotificationMessage = (message) => {
-  try {
-    const parsedMessage = JSON.parse(message);
-    return parsedMessage[userLanguage] || parsedMessage["en"];
-  } catch (error) {
-    console.error("Failed to parse notification message:", error);
-    return message; // Fallback to the original message if parsing fails
-  }
-};
+    try {
+      const parsedMessage = JSON.parse(message);
+      return parsedMessage[userLanguage] || parsedMessage["en"];
+    } catch (error) {
+      console.error("Failed to parse notification message:", error);
+      return message; // Fallback to the original message if parsing fails
+    }
+  };
+
+  const handleScroll = () => {
+    const threshold = 1;
+    const isBottom = listRef.current.scrollHeight - listRef.current.scrollTop <= listRef.current.clientHeight + threshold;
+    if (isBottom && !hasFetchedMore) {
+      dispatch(fetchNotification(userid,checkRes.notificationListTotalCount));
+      setHasFetchedMore(true); // Set to true to prevent further API calls
+    }
+  };
 
   return (
     <div>
@@ -130,7 +142,7 @@ const NotificationDialog = ({ anchorEl, onClose, open, id, notificationData, mod
           </Button>
         </div>
         <Divider />
-        <List style={{ width: 300, maxHeight: 200, overflowY: "auto" }}>
+        <List ref={listRef} style={{ width: 300, maxHeight: 200, overflowY: "auto" }} onScroll={handleScroll}>
           {notifications.length > 0 ? (
             notifications.map((notification, index) => (
               <React.Fragment key={index}>

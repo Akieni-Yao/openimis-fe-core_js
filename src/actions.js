@@ -508,10 +508,10 @@ export function clearCurrentPaginationPage() {
   };
 }
 
-export function fetchNotification(userID) {
+export function fetchNotification(userID,first=10) {
   return graphql(
     ` query CamuNotifications {
-        camuNotifications(first: 10, user_Id: "${userID}") {
+        camuNotifications(first: ${first}, user_Id: "${userID}") {
           totalCount
           edgeCount
           pageInfo {
