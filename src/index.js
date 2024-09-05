@@ -115,6 +115,7 @@ import { RIGHT_ROLE_SEARCH } from "./constants";
 import { authMiddleware } from "./middlewares";
 import RefreshAuthToken from "./components/RefreshAuthToken";
 import CommonSnackbar from "./components/generics/CommonSnakbar";
+import AdTimePicker from "./pickers/AdTimePicker";
 const ROUTE_ROLES = "roles";
 const ROUTE_ROLE = "roles/role";
 
@@ -129,6 +130,7 @@ const DEFAULT_CONFIG = {
     { key: "core.MonthPicker", ref: MonthPicker },
     { key: "core.LanguagePicker", ref: LanguagePicker },
     { key: "core.route.role", ref: ROUTE_ROLE },
+    { key: "core.AdTimePicker", ref: AdTimePicker },
   ],
   "core.Boot": [KeepLegacyAlive, RefreshAuthToken],
   "core.Router": [
