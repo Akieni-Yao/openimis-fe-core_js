@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   IconButton,
   Popover,
@@ -110,9 +110,15 @@ const NotificationDialog = ({ anchorEl, onClose, open, id, notificationData, mod
 
   const handleScroll = () => {
     const threshold = 1;
-    const isBottom = listRef.current.scrollHeight - listRef.current.scrollTop <= listRef.current.clientHeight + threshold;
+    const isBottom =
+      listRef.current.scrollHeight - listRef.current.scrollTop <= listRef.current.clientHeight + threshold;
     if (isBottom && !hasFetchedMore) {
-      dispatch(fetchNotification(userid,checkRes.notificationListTotalCount));
+      dispatch(
+        fetchNotification(
+          userid,
+          checkRes.notificationListTotalCount < 100 ? checkRes.notificationListTotalCount : 100,
+        ),
+      );
       setHasFetchedMore(true); // Set to true to prevent further API calls
     }
   };
