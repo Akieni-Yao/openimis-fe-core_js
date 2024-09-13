@@ -164,10 +164,12 @@ const useStyles = makeStyles((theme) => ({
   },
   iconBtn: {
     position: "absolute",
-    top: "5",
-    right: "0",
-    width: "15px",
-    height: "15px",
+    top: "-.5rem",
+    right: ".8rem",
+    padding: theme.spacing(1.6),
+    width: "1.1rem",
+    // width: "15px",
+    height: "1.1rem",
     background: "red",
     borderRadius: "50%",
     marginBottom: "20px",
@@ -206,7 +208,6 @@ const RequireAuth = (props) => {
   }, [data]);
 
   const getNotification=useSelector((store)=>store.core)
-  console.log('getNotification',getNotification);
   
   const bellIcon = (event) => {
     if (anchorEl) {

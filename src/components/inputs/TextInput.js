@@ -53,6 +53,9 @@ class TextInput extends Component {
     if (this.props.formatInput) {
       value = this.props.formatInput(value);
     }
+    if (this.props.CapitalThreeLetterLimit) {
+      value = value.slice(0, 3).toUpperCase(); // Restrict to 3 letters and capitalize them
+    }
     if (value !== this.state.value) {
       this.setState({ value }, () => this.props.onChange && this.props.onChange(this.state.value));
     }
