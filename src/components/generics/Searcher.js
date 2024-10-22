@@ -150,8 +150,9 @@ class SelectionMenu extends Component {
       actions = [],
       processing,
       actionsContributionKey = null,
+      isMenu = true
     } = this.props;
-    console.log(actions, "actions")
+    console.log(actions, isMenu,"actionss")
     let contributed_entries = modulesManager.getContribs(actionsContributionKey);
     if (!actions.length && !contributed_entries) return null;
     if (processing) {
@@ -171,9 +172,11 @@ class SelectionMenu extends Component {
         entries.push({ text: formatMessage(intl, "claim", a.label), action: a.action });
       }
     });
-    if (entries.length > 2 || (this.props.exportable && entries.length >= 1)) {
+    if (entries.length > 5 || (this.props.exportable && entries.length >= 1)) {
       return this.renderMenu(entries, actionsContributionKey);
     } else {
+      console.log(entries,'entries');
+      
       return this.renderButtons(entries, actionsContributionKey);
     }
   }
@@ -362,6 +365,7 @@ class Searcher extends Component {
       (e) => a(s)
     );
   };
+  
 
   headerActions = (filters) => {
     if (!!this.props.headerActions) return this.props.headerActions(filters);
@@ -413,6 +417,7 @@ class Searcher extends Component {
       processing = false,
       withSelection = null,
       actionsContributionKey = null,
+      isMenu = true,
       withPagination = true,
       exportable = false,
       exportFetch = null,
