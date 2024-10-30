@@ -26,10 +26,11 @@ import { useBoolean, useAuthentication } from "../helpers/hooks";
 import { useGraphqlQuery } from "@openimis/fe-core";
 import { formatMessageWithValues, withModulesManager, withHistory, historyPush } from "@openimis/fe-core";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useIdleTimer } from "react-idle-timer/dist/index.legacy.cjs.js"; // otherwise not building: https://github.com/SupremeTechnopriest/react-idle-timer/issues/350
 import { CheckAssignedProfile, logout } from "../actions";
 import NotificationDialog from "./dialogs/NotificationDialog";
+import PageTitle from "./hooks/pageTitle";
 
 export const APP_BAR_CONTRIBUTION_KEY = "core.AppBar";
 export const MAIN_MENU_CONTRIBUTION_KEY = "core.MainMenu";
@@ -207,8 +208,8 @@ const RequireAuth = (props) => {
     }
   }, [data]);
 
-  const getNotification=useSelector((store)=>store.core)
-  
+  const getNotification = useSelector((store) => store.core);
+
   const bellIcon = (event) => {
     if (anchorEl) {
       setAnchorEl(null); // Close the dialog if it's already open
@@ -225,7 +226,7 @@ const RequireAuth = (props) => {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? 'notification-popover' : undefined;
+  const id = open ? "notification-popover" : undefined;
 
   const isAppBarMenu = useMemo(() => theme.menu.variant.toUpperCase() === "APPBAR", [theme.menu.variant]);
   const idleTimeSet = 30 * 60 * 1000;
@@ -249,6 +250,7 @@ const RequireAuth = (props) => {
   }, [startIdleTimer]);
 
   if (!auth.isAuthenticated) {
+    sessionStorage.setItem("session_expired", "1");
     return <Redirect to={redirectTo} />;
   }
 
@@ -330,16 +332,17 @@ const RequireAuth = (props) => {
           [classes.jrnlContentShift]: isDrawerOpen,
         })}
       >
+        <PageTitle />
         {children}
       </main>
       <NotificationDialog
-       id={id}
-       open={open}
-       anchorEl={anchorEl}
-       onClose={handleClose}
-       notificationData={getNotification?.notificationList}
-       modulesManager={modulesManager}
-       history={props.history}
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        notificationData={getNotification?.notificationList}
+        modulesManager={modulesManager}
+        history={props.history}
       />
     </>
   );

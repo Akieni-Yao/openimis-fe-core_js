@@ -13,6 +13,7 @@ import {
   InputAdornment,
   TextField,
 } from "@material-ui/core";
+import Alert from '@material-ui/lab/Alert';
 import TextInput from "../components/inputs/TextInput";
 import { useTranslations } from "../helpers/i18n";
 import { useModulesManager } from "../helpers/modules";
@@ -101,6 +102,7 @@ const LoginPage = ({ logo, backgroundImage }) => {
     setError(false);
     setAuthenticating(true);
     if (await auth.login(credentials)) {
+      sessionStorage.removeItem("session_expired");
       history.push("/");
     } else {
       setError(true);
@@ -161,6 +163,13 @@ const LoginPage = ({ logo, backgroundImage }) => {
                     >
                       CAMU IMS
                     </div>
+
+                    <div>
+                      {sessionStorage.getItem("session_expired") && (
+                        <Alert severity="error">Session Expired</Alert>
+                      )}
+                    </div>
+                    
                     <Grid item>
                       <TextInput
                         required
