@@ -20,9 +20,11 @@ import {
   Grow,
   Paper,
   ClickAwayListener,
+  Box,
 } from "@material-ui/core";
 import withModulesManager from "../../helpers/modules";
 import { _historyPush } from "../../helpers/history";
+import UsePageTitle from "../hooks/usePageTitle";
 
 const styles = (theme) => ({
   panel: {
@@ -113,14 +115,14 @@ class MainMenuContribution extends Component {
 
   handleMenuSelect = (e, route) => {
     // block normal href only for left click
-    if (e.type === 'click') {
+    if (e.type === "click") {
       e.stopPropagation();
       e.preventDefault();
     }
     this.toggleExpanded(e);
     this.redirect(route);
   };
-  
+
   redirect(route) {
     const { modulesManager, history } = this.props;
     _historyPush(modulesManager, history, route);
@@ -129,10 +131,8 @@ class MainMenuContribution extends Component {
   appBarMenu = () => {
     return (
       <Fragment>
-        <Button ref={this.state.anchorRef} onClick={this.toggleExpanded} className={this.props.classes.menuHeading}>
-          {this.props.header}
-          <ExpandMoreIcon />
-        </Button>
+        <ButtonMenu state={this.state} toggleExpanded={this.toggleExpanded} props={this.props} />
+
         <Popper
           className={this.props.classes.popper}
           open={this.state.expanded}
@@ -151,10 +151,14 @@ class MainMenuContribution extends Component {
                   <MenuList>
                     {this.props.entries.map((entry, idx) => (
                       <div key={`${this.props.header}_${idx}_menuItem`}>
-                        <MenuItem onClick={(e) => this.handleMenuSelect(e, entry.route)}  component="a"  href={`${process.env.PUBLIC_URL || ""}${entry.route}`} passHref>
+                        <MenuItem
+                          onClick={(e) => this.handleMenuSelect(e, entry.route)}
+                          component="a"
+                          href={`${process.env.PUBLIC_URL || ""}${entry.route}`}
+                          passHref
+                        >
                           <ListItemIcon>{entry.icon}</ListItemIcon>
-                          <ListItemText primary={entry.text}/>
-                          
+                          <ListItemText primary={entry.text} />
                         </MenuItem>
                         {entry.withDivider && (
                           <Divider
@@ -220,6 +224,23 @@ MainMenuContribution.propTypes = {
   header: PropTypes.string.isRequired,
   entries: PropTypes.array.isRequired,
   history: PropTypes.object.isRequired,
+};
+
+const ButtonMenu = ({ state, toggleExpanded, props }) => {
+  const page = UsePageTitle();
+
+  return (
+    <>
+      <Button ref={state.anchorRef} onClick={toggleExpanded} className={props.classes.menuHeading}>
+        <Box
+          sx={page.parent?.toLowerCase() === props.header?.toLowerCase() ? { color: "#ff9f1c", fontWeight: 700 } : {}}
+        >
+          {props.header}
+        </Box>
+        <ExpandMoreIcon />
+      </Button>
+    </>
+  );
 };
 
 export default withModulesManager(withTheme(withStyles(styles)(MainMenuContribution)));
