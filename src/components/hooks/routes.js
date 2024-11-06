@@ -29,6 +29,26 @@ const administration = [
   },
   {
     parent: "Administration",
+    path: "/admin/bank",
+    title: "Bank",
+  },
+  {
+    parent: "Administration",
+    path: "/admin/fosaConfiguration",
+    title: "Catégories des Fosa",
+  },
+  {
+    parent: "Administration",
+    path: "/admin/operation",
+    title: "Opération Management",
+  },
+  {
+    parent: "Administration",
+    path: "/admin/serviceActs",
+    title: "Medical services category management",
+  },
+  {
+    parent: "Administration",
     path: "/location/locations",
     title: "Localisations geographiques",
   },
@@ -52,6 +72,16 @@ const administration = [
     path: "/admin/dashboard",
     title: "Dashboard",
   },
+  {
+    parent: "Administration",
+    path: "/admin/fosa/users",
+    title: "Utilisateurs Fosa",
+  },
+  {
+    parent: "Administration",
+    path: "/admin/policyholder/users",
+    title: "Utilisateurs souscripteurs",
+  },
 ];
 
 const demandePayement = [
@@ -64,6 +94,16 @@ const demandePayement = [
     parent: "Demande de paiement",
     path: "/claim_batch",
     title: "Evaluation par lots",
+  },
+  {
+    parent: "Demande de paiement",
+    path: "/claim/healthFacilities",
+    title: "Demande de paiement",
+  },
+  {
+    parent: "Demande de paiement",
+    path: "/claim/invoiceApproval",
+    title: "Invoices",
   },
 ];
 
@@ -134,6 +174,11 @@ const outils = [
     path: "/tools/reports",
     title: "Rapports",
   },
+  {
+    parent: "Outils",
+    path: "/tools/manualSync",
+    title: "Manuels Synchronisation",
+  },
 ];
 
 const profile = [
@@ -157,7 +202,7 @@ const souscripteurs = [
   },
   {
     parent: "Souscripteurs",
-    path: "/front/policyHolders",
+    path: "/policyHolders",
     title: "Immatriculation",
   },
   {
@@ -207,6 +252,11 @@ const juridique = [
     parent: "Juridique et financier",
     path: "/paymentPlans",
     title: "Plans de paiement",
+  },
+  {
+    parent: "Juridique et financier",
+    path: "/payment/paymentpenalty",
+    title: "Pénalité de sanction",
   },
 ];
 

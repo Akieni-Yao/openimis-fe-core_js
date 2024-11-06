@@ -8,7 +8,17 @@ function UsePageTitle() {
   const [page, setPage] = React.useState({});
 
   React.useEffect(() => {
-    const routes = routePages.find((item) => item.path === pathname || pathname.startsWith(item.path));
+    const routes = routePages.find((item) => {
+      if (item.path === pathname) {
+        return item;
+      }
+
+      if (pathname.startsWith(item.path)) {
+        return item;
+      }
+
+      return null;
+    });
     if (routes) {
       setPage((prev) => ({ ...routes }));
     }

@@ -11,6 +11,10 @@ function PageTitle() {
   const classes = useStyles();
   const page = UsePageTitle();
 
+  if (!page.parent) {
+    return <></>;
+  }
+
   return (
     <Grid container className={classes.container} spacing={2}>
       <Grid item xs={12}>
