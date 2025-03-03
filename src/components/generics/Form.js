@@ -78,12 +78,17 @@ class Form extends Component {
   state = {
     dirty: false,
     saving: false,
+    hideMenuNavigation: false,
   };
 
   componentDidMount() {
     if (!!this.props.forcedDirty) {
       this.setState((state, props) => ({ dirty: true }));
     }
+
+    // get query params from url using window.location.search
+    const query = new URLSearchParams(window.location.search);
+    this.setState({ hideMenuNavigation: query.get("hideMenuNavigation") });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -162,7 +167,7 @@ class Form extends Component {
                 <Grid container alignItems="center" direction="row" className={classes.paperHeader}>
                   <Grid item xs={8}>
                     <Grid container alignItems="center">
-                      {!!back && (
+                      {!!back && !this.state.hideMenuNavigation && (
                         <Grid item>
                           <IconButton onClick={back}>
                             <ChevronLeftIcon />
