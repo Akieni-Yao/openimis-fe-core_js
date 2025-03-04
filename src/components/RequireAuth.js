@@ -1,4 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route, Link, useRouteMatch, useParams, useLocation } from "react-router-dom";
+
 import withWidth from "@material-ui/core/withWidth";
 import { Redirect } from "../helpers/history";
 import { alpha, useTheme, makeStyles } from "@material-ui/core/styles";
@@ -181,7 +183,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+export function useQuery() {
+  const { search } = useLocation();
+
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+}
+
 const RequireAuth = (props) => {
+  // let { hideMenuNavigation } = useParams();
+  let query = useQuery();
   const { children, logo, redirectTo, ...others } = props;
   const [isOpen, setOpen] = useBoolean();
   const [isDrawerOpen, setDrawerOpen] = useBoolean();
@@ -191,6 +201,7 @@ const RequireAuth = (props) => {
   const modulesManager = useModulesManager();
   const auth = useAuthentication();
   const [searchString, setSearchString] = useState();
+  const [hideMenu, setHideMenu] = useState(false);
   const dispatch = useDispatch();
   const { isLoading, data, error } = useGraphqlQuery(
     `
@@ -202,6 +213,12 @@ const RequireAuth = (props) => {
   `,
     { str: searchString },
   );
+
+  useEffect(() => {
+    if (query.get("hideMenuNavigation")) {
+      setHideMenu(true);
+    }
+  }, [query]);
   useEffect(() => {
     if (!!data) {
       dispatch({ type: "INSUREE_COUNT_RESP", payload: data });
@@ -256,56 +273,58 @@ const RequireAuth = (props) => {
 
   return (
     <>
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: isOpen && theme.breakpoints.up("md"),
-        })}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            onClick={setOpen.toggle}
-            className={clsx(classes.menuButton, isAppBarMenu && classes.autoHideMenuButton, isOpen && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Button className={classes.appName} onClick={(e) => (window.location.href = "/front")}>
+      {!hideMenu && (
+        <AppBar
+          position="fixed"
+          className={clsx(classes.appBar, {
+            [classes.appBarShift]: isOpen && theme.breakpoints.up("md"),
+          })}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              onClick={setOpen.toggle}
+              className={clsx(classes.menuButton, isAppBarMenu && classes.autoHideMenuButton, isOpen && classes.hide)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Button className={classes.appName} onClick={(e) => (window.location.href = "/front")}>
+              {isAppBarMenu && (
+                <Hidden smDown implementation="css">
+                  <img className={classes.logo} src={logo} />
+                </Hidden>
+              )}
+              CAMU
+            </Button>
+            <Hidden smDown implementation="css">
+              <Tooltip title={modulesManager.getModulesVersions().join(", ")}>
+                <Typography variant="caption" className={classes.appVersions}>
+                  {/* {modulesManager.getOpenIMISVersion()} */}
+                </Typography>
+              </Tooltip>
+            </Hidden>
             {isAppBarMenu && (
               <Hidden smDown implementation="css">
-                <img className={classes.logo} src={logo} />
+                <Contributions {...others} menuVariant="AppBar" contributionKey={MAIN_MENU_CONTRIBUTION_KEY}>
+                  <div onClick={setOpen.off} />
+                </Contributions>
               </Hidden>
             )}
-            CAMU
-          </Button>
-          <Hidden smDown implementation="css">
-            <Tooltip title={modulesManager.getModulesVersions().join(", ")}>
-              <Typography variant="caption" className={classes.appVersions}>
-                {/* {modulesManager.getOpenIMISVersion()} */}
-              </Typography>
-            </Tooltip>
-          </Hidden>
-          {isAppBarMenu && (
-            <Hidden smDown implementation="css">
-              <Contributions {...others} menuVariant="AppBar" contributionKey={MAIN_MENU_CONTRIBUTION_KEY}>
-                <div onClick={setOpen.off} />
-              </Contributions>
-            </Hidden>
-          )}
-          <Contributions {...others} contributionKey={APP_BAR_CONTRIBUTION_KEY}>
-            <div className={classes.grow} />
-            <div onClick={bellIcon} className={classes.iconContainer}>
-              <div>
-                <div className={classes.iconBtn}>{getNotification?.notificationListTotalCount}</div>
-                <NotificationsIcon />
+            <Contributions {...others} contributionKey={APP_BAR_CONTRIBUTION_KEY}>
+              <div className={classes.grow} />
+              <div onClick={bellIcon} className={classes.iconContainer}>
+                <div>
+                  <div className={classes.iconBtn}>{getNotification?.notificationListTotalCount}</div>
+                  <NotificationsIcon />
+                </div>
               </div>
-            </div>
-          </Contributions>
+            </Contributions>
 
-          <LogoutButton />
-          {/* <Help /> */}
-        </Toolbar>
-      </AppBar>
+            <LogoutButton />
+            {/* <Help /> */}
+          </Toolbar>
+        </AppBar>
+      )}
       {isOpen && (
         <ClickAwayListener onClickAway={setOpen.off}>
           <nav className={classes.drawer}>
@@ -325,14 +344,14 @@ const RequireAuth = (props) => {
           </nav>
         </ClickAwayListener>
       )}
-      <JournalDrawer open={isDrawerOpen} handleDrawer={setDrawerOpen.toggle} />
-      <div className={classes.toolbar} />
+      {!hideMenu && <JournalDrawer open={isDrawerOpen} handleDrawer={setDrawerOpen.toggle} />}
+      {!hideMenu && <div className={classes.toolbar} />}
       <main
         className={clsx(classes.content, {
           [classes.jrnlContentShift]: isDrawerOpen,
         })}
       >
-        <PageTitle />
+        {!hideMenu && <PageTitle />}
         {children}
       </main>
       <NotificationDialog
