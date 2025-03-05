@@ -13,7 +13,7 @@ import {
   InputAdornment,
   TextField,
 } from "@material-ui/core";
-import Alert from '@material-ui/lab/Alert';
+import Alert from "@material-ui/lab/Alert";
 import TextInput from "../components/inputs/TextInput";
 import { useTranslations } from "../helpers/i18n";
 import { useModulesManager } from "../helpers/modules";
@@ -22,6 +22,8 @@ import { useAuthentication } from "../helpers/hooks";
 import Contributions from "./../components/generics/Contributions";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import { useDispatch, useSelector } from "react-redux";
+// import Cookies from "js-cookie";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -48,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 const LOGIN_PAGE_CONTRIBUTION_KEY = "core.LoginPage";
 
 const LoginPage = ({ logo, backgroundImage }) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
   const modulesManager = useModulesManager();
@@ -96,6 +99,13 @@ const LoginPage = ({ logo, backgroundImage }) => {
       }
     }
   }, []);
+
+  // useEffect(() => {
+  //   // remove cookies
+  //   console.log("............................Removing cookies", Cookies.get("JWT"));
+  //   Cookies.remove("JWT");
+  //   Cookies.remove("JWT-refresh-token");
+  // }, []);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -165,11 +175,9 @@ const LoginPage = ({ logo, backgroundImage }) => {
                     </div>
 
                     <div>
-                      {sessionStorage.getItem("session_expired") && (
-                        <Alert severity="error">Session Expired</Alert>
-                      )}
+                      {sessionStorage.getItem("session_expired") && <Alert severity="error">Session Expired</Alert>}
                     </div>
-                    
+
                     <Grid item>
                       <TextInput
                         required
