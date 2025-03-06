@@ -116,7 +116,7 @@ const App = (props) => {
                     path={"/" + route.path}
                     render={(props) => (
                       <ErrorBoundary>
-                          <route.component modulesManager={modulesManager} {...props} {...others} />
+                        <route.component modulesManager={modulesManager} {...props} {...others} />
                       </ErrorBoundary>
                     )}
                   />

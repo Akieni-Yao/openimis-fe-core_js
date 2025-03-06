@@ -23,7 +23,6 @@ import Contributions from "./../components/generics/Contributions";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { useDispatch, useSelector } from "react-redux";
-// import Cookies from "js-cookie";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -99,13 +98,6 @@ const LoginPage = ({ logo, backgroundImage }) => {
       }
     }
   }, []);
-
-  // useEffect(() => {
-  //   // remove cookies
-  //   console.log("............................Removing cookies", Cookies.get("JWT"));
-  //   Cookies.remove("JWT");
-  //   Cookies.remove("JWT-refresh-token");
-  // }, []);
 
   const onSubmit = async (e) => {
     e.preventDefault();
