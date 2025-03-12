@@ -80,10 +80,10 @@ const VerifyUserAndUpdatePasswordPage = (props) => {
         },
         true,
       );
-      if (result?.verifyUserAndUpdatePassword.success) {
+      if (result?.data?.verifyUserAndUpdatePassword.success) {
         history.push("/");
       } else {
-        setError(result?.verifyUserAndUpdatePassword.error || formatMessage("error"));
+        setError(result?.data?.verifyUserAndUpdatePassword.error || formatMessage("error"));
       }
     }
   };
