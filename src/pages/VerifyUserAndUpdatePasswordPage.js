@@ -7,7 +7,7 @@ import { useTranslations } from "../helpers/i18n";
 import { useModulesManager } from "../helpers/modules";
 import { useHistory } from "../helpers/history";
 import Helmet from "../helpers/Helmet";
-import { useGraphqlMutation } from "../helpers/hooks";
+import { useGraphqlMutation2 } from "../helpers/hooks";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -36,7 +36,7 @@ const VerifyUserAndUpdatePasswordPage = (props) => {
   const [credentials, setCredentials] = useState({});
   const [error, setError] = useState();
 
-  const { mutate } = useGraphqlMutation(
+  const { mutate } = useGraphqlMutation2(
     `
       mutation verifyUserAndUpdatePassword($password: String!, $token: String!, $userId: String!) {
         verifyUserAndUpdatePassword(password: $password, token: $token, userId: $userId) {
@@ -69,10 +69,10 @@ const VerifyUserAndUpdatePasswordPage = (props) => {
         },
         true,
       );
-      if (result?.data?.verifyUserAndUpdatePassword.success) {
+      if (result?.verifyUserAndUpdatePassword.success) {
         history.push("/");
       } else {
-        setError(result?.data?.verifyUserAndUpdatePassword.error || formatMessage("error"));
+        setError(result?.verifyUserAndUpdatePassword.error || formatMessage("error"));
       }
     }
   };

@@ -1,7 +1,15 @@
 import { useModulesManager } from "@openimis/fe-core";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { refreshAuthToken, login, logout, initialize, graphqlWithVariables, graphqlMutation } from "../actions";
+import {
+  refreshAuthToken,
+  login,
+  logout,
+  initialize,
+  graphqlWithVariables,
+  graphqlMutation,
+  graphqlMutation2,
+} from "../actions";
 
 export const useDebounceCb = (cb, duration = 0) => {
   const [payload, setPayload] = useState();
@@ -138,6 +146,48 @@ export const useGraphqlMutation = (operation, config) => {
       }
     });
   }
+
+  return {
+    isLoading: state.isLoading,
+    error: state.error,
+    mutate,
+  };
+};
+
+export const useGraphqlMutation2 = (operation, config) => {
+  config = { ...DEFAULT_GRAPHQL_MUTATION_CONFIG, ...config };
+  const dispatch = useDispatch();
+  const [state, setState] = useState({ isLoading: false, error: null });
+
+  const mutate = async (input, usePlainObject = false) => {
+    if (state.isLoading) {
+      console.warn("A mutation is already in progress");
+      return;
+    }
+
+    setState({ isLoading: true, error: null });
+
+    try {
+      const variables = usePlainObject ? input : { input };
+
+      const result = await dispatch(graphqlMutation2(operation, variables, config.type, { operation, input }, false));
+
+      const error = result?.error?.map((err) => err.detail).join("; ");
+
+      if (error) {
+        throw new Error(error);
+      }
+
+      setState({ isLoading: false, error: null });
+
+      return result;
+    } catch (err) {
+      setState({ isLoading: false, error: err });
+
+      // throw err;
+      return err;
+    }
+  };
 
   return {
     isLoading: state.isLoading,

@@ -6,7 +6,7 @@ import TextInput from "../components/inputs/TextInput";
 import { useTranslations } from "../helpers/i18n";
 import { useModulesManager } from "../helpers/modules";
 import Helmet from "../helpers/Helmet";
-import { useGraphqlMutation } from "../helpers/hooks";
+import { useGraphqlMutation, useGraphqlMutation2 } from "../helpers/hooks";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { useHistory } from "react-router-dom";
 
@@ -34,8 +34,9 @@ const ForgotPasswordPage = (props) => {
   const { formatMessage } = useTranslations("core.ForgotPasswordPage", modulesManager);
   const [email, setEmail] = useState();
   const [isDone, setDone] = useState(false);
+  const [error, setError] = useState(null);
   const history = useHistory();
-  const { isLoading, mutate } = useGraphqlMutation(
+  const { isLoading, mutate } = useGraphqlMutation2(
     `
     mutation newPasswordRequest($email: String!, $fromWhatEnv: String!) {
       newPasswordRequest(email: $email, fromWhatEnv: $fromWhatEnv) {
@@ -53,7 +54,11 @@ const ForgotPasswordPage = (props) => {
     e.preventDefault();
     const res = await mutate({ email, fromWhatEnv: "imis" }, true);
     console.log("res", res);
-    await setDone(true);
+    if (res?.newPasswordRequest?.success) {
+      await setDone(true);
+    } else {
+      setError(res?.newPasswordRequest?.message || "An error occurred, be sure to use a valid email");
+    }
   };
 
   const handleBackToLogin = () => {
@@ -109,6 +114,12 @@ const ForgotPasswordPage = (props) => {
                         onChange={(email) => setEmail(email)}
                       />
                     </Grid>
+
+                    {error && (
+                      <Grid item>
+                        <Box color="error.main">{error}</Box>
+                      </Grid>
+                    )}
                     <Grid item>
                       <Button
                         fullWidth
