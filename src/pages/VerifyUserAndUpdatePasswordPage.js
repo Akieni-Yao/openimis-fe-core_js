@@ -35,17 +35,6 @@ const VerifyUserAndUpdatePasswordPage = (props) => {
   const { formatMessage } = useTranslations("core.SetPasswordPage", modulesManager);
   const [credentials, setCredentials] = useState({});
   const [error, setError] = useState();
-  // const { mutate } = useGraphqlMutation(
-  //   `
-  //     mutation verifyUserAndUpdatePassword ($input: VerifyUserAndUpdatePasswordMutationInput!) {
-  //       verifyUserAndUpdatePassword($input) {
-  //         success
-  //         error
-  //       }
-  //     }
-  //   `,
-  //   { wait: false },
-  // );
 
   const { mutate } = useGraphqlMutation(
     `
