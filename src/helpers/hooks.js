@@ -95,7 +95,7 @@ export const useGraphqlMutation = (operation, config) => {
   const dispatch = useDispatch();
   const [state, setState] = useState({ isLoading: false, error: null });
 
-  function mutate(input) {
+  function mutate(input, usePlainObject = false) {
     if (state.isLoading) {
       console.warn("A mutation is already in progress");
       return;
@@ -103,9 +103,11 @@ export const useGraphqlMutation = (operation, config) => {
     setState({ isLoading: true, error: null });
     return new Promise(async (resolve, reject) => {
       try {
-        const variables = {
-          input,
-        };
+        const variables = usePlainObject
+          ? input
+          : {
+              input,
+            };
         const result = await dispatch(
           graphqlMutation(operation, variables, config.type, { operation, input }, config.wait),
         );

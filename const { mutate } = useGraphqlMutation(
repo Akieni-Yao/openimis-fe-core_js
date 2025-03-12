@@ -1,0 +1,11 @@
+const { mutate } = useGraphqlMutation(
+    `
+      mutation verifyUserAndUpdatePassword($password: String!, $token: String!, $userId: String!) {
+        verifyUserAndUpdatePassword(password: $password, token: $token, userId: $userId) {
+          success
+          message
+        }
+      }
+    `,
+    { wait: false },
+  ); 
