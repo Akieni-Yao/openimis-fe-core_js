@@ -17,6 +17,7 @@ import LoginPage from "../pages/LoginPage";
 import { useAuthentication } from "../helpers/hooks";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import SetPasswordPage from "../pages/SetPasswordPage";
+import VerifyUserAndUpdatePasswordPage from "../pages/VerifyUserAndUpdatePasswordPage";
 import { ErrorBoundary } from "@openimis/fe-core";
 
 export const ROUTER_CONTRIBUTION_KEY = "core.Router";
@@ -109,6 +110,10 @@ const App = (props) => {
                 <Route path={"/login"} render={() => <LoginPage {...others} />} />
                 <Route path={"/forgot_password"} render={() => <ForgotPasswordPage {...others} />} />
                 <Route path={"/set_password"} render={() => <SetPasswordPage {...others} />} />
+                <Route
+                  path={"/verify-user-and-update-password"}
+                  render={() => <VerifyUserAndUpdatePasswordPage {...others} />}
+                />
                 {unauthenticatedRoutes.map((route) => (
                   <Route
                     exact
@@ -116,7 +121,7 @@ const App = (props) => {
                     path={"/" + route.path}
                     render={(props) => (
                       <ErrorBoundary>
-                          <route.component modulesManager={modulesManager} {...props} {...others} />
+                        <route.component modulesManager={modulesManager} {...props} {...others} />
                       </ErrorBoundary>
                     )}
                   />

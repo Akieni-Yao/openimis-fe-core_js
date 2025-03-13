@@ -215,6 +215,25 @@ export function graphqlMutation(
   };
 }
 
+export function graphqlMutation2(
+  mutation,
+  variables,
+  type = "CORE_TRIGGER_MUTATION",
+  params = {},
+  wait = true,
+  additionalRequest = "",
+) {
+  let clientMutationId;
+  if (variables?.input) {
+    clientMutationId = uuid.uuid();
+    variables.input.clientMutationId = clientMutationId;
+  }
+  return async (dispatch) => {
+    const response = await dispatch(graphqlWithVariables(mutation, variables, type, params));
+    return response?.payload?.data;
+  };
+}
+
 export function graphqlMutationLegacy(
   payload,
   type = "CORE_TRIGGER_MUTATION",
@@ -280,7 +299,7 @@ export function login(credentials) {
     localStorage.setItem("userName", action?.payload?.username);
     localStorage.setItem("userLanguage", action?.payload?.i_user?.language);
     localStorage.setItem("userId", action?.payload?.id);
-    localStorage.setItem("HfId",action?.payload?.i_user?.health_facility_id)
+    localStorage.setItem("HfId", action?.payload?.i_user?.health_facility_id);
     return action.type !== "CORE_AUTH_ERR";
   };
 }
@@ -508,7 +527,7 @@ export function clearCurrentPaginationPage() {
   };
 }
 
-export function fetchNotification(userID,first=10) {
+export function fetchNotification(userID, first = 10) {
   return graphql(
     ` query CamuNotifications {
         camuNotifications(first: ${first}, user_Id: "${userID}") {
@@ -539,7 +558,6 @@ export function fetchNotification(userID,first=10) {
 }
 
 function formatNotificationGQL(data) {
-
   return `
         ${!!data.userId ? `userId: "${data.userId}"` : ""}
         ${!!data.readAll ? `readAll: ${data.readAll}` : ""}
