@@ -1,0 +1,17 @@
+{
+    "core.ForgotPasswordPage.backButton": "Retour à la connexion",
+    "core.SetPasswordPage.pageTitle": "Définir un nouveau mot de passe",
+    "core.SetPasswordPage.username.label": "Nom d'utilisateur",
+    "core.SetPasswordPage.password.label": "Mot de passe",
+    "core.SetPasswordPage.confirmPassword.label": "Confirmer le mot de passe",
+    "core.SetPasswordPage.error": "Unknown error",
+    "core.SetPasswordPage.submitBtn": "Soumettre",
+    "core.ForgotPasswordPage.pageTitle": "Mot de passe oublié ?",
+    "core.ForgotPasswordPage.submitBtn": "Soumettre",
+    "core.ForgotPasswordPage.username.label": "Nom d'utilisateur",
+    "core.ForgotPasswordPage.done": "Done ! Check your inbox and click on the verification link to reset your password.",
+    "core.ForgotPasswordPage.done.Verification": "Un e-mail contenant le lien de vérification a été envoyé à votre adresse e-mail",
+    "core.ForgotPasswordPage.done.Administrator": "Si vous ne recevez pas d'e-mail, veuillez contacter votre administrateur",
+    "core.ForgotPasswordPage.recoverTitle": "Récupérer votre compte",
+    "core.ForgotPasswordPage.explanationMessage": "Saisissez votre nom d'utilisateur pour pouvoir récupérer votre compte. Un e-mail contenant les instructions sera envoyé à votre adresse e-mail."
+}

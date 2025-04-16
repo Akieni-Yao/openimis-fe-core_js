@@ -1,6 +1,7 @@
 import App from "./components/App";
 import React from "react";
 import messages_en from "./translations/en.json";
+import messages_fr from "./translations/fr.json";
 import KeepLegacyAlive from "./components/KeepLegacyAlive";
 import AutoSuggestion from "./components/inputs/AutoSuggestion";
 import Autocomplete from "./components/inputs/Autocomplete";
@@ -121,7 +122,10 @@ const ROUTE_ROLES = "roles";
 const ROUTE_ROLE = "roles/role";
 
 const DEFAULT_CONFIG = {
-  "translations": [{ key: "en", messages: messages_en }],
+  "translations": [
+    { key: "en", messages: messages_en },
+    { key: "fr", messages: messages_fr },
+  ],
   "reducers": [{ key: "core", reducer: reducer }],
   "middlewares": [authMiddleware],
   "refs": [
