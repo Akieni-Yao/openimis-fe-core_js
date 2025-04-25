@@ -97,10 +97,27 @@ const LoginPage = ({ logo, backgroundImage }) => {
     }
   }, []);
 
+  console.log("==> cred", credentials)
+
   const onSubmit = async (e) => {
     e.preventDefault();
     setError(false);
     setAuthenticating(true);
+
+    if (!rememberMe) {
+      console.log("Don't remember")
+      // If "Remember Me" is unchecked, clear the saved credentials.
+      localStorage.removeItem("rememberedUsername");
+      localStorage.removeItem("rememberedPassword");
+    } else {
+      console.log("Remember")
+      // If "Remember Me" is checked, save the username and password.
+      localStorage.setItem("rememberedUsername", credentials.username);
+      localStorage.setItem("rememberedPassword", credentials.password);
+
+      console.log("Saved username and password:", credentials.username, credentials.password);
+    }
+
     if (await auth.login(credentials)) {
       sessionStorage.removeItem("session_expired");
       history.push("/");
@@ -176,8 +193,10 @@ const LoginPage = ({ logo, backgroundImage }) => {
                         readOnly={isAuthenticating}
                         label={formatMessage("username.label")}
                         fullWidth
+                        value={credentials.username}
                         defaultValue={credentials.username}
                         onChange={(username) => setCredentials({ ...credentials, username })}
+                        autoComplete={rememberMe ? "username" : "off"}
                       />
                     </Grid>
                     <Grid item>
@@ -187,7 +206,9 @@ const LoginPage = ({ logo, backgroundImage }) => {
                         type={showPassword ? "text" : "password"}
                         label={formatMessage("password.label")}
                         fullWidth
+                        value={credentials.password}
                         onChange={(event) => setCredentials({ ...credentials, password: event.target.value })}
+                        autoComplete={rememberMe ? "current-password" : "off"}
                         InputProps={{
                           endAdornment: (
                             <InputAdornment position="end" className={classes.inputAdornment}>
