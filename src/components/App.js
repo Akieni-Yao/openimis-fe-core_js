@@ -97,8 +97,13 @@ const App = (props) => {
   }, [user?.language, messages]);
 
   useEffect(() => {
+    if (query["hideMenuNavigation"]) {
+      localStorage.setItem("hideMenuNavigation", "yes");
+    } else {
+      localStorage.removeItem("hideMenuNavigation");
+    }
+
     if (query["JWT"]) {
-      localStorage.setItem("userLanguage", "fr");
       cookie.set("JWT", query["JWT"], { path: "/" });
     }
 
