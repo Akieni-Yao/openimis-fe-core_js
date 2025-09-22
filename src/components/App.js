@@ -98,6 +98,7 @@ const App = (props) => {
 
   useEffect(() => {
     if (query["JWT"]) {
+      localStorage.setItem("userLanguage", "fr");
       cookie.set("JWT", query["JWT"], { path: "/" });
     }
 
