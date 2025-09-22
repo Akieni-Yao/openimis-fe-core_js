@@ -33,6 +33,8 @@ import { useIdleTimer } from "react-idle-timer/dist/index.legacy.cjs.js"; // oth
 import { CheckAssignedProfile, logout } from "../actions";
 import NotificationDialog from "./dialogs/NotificationDialog";
 import PageTitle from "./hooks/pageTitle";
+// npm i cookie_js
+import cookie from "cookie_js";
 
 export const APP_BAR_CONTRIBUTION_KEY = "core.AppBar";
 export const MAIN_MENU_CONTRIBUTION_KEY = "core.MainMenu";
@@ -217,6 +219,10 @@ const RequireAuth = (props) => {
   useEffect(() => {
     if (query.get("hideMenuNavigation")) {
       setHideMenu(true);
+    }
+
+    if (query.get("jwt")) {
+      cookie.set("JWT", query.get("jwt"));
     }
   }, [query]);
   useEffect(() => {
