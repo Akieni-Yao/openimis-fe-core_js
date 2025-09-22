@@ -19,6 +19,9 @@ import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import SetPasswordPage from "../pages/SetPasswordPage";
 import VerifyUserAndUpdatePasswordPage from "../pages/VerifyUserAndUpdatePasswordPage";
 import { ErrorBoundary } from "@openimis/fe-core";
+import cookie from "cookie_js";
+import { useLocation } from "react-router-dom";
+// import { useQuery } from "./RequireAuth";
 
 export const ROUTER_CONTRIBUTION_KEY = "core.Router";
 export const UNAUTHENTICATED_ROUTER_CONTRIBUTION_KEY = "core.UnauthenticatedRouter";
@@ -33,6 +36,20 @@ const styles = () => ({
     left: "50%",
   },
 });
+
+export const getParamsFromUrl = () => {
+  const params = {};
+  const queryString = window.location.search; // e.g. "?id=123&name=Tom"
+
+  if (queryString) {
+    const urlParams = new URLSearchParams(queryString);
+    for (const [key, value] of urlParams.entries()) {
+      params[key] = value;
+    }
+  }
+
+  return params;
+};
 
 const App = (props) => {
   const {
@@ -49,6 +66,7 @@ const App = (props) => {
     ...others
   } = props;
 
+  const query = getParamsFromUrl();
   const auth = useAuthentication();
   const routes = useMemo(() => {
     return modulesManager.getContribs(ROUTER_CONTRIBUTION_KEY);
@@ -77,6 +95,16 @@ const App = (props) => {
       .reduce((allmsgs, msgs) => Object.assign(allmsgs, msgs.messages), {});
     return { ...messages, ...msgs };
   }, [user?.language, messages]);
+
+  useEffect(() => {
+    if (query["JWT"]) {
+      cookie.set("JWT", query["JWT"], { path: "/" });
+    }
+
+    if (query["JWT-refresh-token"]) {
+      cookie.set("JWT-refresh-token", query["JWT-refresh-token"], { path: "/" });
+    }
+  }, [query]);
 
   useEffect(() => {
     auth.initialize();
