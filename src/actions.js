@@ -297,7 +297,9 @@ export function login(credentials) {
     }
     const action = await dispatch(loadUser());
     localStorage.setItem("userName", action?.payload?.username);
-    localStorage.setItem("userLanguage", action?.payload?.i_user?.language);
+    if (!localStorage.getItem("userLanguage")) {
+      localStorage.setItem("userLanguage", action?.payload?.i_user?.language);
+    }
     localStorage.setItem("userId", action?.payload?.id);
     localStorage.setItem("HfId", action?.payload?.i_user?.health_facility_id);
     return action.type !== "CORE_AUTH_ERR";
