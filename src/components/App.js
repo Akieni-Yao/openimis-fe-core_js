@@ -1,27 +1,28 @@
-import React, { useMemo, useEffect } from "react";
-import { connect } from "react-redux";
-import { IntlProvider } from "react-intl";
-import { Redirect, Route, BrowserRouter, Switch } from "react-router-dom";
 import { CssBaseline } from "@material-ui/core";
-import { withTheme, withStyles } from "@material-ui/core/styles";
-import withModulesManager, { ModulesManagerProvider } from "../helpers/modules";
-import Helmet from "../helpers/Helmet";
-import RequireAuth from "./RequireAuth";
-import FatalError from "./generics/FatalError";
-import { clearConfirm } from "../actions";
-import AlertDialog from "./dialogs/AlertDialog";
-import ConfirmDialog from "./dialogs/ConfirmDialog";
-import { bindActionCreators } from "redux";
-import Contributions from "./generics/Contributions";
-import LoginPage from "../pages/LoginPage";
-import { useAuthentication } from "../helpers/hooks";
-import ForgotPasswordPage from "../pages/ForgotPasswordPage";
-import SetPasswordPage from "../pages/SetPasswordPage";
-import VerifyUserAndUpdatePasswordPage from "../pages/VerifyUserAndUpdatePasswordPage";
+import { withStyles, withTheme } from "@material-ui/core/styles";
 import { ErrorBoundary } from "@openimis/fe-core";
 import cookie from "cookie_js";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useMemo } from "react";
+import { IntlProvider } from "react-intl";
+import { connect } from "react-redux";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import { clearConfirm } from "../actions";
+import Helmet from "../helpers/Helmet";
+import { useAuthentication } from "../helpers/hooks";
+import withModulesManager, { ModulesManagerProvider } from "../helpers/modules";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage";
+import LoginPage from "../pages/LoginPage";
+import SetPasswordPage from "../pages/SetPasswordPage";
+import VerifyUserAndUpdatePasswordPage from "../pages/VerifyUserAndUpdatePasswordPage";
+import RequireAuth from "./RequireAuth";
+import AlertDialog from "./dialogs/AlertDialog";
+import ConfirmDialog from "./dialogs/ConfirmDialog";
+import Contributions from "./generics/Contributions";
+import FatalError from "./generics/FatalError";
 // import { useQuery } from "./RequireAuth";
+import GedAlertBanner from "./GedAlertBanner";
+import { useGedHealth } from "./hooks/useGedHealth";
 
 export const ROUTER_CONTRIBUTION_KEY = "core.Router";
 export const UNAUTHENTICATED_ROUTER_CONTRIBUTION_KEY = "core.UnauthenticatedRouter";
@@ -71,7 +72,7 @@ const App = (props) => {
   const routes = useMemo(() => {
     return modulesManager.getContribs(ROUTER_CONTRIBUTION_KEY);
   }, []);
-
+  const { gedDown, checking } = useGedHealth();
   const unauthenticatedRoutes = useMemo(() => {
     return modulesManager.getContribs(UNAUTHENTICATED_ROUTER_CONTRIBUTION_KEY);
   }, []);
@@ -127,12 +128,12 @@ const App = (props) => {
     return <FatalError error={error} />;
   }
   if (!auth.isInitialized) return null;
-
   return (
     <>
       <Helmet titleTemplate="%s - CAMU IMS" defaultTitle="CAMU IMS" />
       <CssBaseline />
       <ModulesManagerProvider value={modulesManager}>
+        <GedAlertBanner gedDown={gedDown} />
         <IntlProvider locale={locale} messages={allMessages}>
           <AlertDialog />
           <ConfirmDialog confirm={confirm} onConfirm={clearConfirm} />
