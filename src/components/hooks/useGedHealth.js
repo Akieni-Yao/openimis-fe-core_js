@@ -40,7 +40,7 @@ export const useGedHealth = () => {
 
     const intervalId = setInterval(checkGedHealth, 30000);
 
-  }, []);
+  }, [gedDown]);
 
   return { gedDown, checking };
 };
