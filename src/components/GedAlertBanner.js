@@ -21,7 +21,7 @@ export default function GedAlertBanner() {
         zIndex: 2000,
       }}
     >
-      ⚠️ Service GED indisponible.
+      ⚠️ Service GED (DMS) est non disponible. Veuillez contacter l'équipe technique. 
     </Alert>
   );
 }
