@@ -132,7 +132,7 @@ const App = (props) => {
       <Helmet titleTemplate="%s - CAMU IMS" defaultTitle="CAMU IMS" />
       <CssBaseline />
       <ModulesManagerProvider value={modulesManager}>
-        <GedAlertBanner gedDown={gedDown} />
+        <GedAlertBanner />
         <IntlProvider locale={locale} messages={allMessages}>
           <AlertDialog />
           <ConfirmDialog confirm={confirm} onConfirm={clearConfirm} />
