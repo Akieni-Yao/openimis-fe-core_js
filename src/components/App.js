@@ -72,7 +72,6 @@ const App = (props) => {
   const routes = useMemo(() => {
     return modulesManager.getContribs(ROUTER_CONTRIBUTION_KEY);
   }, []);
-  const { gedDown, checking } = useGedHealth();
   const unauthenticatedRoutes = useMemo(() => {
     return modulesManager.getContribs(UNAUTHENTICATED_ROUTER_CONTRIBUTION_KEY);
   }, []);
