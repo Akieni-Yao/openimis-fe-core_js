@@ -5,7 +5,6 @@ export const useGedHealth = () => {
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    let mounted = true;
 
     const checkGedHealth = async () => {
       try {
