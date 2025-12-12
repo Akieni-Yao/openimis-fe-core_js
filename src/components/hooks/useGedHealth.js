@@ -40,10 +40,6 @@ export const useGedHealth = () => {
 
     const intervalId = setInterval(checkGedHealth, 30000);
 
-    return () => {
-      mounted = false;
-      clearInterval(intervalId);
-    };
   }, []);
 
   return { gedDown, checking };
