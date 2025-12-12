@@ -1,7 +1,8 @@
 import { Alert } from "@material-ui/lab";
 import React, { useState } from "react";
 
-export default function GedAlertBanner({ gedDown }) {
+export default function GedAlertBanner() {
+  const { gedDown, checking } = useGedHealth();
   const [visible, setVisible] = useState(true);
 
   if (!gedDown) return null;
