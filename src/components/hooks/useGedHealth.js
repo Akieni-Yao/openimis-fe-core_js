@@ -38,7 +38,6 @@ export const useGedHealth = () => {
 
     checkGedHealth();
 
-    const intervalId = setInterval(checkGedHealth, 30000);
 
   }, [gedDown]);
 
