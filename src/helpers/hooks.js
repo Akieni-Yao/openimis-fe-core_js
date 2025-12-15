@@ -1,14 +1,15 @@
 import { useModulesManager } from "@openimis/fe-core";
-import { useState, useEffect, useRef, useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import _ from "lodash";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  refreshAuthToken,
-  login,
-  logout,
-  initialize,
-  graphqlWithVariables,
   graphqlMutation,
   graphqlMutation2,
+  graphqlWithVariables,
+  initialize,
+  login,
+  logout,
+  refreshAuthToken,
 } from "../actions";
 
 export const useDebounceCb = (cb, duration = 0) => {
@@ -276,4 +277,34 @@ export const useBoolean = (defaultValue = false) => {
   const off = useCallback(() => setBool(false), []);
 
   return [bool, { toggle, on, off }];
+};
+
+export const useGedHealth = () => {
+  const query = `
+    query GedHealthCheck {
+      gedHealthStatus {
+        status
+        message
+        timestamp
+      }
+    }
+  `;
+
+  const { data, isLoading, error, refetch } = useGraphqlQuery(query, null, {
+    skip: false,
+    keepStale: true,
+    type: "GED_HEALTH_CHECK",
+  });
+
+  const status = data?.gedHealthStatus?.status;
+
+  const result = {
+    checking: isLoading,
+    gedDown: status === "DOWN",
+    message: data?.gedHealthStatus?.message,
+    timestamp: data?.gedHealthStatus?.timestamp,
+    refetch,
+  };
+
+  return result;
 };

@@ -1,123 +1,121 @@
-import App from "./components/App";
-import React from "react";
-import messages_en from "./translations/en.json";
-import messages_fr from "./translations/fr.json";
-import KeepLegacyAlive from "./components/KeepLegacyAlive";
-import AutoSuggestion from "./components/inputs/AutoSuggestion";
-import Autocomplete from "./components/inputs/Autocomplete";
-import Contributions from "./components/generics/Contributions";
-import Block from "./components/generics/Block";
-import ControlledField from "./components/generics/ControlledField";
-import Error from "./components/generics/Error";
-import FatalError from "./components/generics/FatalError";
-import AlertForwarder from "./components/generics/AlertForwarder";
-import FieldLabel from "./components/generics/FieldLabel";
-import Form from "./components/generics/Form";
-import FormPanel from "./components/generics/FormPanel";
-import FormattedMessage from "./components/generics/FormattedMessage";
-import PagedDataHandler from "./components/generics/PagedDataHandler";
-import SelectInput from "./components/inputs/SelectInput";
-import TextInput from "./components/inputs/TextInput";
-import ValidatedTextInput from "./components/inputs/ValidatedTextInput";
-import TextAreaInput from "./components/inputs/TextAreaInput";
-import AmountInput from "./components/inputs/AmountInput";
-import NumberInput from "./components/inputs/NumberInput";
-import FakeInput from "./components/inputs/FakeInput";
-import MainMenuContribution from "./components/generics/MainMenuContribution";
-import ProgressOrError from "./components/generics/ProgressOrError";
-import ProxyPage from "./components/generics/ProxyPage";
-import PublishedComponent from "./components/generics/PublishedComponent";
-import Table from "./components/generics/Table";
-import SearcherExport from "./components/generics/SearcherExport";
-import Searcher from "./components/generics/Searcher";
-import SearcherPane from "./components/generics/SearcherPane";
-import AdDatePicker from "./pickers/AdDatePicker";
-import NeDatePicker from "./pickers/NeDatePicker";
-import Picker from "./components/generics/Picker";
-import ConstantBasedPicker from "./components/generics/ConstantBasedPicker";
-import YearPicker from "./pickers/YearPicker";
-import MonthPicker from "./pickers/MonthPicker";
-import LanguagePicker from "./pickers/LanguagePicker";
-import Helmet from "./helpers/Helmet";
-import AccountBox from "@material-ui/icons/AccountBox";
-import Roles from "./pages/Roles";
-import Role from "./pages/Role";
-import reducer from "./reducer";
-import ErrorBoundary from "./helpers/ErrorBoundary";
-import ConfirmDialog from "./components/dialogs/ConfirmDialog";
-import SelectDialog from "./components/dialogs/SelectDialog";
 import {
-  baseApiUrl,
   apiHeaders,
+  baseApiUrl,
+  clearCurrentPaginationPage,
+  coreAlert,
+  coreConfirm,
+  fetchMutation,
   graphql,
   graphqlMutation,
   graphqlMutationLegacy,
   graphqlWithVariables,
-  waitForMutation,
   journalize,
-  coreAlert,
-  coreConfirm,
-  fetchMutation,
-  prepareMutation,
-  clearCurrentPaginationPage,
   login,
+  prepareMutation,
+  waitForMutation,
 } from "./actions";
-import {
-  formatMessage,
-  formatMessageWithValues,
-  formatDateFromISO,
-  toISODate,
-  formatAmount,
-  withTooltip,
-  useTranslations,
-} from "./helpers/i18n";
+import App from "./components/App";
+import GedAlertBanner from "./components/GedAlertBanner";
+import KeepLegacyAlive from "./components/KeepLegacyAlive";
+import RefreshAuthToken from "./components/RefreshAuthToken";
+import ConfirmDialog from "./components/dialogs/ConfirmDialog";
+import SelectDialog from "./components/dialogs/SelectDialog";
+import AlertForwarder from "./components/generics/AlertForwarder";
+import Block from "./components/generics/Block";
+import CommonSnackbar from "./components/generics/CommonSnakbar";
+import ConstantBasedPicker from "./components/generics/ConstantBasedPicker";
+import Contributions from "./components/generics/Contributions";
+import ControlledField from "./components/generics/ControlledField";
+import Error from "./components/generics/Error";
+import FatalError from "./components/generics/FatalError";
+import FieldLabel from "./components/generics/FieldLabel";
+import Form from "./components/generics/Form";
+import FormPanel from "./components/generics/FormPanel";
+import FormattedMessage from "./components/generics/FormattedMessage";
+import MainMenuContribution from "./components/generics/MainMenuContribution";
+import PagedDataHandler from "./components/generics/PagedDataHandler";
+import Picker from "./components/generics/Picker";
+import ProgressOrError from "./components/generics/ProgressOrError";
+import ProxyPage from "./components/generics/ProxyPage";
+import PublishedComponent from "./components/generics/PublishedComponent";
+import Searcher from "./components/generics/Searcher";
+import SearcherExport from "./components/generics/SearcherExport";
+import SearcherPane from "./components/generics/SearcherPane";
+import Table from "./components/generics/Table";
+import AmountInput from "./components/inputs/AmountInput";
+import AutoSuggestion from "./components/inputs/AutoSuggestion";
+import Autocomplete from "./components/inputs/Autocomplete";
+import FakeInput from "./components/inputs/FakeInput";
+import NumberInput from "./components/inputs/NumberInput";
+import SelectInput from "./components/inputs/SelectInput";
+import TextAreaInput from "./components/inputs/TextAreaInput";
+import TextInput from "./components/inputs/TextInput";
+import ValidatedTextInput from "./components/inputs/ValidatedTextInput";
+import ErrorBoundary from "./helpers/ErrorBoundary";
+import Helmet from "./helpers/Helmet";
 import {
   decodeId,
-  encodeId,
-  formatQuery,
-  formatPageQuery,
-  formatPageQueryWithCount,
-  parseData,
-  pageInfo,
-  formatServerError,
-  formatGraphQLError,
-  formatMutation,
+  dispatchMutationErr,
   dispatchMutationReq,
   dispatchMutationResp,
-  dispatchMutationErr,
-  openBlob,
-  sort,
-  formatSorter,
+  encodeId,
   formatGQLString,
+  formatGraphQLError,
+  formatMutation,
   formatNodeQuery,
+  formatPageQuery,
+  formatPageQueryWithCount,
+  formatQuery,
+  formatServerError,
+  formatSorter,
+  openBlob,
+  pageInfo,
+  parseData,
+  sort,
 } from "./helpers/api";
 import { downloadExport } from "./helpers/downloadExport";
-import {
-  useDebounceCb,
-  usePrevious,
-  useGraphqlQuery,
-  useBoolean,
-  useGraphqlMutation,
-  useAuthentication,
-  useUserQuery,
-} from "./helpers/hooks";
 import withHistory, {
   historyPush,
-  useLocation,
+  Link,
+  NavLink,
+  Redirect,
   useHistory,
+  useLocation,
   useParams,
   useRouteMatch,
-  Link,
-  Redirect,
-  NavLink,
 } from "./helpers/history";
-import withModulesManager, { useModulesManager } from "./helpers/modules";
+import {
+  useAuthentication,
+  useBoolean,
+  useDebounceCb,
+  useGraphqlMutation,
+  useGraphqlQuery,
+  usePrevious,
+  useUserQuery,
+} from "./helpers/hooks";
+import {
+  formatAmount,
+  formatDateFromISO,
+  formatMessage,
+  formatMessageWithValues,
+  toISODate,
+  useTranslations,
+  withTooltip,
+} from "./helpers/i18n";
 import { formatJsonField } from "./helpers/jsonExt";
-import { RIGHT_ROLE_SEARCH } from "./constants";
+import withModulesManager, { useModulesManager } from "./helpers/modules";
 import { authMiddleware } from "./middlewares";
-import RefreshAuthToken from "./components/RefreshAuthToken";
-import CommonSnackbar from "./components/generics/CommonSnakbar";
+import Role from "./pages/Role";
+import Roles from "./pages/Roles";
+import AdDatePicker from "./pickers/AdDatePicker";
 import AdTimePicker from "./pickers/AdTimePicker";
+import LanguagePicker from "./pickers/LanguagePicker";
+import MonthPicker from "./pickers/MonthPicker";
+import NeDatePicker from "./pickers/NeDatePicker";
+import YearPicker from "./pickers/YearPicker";
+import reducer from "./reducer";
+import messages_en from "./translations/en.json";
+import messages_fr from "./translations/fr.json";
 const ROUTE_ROLES = "roles";
 const ROUTE_ROLE = "roles/role";
 
@@ -171,102 +169,103 @@ export function combine(...hocs) {
 export * from "./helpers/utils";
 
 export {
-  Helmet,
-  baseApiUrl,
+  AlertForwarder,
+  AmountInput,
   apiHeaders,
-  graphql,
-  graphqlWithVariables,
-  graphqlMutation,
-  graphqlMutationLegacy,
-  waitForMutation,
-  journalize,
-  fetchMutation,
-  prepareMutation,
-  downloadExport,
-  coreAlert,
-  coreConfirm,
-  clearCurrentPaginationPage,
-  openBlob,
-  sort,
-  formatSorter,
-  withHistory,
-  useLocation,
-  useHistory,
-  useParams,
-  useRouteMatch,
-  Link,
-  Redirect,
-  NavLink,
-  historyPush,
-  decodeId,
-  encodeId,
-  withModulesManager,
-  useModulesManager,
-  formatQuery,
-  formatPageQuery,
-  formatPageQueryWithCount,
-  formatMutation,
-  formatNodeQuery,
-  dispatchMutationReq,
-  dispatchMutationResp,
-  dispatchMutationErr,
-  parseData,
-  pageInfo,
-  formatServerError,
-  formatGraphQLError,
-  formatMessage,
-  formatMessageWithValues,
-  formatDateFromISO,
-  toISODate,
-  formatAmount,
-  formatGQLString,
-  formatJsonField,
-  withTooltip,
   App,
   Autocomplete,
   AutoSuggestion,
+  baseApiUrl,
   Block,
+  clearCurrentPaginationPage,
+  CommonSnackbar,
+  ConfirmDialog,
+  ConstantBasedPicker,
   Contributions,
   ControlledField,
-  Picker,
+  coreAlert,
+  coreConfirm,
+  decodeId,
+  dispatchMutationErr,
+  dispatchMutationReq,
+  dispatchMutationResp,
+  downloadExport,
+  encodeId,
   Error,
-  FatalError,
-  AlertForwarder,
-  SelectInput,
-  TextInput,
-  ValidatedTextInput,
-  TextAreaInput,
-  AmountInput,
+  ErrorBoundary,
   FakeInput,
-  YearPicker,
-  MonthPicker,
-  LanguagePicker,
-  PagedDataHandler,
-  Form,
-  FormPanel,
+  FatalError,
+  fetchMutation,
   FieldLabel,
+  Form,
+  formatAmount,
+  formatDateFromISO,
+  formatGQLString,
+  formatGraphQLError,
+  formatJsonField,
+  formatMessage,
+  formatMessageWithValues,
+  formatMutation,
+  formatNodeQuery,
+  formatPageQuery,
+  formatPageQueryWithCount,
+  formatQuery,
+  formatServerError,
+  formatSorter,
   FormattedMessage,
-  NumberInput,
+  FormPanel,
+  GedAlertBanner,
+  graphql,
+  graphqlMutation,
+  graphqlMutationLegacy,
+  graphqlWithVariables,
+  Helmet,
+  historyPush,
+  journalize,
+  LanguagePicker,
+  Link,
+  login,
   MainMenuContribution,
+  MonthPicker,
+  NavLink,
+  NumberInput,
+  openBlob,
+  PagedDataHandler,
+  pageInfo,
+  parseData,
+  Picker,
+  prepareMutation,
   ProgressOrError,
   ProxyPage,
   PublishedComponent,
-  Table,
-  SearcherExport,
+  Redirect,
   Searcher,
+  SearcherExport,
   SearcherPane,
   SelectDialog,
-  ConstantBasedPicker,
-  ErrorBoundary,
-  useTranslations,
-  useDebounceCb,
-  usePrevious,
-  useGraphqlQuery,
-  useGraphqlMutation,
-  useUserQuery,
-  ConfirmDialog,
+  SelectInput,
+  sort,
+  Table,
+  TextAreaInput,
+  TextInput,
+  toISODate,
   useAuthentication,
   useBoolean,
-  CommonSnackbar,
-  login,
+  useDebounceCb,
+  useGraphqlMutation,
+  useGraphqlQuery,
+  useHistory,
+  useLocation,
+  useModulesManager,
+  useParams,
+  usePrevious,
+  useRouteMatch,
+  useTranslations,
+  useUserQuery,
+  ValidatedTextInput,
+  waitForMutation,
+  withHistory,
+  withModulesManager,
+  withTooltip,
+  YearPicker,
 };

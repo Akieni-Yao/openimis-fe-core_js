@@ -1,14 +1,14 @@
+import _ from "lodash";
 import {
-  parseData,
   decodeId,
-  pageInfo,
-  formatGraphQLError,
-  formatServerError,
+  dispatchMutationErr,
   dispatchMutationReq,
   dispatchMutationResp,
-  dispatchMutationErr,
+  formatGraphQLError,
+  formatServerError,
+  pageInfo,
+  parseData,
 } from "./helpers/api";
-import _ from "lodash";
 
 function reducer(
   state = {
@@ -76,10 +76,9 @@ function reducer(
       delete s.confirm;
       return s;
     case "CORE_USERS_CURRENT_USER_RESP":
-      return {
-        ...state,
-        user: action.payload,
-      };
+      var s = { ...state, user: action.payload };
+      delete s.error; // Nettoyer l'erreur quand le user est chargé avec succès
+      return s;
     case "CORE_USERS_CURRENT_USER_ERR":
       return {
         ...state,
@@ -347,10 +346,9 @@ function reducer(
           authError: formatGraphQLError(action.payload),
         };
       }
-      return {
-        ...state,
-        authError: null,
-      };
+      var s = { ...state, authError: null };
+      delete s.error;
+      return s;
     }
     case "CORE_AUTH_ERR": {
       return {
@@ -360,10 +358,11 @@ function reducer(
       };
     }
     case "CORE_INITIALIZED":
-      return {
-        ...state,
-        isInitialized: true,
-      };
+      var s = { ...state, isInitialized: true };
+      if (state.user) {
+        delete s.error;
+      }
+      return s;
     case "CORE_AUTH_LOGOUT":
       return {
         ...state,
