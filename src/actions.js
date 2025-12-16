@@ -1,14 +1,14 @@
-import { RSAA } from "redux-api-middleware";
-import uuid from "lodash-uuid";
 import _ from "lodash";
+import uuid from "lodash-uuid";
+import { RSAA } from "redux-api-middleware";
 import {
-  formatQuery,
-  formatPageQuery,
-  formatPageQueryWithCount,
+  decodeId,
   formatGQLString,
   formatMutation,
+  formatPageQuery,
+  formatPageQueryWithCount,
+  formatQuery,
   formatServerError,
-  decodeId,
 } from "./helpers/api";
 
 const ROLE_FULL_PROJECTION = () => [
@@ -577,5 +577,13 @@ export function markNotificationAsRead(data, clientMutationLabel) {
   var requestedDateTime = new Date();
   return graphql(mutation, ["CORE_ROLE_MUTATION_REQ", "CORE_CREATE_NOTIFICATION_RESP", "CORE_ROLE_MUTATION_ERR"], {
     clientMutationLabel,
+  });
+}
+
+export function fetchGedHealthStatus() {
+  return fetch({
+    endpoint: `${baseApiUrl}/insuree/ged-health-check/`,
+    method: "GET",
+    types: ["GED_HEALTH_CHECK_REQ", "GED_HEALTH_CHECK_RESP", "GED_HEALTH_CHECK_ERR"],
   });
 }

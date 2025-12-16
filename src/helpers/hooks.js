@@ -3,6 +3,7 @@ import _ from "lodash";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  fetchGedHealthStatus,
   graphqlMutation,
   graphqlMutation2,
   graphqlWithVariables,
@@ -280,31 +281,56 @@ export const useBoolean = (defaultValue = false) => {
 };
 
 export const useGedHealth = () => {
-  const query = `
-    query GedHealthCheck {
-      gedHealthStatus {
-        status
-        message
-        timestamp
-      }
-    }
-  `;
-
-  const { data, isLoading, error, refetch } = useGraphqlQuery(query, null, {
-    skip: false,
-    keepStale: true,
-    type: "GED_HEALTH_CHECK",
+  const dispatch = useDispatch();
+  const [state, setState] = useState({
+    checking: true,
+    gedDown: false,
+    message: null,
+    timestamp: null,
+    error: null,
   });
 
-  const status = data?.gedHealthStatus?.status;
+  const fetchHealth = useCallback(async () => {
+    try {
+      setState((prev) => ({ ...prev, checking: true }));
 
-  const result = {
-    checking: isLoading,
-    gedDown: status === "DOWN",
-    message: data?.gedHealthStatus?.message,
-    timestamp: data?.gedHealthStatus?.timestamp,
-    refetch,
+      const response = await dispatch(fetchGedHealthStatus());
+
+      if (response.error) {
+        setState({
+          checking: false,
+          gedDown: true,
+          message: "Erreur lors de la vérification du statut GED",
+          timestamp: new Date().toISOString(),
+          error: response.payload,
+        });
+      } else {
+        const data = response.payload;
+        setState({
+          checking: false,
+          gedDown: data.status === "DOWN",
+          message: data.message,
+          timestamp: data.timestamp,
+          error: null,
+        });
+      }
+    } catch (err) {
+      setState({
+        checking: false,
+        gedDown: true,
+        message: "Erreur lors de la vérification du statut GED",
+        timestamp: new Date().toISOString(),
+        error: err,
+      });
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    fetchHealth();
+  }, [fetchHealth]);
+
+  return {
+    ...state,
+    refetch: fetchHealth,
   };
-
-  return result;
 };
