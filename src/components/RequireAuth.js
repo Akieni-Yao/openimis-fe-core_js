@@ -1,39 +1,37 @@
-import React, { useMemo, useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route, Link, useRouteMatch, useParams, useLocation } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
 
-import withWidth from "@material-ui/core/withWidth";
-import { Redirect } from "../helpers/history";
-import { alpha, useTheme, makeStyles } from "@material-ui/core/styles";
-import { useModulesManager } from "../helpers/modules";
-import LogoutButton from "./LogoutButton";
-import Help from "../pages/Help";
-import clsx from "clsx";
 import {
   AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Drawer,
-  Divider,
-  Tooltip,
   Button,
-  Hidden,
   ClickAwayListener,
+  Divider,
+  Drawer,
+  Hidden,
+  IconButton,
+  Toolbar,
+  Tooltip,
+  Typography,
 } from "@material-ui/core";
+import { alpha, makeStyles, useTheme } from "@material-ui/core/styles";
+import withWidth from "@material-ui/core/withWidth";
 import MenuIcon from "@material-ui/icons/Menu";
-import Contributions from "./generics/Contributions";
-import FormattedMessage from "./generics/FormattedMessage";
-import JournalDrawer from "./JournalDrawer";
-import { useBoolean, useAuthentication } from "../helpers/hooks";
-import { useGraphqlQuery } from "@openimis/fe-core";
-import { formatMessageWithValues, withModulesManager, withHistory, historyPush } from "@openimis/fe-core";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import { useDispatch, useSelector } from "react-redux";
+import { useGraphqlQuery } from "@openimis/fe-core";
+import clsx from "clsx";
 import { useIdleTimer } from "react-idle-timer/dist/index.legacy.cjs.js"; // otherwise not building: https://github.com/SupremeTechnopriest/react-idle-timer/issues/350
+import { useDispatch, useSelector } from "react-redux";
 import { CheckAssignedProfile, logout } from "../actions";
+import { Redirect } from "../helpers/history";
+import { useAuthentication, useBoolean } from "../helpers/hooks";
+import { useModulesManager } from "../helpers/modules";
 import NotificationDialog from "./dialogs/NotificationDialog";
-import PageTitle from "./hooks/pageTitle";
 import GedAlertBanner from "./GedAlertBanner";
+import Contributions from "./generics/Contributions";
+import PageTitle from "./hooks/pageTitle";
+import JournalDrawer from "./JournalDrawer";
+import LogoutButton from "./LogoutButton";
+import OdooAlertBanner from "./OdooAlertBanner";
 // npm i cookie_js
 import cookie from "cookie_js";
 
@@ -361,6 +359,7 @@ const RequireAuth = (props) => {
         })}
       >
         <GedAlertBanner />
+        <OdooAlertBanner />
         {!hideMenu && <PageTitle />}
         {children}
       </main>
