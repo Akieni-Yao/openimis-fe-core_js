@@ -2,10 +2,11 @@ import { apiHeaders, baseApiUrl } from "@openimis/fe-core";
 import cookie from "cookie_js";
 import { useEffect, useState } from "react";
 
-const API_URL = `${baseApiUrl}/insuree/ged-health-check/`;
-export const useGedHealthCheck = () => {
+const API_URL = `${baseApiUrl}/policyholder/odoo-health-check/`;
+
+export const useOdooHealthCheck = () => {
   const [healthStatus, setHealthStatus] = useState({
-    isGedDown: false,
+    isOdooDown: false,
     isChecking: false,
   });
 
@@ -20,31 +21,28 @@ export const useGedHealthCheck = () => {
           credentials: "same-origin",
         });
 
-        if (response.status != 200) {
-          throw new Error(`Failed to fetch GED health status: ${response.statusText}`);
+        if (!response.ok && response.status !== 503) {
+          throw new Error(`Failed to fetch Odoo health status: ${response.statusText}`);
         }
 
-        const payload = await response.json();
-
         setHealthStatus((prev) => ({
           ...prev,
           isChecking: false,
-          isGedDown: payload.status !== 200,
+          isOdooDown: response.status === 503,
         }));
 
-        // sessionStorage.setItem("gedHealthStatus", payload.status === 200 ? "UP" : "DOWN");
-        cookie.set("gedHealthStatus", payload.status === 200 ? "UP" : "DOWN", { expires: 5 / 1440 });
+        cookie.set("odooHealthStatus", response.status === 503 ? "DOWN" : "UP", { expires: 5 / 1440 });
       } catch (err) {
-        console.error("Error fetching GED health status:", err);
+        console.error("Error fetching Odoo health status:", err);
         setHealthStatus((prev) => ({
           ...prev,
           isChecking: false,
-          isGedDown: true,
+          isOdooDown: true,
         }));
       }
     };
 
-    const storedStatus = cookie.get("gedHealthStatus") || false;
+    const storedStatus = cookie.get("odooHealthStatus") || false;
 
     if (!storedStatus) {
       fetchHealthStatus();
@@ -52,7 +50,7 @@ export const useGedHealthCheck = () => {
       setHealthStatus((prev) => ({
         ...prev,
         isChecking: false,
-        isGedDown: storedStatus !== "UP",
+        isOdooDown: storedStatus !== "UP",
       }));
     }
   }, []);
