@@ -348,6 +348,8 @@ export function logout() {
     await dispatch(graphqlMutation(mutation, {}));
     localStorage.removeItem("userLanguage");
     localStorage.removeItem("userId");
+    sessionStorage.removeItem("gedHealthStatus");
+    sessionStorage.removeItem("odooHealthStatus");
     return dispatch({ type: "CORE_AUTH_LOGOUT" });
   };
 }
