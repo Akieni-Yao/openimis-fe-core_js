@@ -258,15 +258,6 @@ const fosa = [
   },
 ];
 
-const location = [
-  {
-    parent: "core.routes.location.mainMenu",
-    title: "core.routes.location.title",
-    path: "/location",
-    subtitle: "core.routes.location.subtitle",
-  },
-];
-
 const outils = [
   {
     parent: "tools.mainMenu",
@@ -429,7 +420,6 @@ export const routePages = [
   ...administration,
   ...category,
   ...fosa,
-  ...location,
   ...outils,
   ...profile,
   ...souscripteursBase,
