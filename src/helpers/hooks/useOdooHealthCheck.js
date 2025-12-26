@@ -28,7 +28,7 @@ export const useOdooHealthCheck = () => {
         setHealthStatus((prev) => ({
           ...prev,
           isChecking: false,
-          isOdooDown: response.status === 503,
+          isOdooDown: response?.status !== 200,
         }));
 
         cookie.set("odooHealthStatus", response?.status === 200 ? "UP" : "DOWN", { expires: 5 / 1440 });
