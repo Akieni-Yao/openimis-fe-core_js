@@ -19,7 +19,7 @@ export default function OdooAlertBanner() {
         boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
       }}
     >
-      ⚠️ Le service Odoo est actuellement indisponible.
+      ⚠️ Le service Odoo est actuellement indisponible. Veuillez contacter l'équipe technique.
     </div>
   );
 }
