@@ -21,7 +21,7 @@ export const useOdooHealthCheck = () => {
           credentials: "same-origin",
         });
 
-        if (!response.ok && response.status !== 503) {
+        if (response?.status !== 200) {
           throw new Error(`Failed to fetch Odoo health status: ${response.statusText}`);
         }
 
