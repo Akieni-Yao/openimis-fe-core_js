@@ -181,6 +181,12 @@ const fosa = [
   },
   {
     parent: "admin.fosaMenu",
+    title: "core.routes.fosa.healthFacilityDetail.title",
+    path: "/location/healthFacility/:uuid",
+    subtitle: "core.routes.fosa.healthFacilityDetail.subtitle",
+  },
+  {
+    parent: "admin.fosaMenu",
     title: "admin.menu.medicalServicesPrices",
     path: "/medical/pricelists/services",
     subtitle: "core.routes.fosa.medicalServicesPrices.subtitle",
@@ -255,15 +261,6 @@ const fosa = [
     path: "/claim/preauthorization/approval",
     title: "core.routes.fosa.preauthorizationApproval.title",
     subtitle: "core.routes.fosa.preauthorizationApproval.subtitle",
-  },
-];
-
-const location = [
-  {
-    parent: "core.routes.location.mainMenu",
-    title: "core.routes.location.title",
-    path: "/location",
-    subtitle: "core.routes.location.subtitle",
   },
 ];
 
@@ -429,7 +426,6 @@ export const routePages = [
   ...administration,
   ...category,
   ...fosa,
-  ...location,
   ...outils,
   ...profile,
   ...souscripteursBase,
