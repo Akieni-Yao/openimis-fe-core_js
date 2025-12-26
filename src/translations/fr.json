@@ -63,6 +63,8 @@
   "core.routes.category.declarationsAudit.title": "Audit des déclarations",
   "core.routes.category.declarationsAudit.subtitle": "Consulter l'audit des déclarations",
   "core.routes.fosa.healthFacilities.subtitle": "Gérer les formations sanitaires",
+  "core.routes.fosa.healthFacilityDetail.title": "Détail de la formation sanitaire",
+  "core.routes.fosa.healthFacilityDetail.subtitle": "Consulter et modifier les informations de la formation sanitaire",
   "core.routes.fosa.medicalServicesPrices.subtitle": "Gérer les paquets de soins pour les actes médicaux",
   "core.routes.fosa.medicalItemsPrices.subtitle": "Gérer les paquets de soins pour les produits médicaux",
   "core.routes.fosa.medicalServices.subtitle": "Gérer les actes médicaux disponibles",

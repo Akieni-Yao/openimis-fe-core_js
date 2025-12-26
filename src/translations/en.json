@@ -125,6 +125,8 @@
   "core.routes.category.declarationsAudit.title": "Declarations Audit",
   "core.routes.category.declarationsAudit.subtitle": "View declarations audit",
   "core.routes.fosa.healthFacilities.subtitle": "Manage health facilities",
+  "core.routes.fosa.healthFacilityDetail.title": "Health Facility Details",
+  "core.routes.fosa.healthFacilityDetail.subtitle": "View and edit health facility information",
   "core.routes.fosa.medicalServicesPrices.subtitle": "Manage care packages for medical acts",
   "core.routes.fosa.medicalItemsPrices.subtitle": "Manage care packages for medical products",
   "core.routes.fosa.medicalServices.subtitle": "Manage available medical acts",

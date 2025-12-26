@@ -181,6 +181,12 @@ const fosa = [
   },
   {
     parent: "admin.fosaMenu",
+    title: "core.routes.fosa.healthFacilityDetail.title",
+    path: "/location/healthFacility/:uuid",
+    subtitle: "core.routes.fosa.healthFacilityDetail.subtitle",
+  },
+  {
+    parent: "admin.fosaMenu",
     title: "admin.menu.medicalServicesPrices",
     path: "/medical/pricelists/services",
     subtitle: "core.routes.fosa.medicalServicesPrices.subtitle",
