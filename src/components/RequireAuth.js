@@ -1,22 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import {
-  AppBar,
-  Button,
-  ClickAwayListener,
-  Divider,
-  Drawer,
-  Hidden,
-  IconButton,
-  Toolbar,
-  Tooltip,
-  Typography,
-} from "@material-ui/core";
+import { AppBar, Button, ClickAwayListener, Divider, Drawer, Hidden, IconButton, Toolbar } from "@material-ui/core";
 import { alpha, makeStyles, useTheme } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import MenuIcon from "@material-ui/icons/Menu";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import { useGraphqlQuery } from "@openimis/fe-core";
 import clsx from "clsx";
 import { useIdleTimer } from "react-idle-timer/dist/index.legacy.cjs.js"; // otherwise not building: https://github.com/SupremeTechnopriest/react-idle-timer/issues/350
@@ -47,9 +35,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   logo: {
+    height: 40,
+    marginRight: theme.spacing(1.5),
     verticalAlign: "middle",
-    margin: theme.typography.title.fontSize / 2,
-    maxHeight: theme.typography.title.fontSize * 2,
   },
   appBar: {
     paddingRight: theme.jrnlDrawer.close.width,
@@ -67,8 +55,8 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   menuButton: {
-    margin: theme.spacing(0, 1, 0, 1),
-    padding: 0,
+    marginRight: theme.spacing(2),
+    padding: theme.spacing(1),
     transition: "background-color 0.3s ease",
     "&:hover": {
       backgroundColor: "rgba(255, 159, 28, 0.2)",
@@ -82,6 +70,11 @@ const useStyles = makeStyles((theme) => ({
   toolbar: {
     ...theme.mixins.toolbar,
     marginTop: theme.spacing(2),
+    minHeight: 64,
+    display: "flex",
+    alignItems: "center",
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
   },
   drawer: {
     [theme.breakpoints.up("sm")]: {
@@ -112,9 +105,13 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.menu.drawer.width,
   },
   appName: {
+    display: "flex",
+    alignItems: "center",
     color: theme.palette.secondary.main,
     textTransform: "none",
-    fontSize: theme.typography.title.fontSize,
+    fontSize: "1.25rem",
+    fontWeight: 600,
+    padding: theme.spacing(1, 2),
     transition: "background-color 0.3s ease",
     "&:hover": {
       backgroundColor: "rgba(255, 159, 28, 0.2)",
@@ -300,7 +297,7 @@ const RequireAuth = (props) => {
               [classes.appBarShift]: isOpen && theme.breakpoints.up("md"),
             })}
           >
-            <Toolbar>
+            <Toolbar style={{ minHeight: 64, paddingLeft: 16, paddingRight: 16 }}>
               <IconButton
                 color="inherit"
                 onClick={setOpen.toggle}
@@ -311,18 +308,20 @@ const RequireAuth = (props) => {
               <Button className={classes.appName} onClick={(e) => (window.location.href = "/front")}>
                 {isAppBarMenu && (
                   <Hidden smDown implementation="css">
-                    <img className={classes.logo} src={logo} />
+                    <img className={classes.logo} src={logo} alt="CAMU Logo" />
                   </Hidden>
                 )}
-                CAMU
+                CAMU IMS
               </Button>
-              <Hidden smDown implementation="css">
+
+              {/* <Hidden smDown implementation="css">
                 <Tooltip title={modulesManager.getModulesVersions().join(", ")}>
                   <Typography variant="caption" className={classes.appVersions}>
-                    {/* {modulesManager.getOpenIMISVersion()} */}
+                    {modulesManager.getOpenIMISVersion()}
                   </Typography>
                 </Tooltip>
-              </Hidden>
+              </Hidden> */}
+
               {isAppBarMenu && (
                 <Hidden smDown implementation="css">
                   <Contributions {...others} menuVariant="AppBar" contributionKey={MAIN_MENU_CONTRIBUTION_KEY}>
@@ -330,15 +329,17 @@ const RequireAuth = (props) => {
                   </Contributions>
                 </Hidden>
               )}
-              <Contributions {...others} contributionKey={APP_BAR_CONTRIBUTION_KEY}>
-                <div className={classes.grow} />
+
+              <div className={classes.grow} />
+
+              {/* <Contributions {...others} contributionKey={APP_BAR_CONTRIBUTION_KEY}>
                 <div onClick={bellIcon} className={classes.iconContainer}>
                   <div>
                     <div className={classes.iconBtn}>{getNotification?.notificationListTotalCount}</div>
                     <NotificationsIcon />
                   </div>
                 </div>
-              </Contributions>
+              </Contributions> */}
 
               <LogoutButton />
               {/* <Help /> */}
