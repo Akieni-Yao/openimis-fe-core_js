@@ -46,6 +46,18 @@ const administration = [
   },
   {
     parent: "admin.mainMenu",
+    path: "/admin/fosaLevel/contributionPlans",
+    title: "admin.fosaLevelContributionPlans.title",
+    subtitle: "core.routes.administration.fosaLevelContributionPlans.subtitle",
+  },
+  {
+    parent: "admin.fosaLevel.contributionPlans",
+    path: "/admin/fosaLevel/contributionPlans/acts",
+    title: "core.routes.administration.fosaLevelContributionPlans.acts.title",
+    subtitle: "core.routes.administration.fosaLevelContributionPlans.acts.subtitle",
+  },
+  {
+    parent: "admin.mainMenu",
     path: "/admin/operation",
     title: "core.routes.administration.operations.title",
     subtitle: "core.routes.administration.operations.subtitle",
