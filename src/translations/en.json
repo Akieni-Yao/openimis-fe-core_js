@@ -84,6 +84,8 @@
   "core.routes.affiliation.policies.subtitle": "Manage insurance policies",
   "core.routes.affiliation.assignment.title": "User assignment",
   "core.routes.affiliation.assignment.subtitle": "Assign users to pending approvals",
+  "core.routes.affiliation.biometricExport.title": "Biometric Export",
+  "core.routes.affiliation.biometricExport.subtitle": "Export biometric data for insureds",
   "core.routes.administration.users.subtitle": "Manage system users",
   "core.routes.administration.bank.title": "Bank",
   "core.routes.administration.bank.subtitle": "Manage banking information",

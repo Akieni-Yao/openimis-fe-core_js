@@ -22,6 +22,8 @@
   "core.routes.affiliation.policies.subtitle": "Gérer les polices d'assurance",
   "core.routes.affiliation.assignment.title": "Affectation d'un utilisateur",
   "core.routes.affiliation.assignment.subtitle": "Affecter des utilisateurs aux approbations en attente",
+  "core.routes.affiliation.biometricExport.title": "Export biométrique",
+  "core.routes.affiliation.biometricExport.subtitle": "Exporter les données biométriques des assurés",
   "core.routes.administration.users.subtitle": "Gérer les utilisateurs du système",
   "core.routes.administration.bank.title": "Bank",
   "core.routes.administration.bank.subtitle": "Gérer les informations bancaires",
