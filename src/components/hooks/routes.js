@@ -23,6 +23,12 @@ const affiliation = [
     path: "/insuree/insurees/PendingApprovalAssignemnt",
     subtitle: "core.routes.affiliation.assignment.subtitle",
   },
+  {
+    parent: "insuree.mainMenu",
+    path: "/insuree/biometric-export",
+    title: "core.routes.affiliation.biometricExport.title",
+    subtitle: "core.routes.affiliation.biometricExport.subtitle",
+  },
 ];
 
 const administration = [
