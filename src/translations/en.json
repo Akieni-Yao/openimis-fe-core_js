@@ -120,6 +120,8 @@
   "core.routes.payment.invoices.title": "Invoices",
   "core.routes.payment.invoices.subtitle": "Approve and manage invoices",
   "core.routes.category.products.subtitle": "Manage insured categories",
+  "admin.menu.productType": "Product Type",
+  "core.routes.category.productTypes.subtitle": "Manage product types",
   "core.routes.category.contributions.title": "Contributions",
   "core.routes.category.contributions.subtitle": "Manage contribution plans",
   "core.routes.category.contributionBundles.title": "Contribution rates/bundles",

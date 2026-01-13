@@ -18,6 +18,8 @@
   "core.routes.home.title": "Accueil",
   "core.routes.home.subtitle": "",
   "core.routes.affiliation.families.subtitle": "Gérer et consulter les familles d'assurés",
+  "admin.menu.productType": "Type de produit",
+  "core.routes.category.productTypes.subtitle": "Gérer les types de produits",
   "core.routes.affiliation.insurees.subtitle": "Gérer et consulter les assurés individuels",
   "core.routes.affiliation.policies.subtitle": "Gérer les polices d'assurance",
   "core.routes.affiliation.assignment.title": "Affectation d'un utilisateur",

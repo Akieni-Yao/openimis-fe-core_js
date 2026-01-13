@@ -160,6 +160,12 @@ const category = [
   },
   {
     parent: "admin.productMenu",
+    title: "admin.menu.productType",
+    path: "/admin/product-types",
+    subtitle: "core.routes.category.productTypes.subtitle",
+  },
+  {
+    parent: "admin.productMenu",
     title: "core.routes.category.contributions.title",
     path: "/contributionPlans",
     subtitle: "core.routes.category.contributions.subtitle",
