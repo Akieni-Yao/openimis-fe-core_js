@@ -59,7 +59,7 @@
   "core.routes.payment.reviews.subtitle": "Contrôler et approuver les factures pour paiement",
   "core.routes.payment.batch.subtitle": "Évaluer les demandes de paiement par lots",
   "core.routes.payment.requests.subtitle": "Gérer les demandes de paiement des formations sanitaires",
-  "core.routes.payment.invoices.title": "Invoices",
+  "core.routes.payment.invoices.title": "Factures",
   "core.routes.payment.invoices.subtitle": "Approuver et gérer les factures",
   "core.routes.category.products.subtitle": "Gérer les catégories d'assurés",
   "core.routes.category.contributions.title": "Cotisations",
