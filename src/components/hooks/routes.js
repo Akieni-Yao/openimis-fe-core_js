@@ -240,6 +240,11 @@ const fosa = [
   },
   {
     parent: "Fosa",
+    title: "Gestion des Produits médicaux",
+    path: "/healthServiceManagementProducts",
+  },
+  {
+    parent: "Fosa",
     title: "Verification",
     path: "/insuree/insurees/verifyinsuree",
     subtitle: "core.routes.fosa.verification.subtitle",
