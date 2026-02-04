@@ -1,27 +1,28 @@
-import React, { useMemo, useState, useEffect } from "react";
-import { useHistory } from "../helpers/history";
-import { makeStyles } from "@material-ui/styles";
 import {
-  Button,
   Box,
-  Grid,
-  Paper,
-  LinearProgress,
+  Button,
   Checkbox,
   FormControlLabel,
+  Grid,
   IconButton,
   InputAdornment,
+  LinearProgress,
+  Paper,
   TextField,
 } from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
-import TextInput from "../components/inputs/TextInput";
-import { useTranslations } from "../helpers/i18n";
-import { useModulesManager } from "../helpers/modules";
-import Helmet from "../helpers/Helmet";
-import { useAuthentication } from "../helpers/hooks";
-import Contributions from "./../components/generics/Contributions";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import Alert from "@material-ui/lab/Alert";
+import { makeStyles } from "@material-ui/styles";
+import cookie from "cookie_js";
+import React, { useEffect, useState } from "react";
+import TextInput from "../components/inputs/TextInput";
+import Helmet from "../helpers/Helmet";
+import { useHistory } from "../helpers/history";
+import { useAuthentication } from "../helpers/hooks";
+import { useTranslations } from "../helpers/i18n";
+import { useModulesManager } from "../helpers/modules";
+import Contributions from "./../components/generics/Contributions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -83,6 +84,11 @@ const LoginPage = ({ logo, backgroundImage }) => {
   };
 
   useEffect(() => {
+    cookie.remove("gedHealthStatus");
+    cookie.remove("odooHealthStatus");
+  }, []);
+
+  useEffect(() => {
     if (auth.isAuthenticated) {
       history.push("/");
     } else {
@@ -97,7 +103,7 @@ const LoginPage = ({ logo, backgroundImage }) => {
     }
   }, []);
 
-  console.log("==> cred", credentials)
+  console.log("==> cred", credentials);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -105,12 +111,12 @@ const LoginPage = ({ logo, backgroundImage }) => {
     setAuthenticating(true);
 
     if (!rememberMe) {
-      console.log("Don't remember")
+      console.log("Don't remember");
       // If "Remember Me" is unchecked, clear the saved credentials.
       localStorage.removeItem("rememberedUsername");
       localStorage.removeItem("rememberedPassword");
     } else {
-      console.log("Remember")
+      console.log("Remember");
       // If "Remember Me" is checked, save the username and password.
       localStorage.setItem("rememberedUsername", credentials.username);
       localStorage.setItem("rememberedPassword", credentials.password);
