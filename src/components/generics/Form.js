@@ -458,7 +458,7 @@ class Form extends Component {
             )
           : ""}
         {/* {(!!this.props.email && this.props.edited.email != "") ? */}
-        {this.props.print && !this.state.hideMenuNavigation && this.props.edited.email != ""
+        {this.props.print && !this.state.hideMenuNavigation
           ? withTooltip(
               <div>
                 <div className={classes.fab} style={{ marginBottom: "320px" }}>
