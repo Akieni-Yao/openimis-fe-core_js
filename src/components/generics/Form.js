@@ -475,7 +475,7 @@ class Form extends Component {
               // saveTooltip || formatMessage(this.props.intl, module, "saveTooltip"),
             )
           : ""}
-        {!!this.props.email && this.props.edited.email != ""
+        {!!this.props.edited.email && this.props.edited.email.includes("@")
           ? withTooltip(
               <div className={classes.fab} style={{ marginBottom: "250px" }}>
                 <Fab
