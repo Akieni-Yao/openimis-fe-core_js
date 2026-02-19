@@ -157,6 +157,8 @@ class Form extends Component {
       submitted,
       ...others
     } = this.props;
+    const editedEmail = (edited && edited.email) || email || "";
+    const isValidEmail = !!editedEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(editedEmail);
     let userId = localStorage.getItem("userId");
     return (
       <Fragment>
@@ -475,13 +477,12 @@ class Form extends Component {
               // saveTooltip || formatMessage(this.props.intl, module, "saveTooltip"),
             )
           : ""}
-        {!!this.props.edited.email && this.props.edited.email.includes("@")
+        {this.props.email && editedEmail
           ? withTooltip(
               <div className={classes.fab} style={{ marginBottom: "250px" }}>
                 <Fab
                   color="primary"
-                  disabled={!!success ? true : false}
-                  // disabled={!!this.state.saving || (!!canSave && !canSave())}
+                  disabled={!!success || !isValidEmail}
                   onClick={(e) => emailButton(this.props.edited)}
                 >
                   <EmailIcon />
