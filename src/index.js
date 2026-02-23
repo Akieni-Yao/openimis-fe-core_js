@@ -61,6 +61,7 @@ import {
   prepareMutation,
   clearCurrentPaginationPage,
   login,
+  fetchUserRoleHistory,
 } from "./actions";
 import {
   formatMessage,
@@ -269,4 +270,5 @@ export {
   useBoolean,
   CommonSnackbar,
   login,
+  fetchUserRoleHistory,
 };

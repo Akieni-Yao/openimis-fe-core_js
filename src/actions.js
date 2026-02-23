@@ -517,6 +517,76 @@ export function roleNameSetValid() {
   };
 }
 
+const USER_ROLE_HISTORY_QUERY = `
+  query UserRoleHistory(
+    $userId: UUID
+    $roleId: Int
+    $entityType: UserRoleHistoryEntityType
+    $action: UserRoleHistoryAction
+    $dateFrom: DateTime
+    $dateTo: DateTime
+    $first: Int
+    $offset: Int
+    $orderBy: [String]
+  ) {
+    userRoleHistory(
+      userId: $userId
+      roleId: $roleId
+      entityType: $entityType
+      action: $action
+      dateFrom: $dateFrom
+      dateTo: $dateTo
+      first: $first
+      offset: $offset
+      orderBy: $orderBy
+    ) {
+      totalCount
+      edges {
+        node {
+          id
+          entityType
+          action
+          userId
+          interactiveUserId
+          roleId
+          userRoleId
+          performedBy {
+            id
+            username
+          }
+          performedAt
+          changesJson
+          metadataJson
+        }
+        cursor
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+`;
+
+export function fetchUserRoleHistory(filters = {}, page = 0, pageSize = 20) {
+  return (dispatch) => {
+    const variables = {
+      userId: filters.userId || undefined,
+      roleId: filters.roleId != null && filters.roleId !== "" ? parseInt(filters.roleId, 10) : undefined,
+      entityType: filters.entityType || undefined,
+      action: filters.action || undefined,
+      dateFrom: filters.dateFrom ? (filters.dateFrom.toISOString ? filters.dateFrom.toISOString() : filters.dateFrom) : undefined,
+      dateTo: filters.dateTo ? (filters.dateTo.toISOString ? filters.dateTo.toISOString() : filters.dateTo) : undefined,
+      first: pageSize,
+      offset: page * pageSize,
+      orderBy: ["-performedAt"],
+    };
+    return dispatch(graphqlWithVariables(USER_ROLE_HISTORY_QUERY, variables, "USER_ROLE_HISTORY"));
+  };
+}
+
 export function saveCurrentPaginationPage(page, afterCursor, beforeCursor, module) {
   return (dispatch) => {
     dispatch({ type: "CORE_PAGINATION_PAGE", payload: { page, afterCursor, beforeCursor, module } });
