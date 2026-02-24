@@ -41,8 +41,8 @@ const administration = [
   {
     parent: "admin.mainMenu",
     path: "/admin/user-role-history",
-    title: "admin.userRoleHistory.title",
-    subtitle: "admin.userRoleHistory.subtitle",
+    title: "admin.menu.userRoleHistory",
+    subtitle: "core.routes.administration.userRoleHistory.subtitle",
   },
   {
     parent: "admin.mainMenu",

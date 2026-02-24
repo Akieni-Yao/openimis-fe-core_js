@@ -67,9 +67,18 @@ const findMatchingRoute = (routes, currentPathname) => {
 
 function UsePageTitle() {
   const location = useLocation();
-  const { pathname } = location;
+  const { pathname: rawPathname } = location;
   const intl = useIntl();
-  const [page, setPage] = React.useState({ path: pathname });
+  const [page, setPage] = React.useState({ path: rawPathname });
+
+  const pathname = React.useMemo(() => {
+    const base = process.env.PUBLIC_URL || "";
+    if (base && rawPathname.startsWith(base)) {
+      const stripped = rawPathname.slice(base.length) || "/";
+      return stripped;
+    }
+    return rawPathname;
+  }, [rawPathname]);
 
   React.useEffect(() => {
     const matchedRoute = findMatchingRoute(routePages, pathname);
