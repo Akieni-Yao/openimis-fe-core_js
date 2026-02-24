@@ -534,7 +534,7 @@ const USER_ROLE_HISTORY_QUERY = `
           newValues
           userId
           targetUserIdentifier
-          performedBy {
+          user {
             id
             username
           }
