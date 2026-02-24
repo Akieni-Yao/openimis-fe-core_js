@@ -1,14 +1,14 @@
-import { RSAA } from "redux-api-middleware";
-import uuid from "lodash-uuid";
 import _ from "lodash";
+import uuid from "lodash-uuid";
+import { RSAA } from "redux-api-middleware";
 import {
-  formatQuery,
-  formatPageQuery,
-  formatPageQueryWithCount,
+  decodeId,
   formatGQLString,
   formatMutation,
+  formatPageQuery,
+  formatPageQueryWithCount,
+  formatQuery,
   formatServerError,
-  decodeId,
 } from "./helpers/api";
 
 const ROLE_FULL_PROJECTION = () => [
@@ -518,47 +518,35 @@ export function roleNameSetValid() {
 }
 
 const USER_ROLE_HISTORY_QUERY = `
-  query UserRoleHistory(
-    $userId: UUID
-    $roleId: Int
-    $entityType: UserRoleHistoryEntityType
-    $action: UserRoleHistoryAction
-    $dateFrom: DateTime
-    $dateTo: DateTime
-    $first: Int
-    $offset: Int
-    $orderBy: [String]
-  ) {
-    userRoleHistory(
-      userId: $userId
-      roleId: $roleId
-      entityType: $entityType
-      action: $action
-      dateFrom: $dateFrom
-      dateTo: $dateTo
-      first: $first
-      offset: $offset
-      orderBy: $orderBy
-    ) {
+  query UserRoleHistory($first: Int, $last: Int, $orderBy: [String], $after: String, $before: String, $dateFrom: DateTime, $dateTo: DateTime) {
+    userRoleHistory(first: $first, last: $last, orderBy: $orderBy, after: $after, before: $before, dateFrom: $dateFrom, dateTo: $dateTo) {
       totalCount
+      edgeCount
       edges {
+        cursor
         node {
           id
+          uuid
           entityType
           action
+          modifiedAt
+          oldValues
+          newValues
           userId
-          interactiveUserId
-          roleId
-          userRoleId
+          targetUserIdentifier
           performedBy {
             id
             username
           }
-          performedAt
-          changesJson
-          metadataJson
+          targetUser {
+            id
+            username
+          }
+          role {
+            id
+            name
+          }
         }
-        cursor
       }
       pageInfo {
         hasNextPage
@@ -570,19 +558,93 @@ const USER_ROLE_HISTORY_QUERY = `
   }
 `;
 
-export function fetchUserRoleHistory(filters = {}, page = 0, pageSize = 20) {
+function parseUserRoleHistoryParams(rawParams) {
+  const defaultVariables = {
+    first: 10,
+    orderBy: ["-modifiedAt"],
+  };
+
+  if (!Array.isArray(rawParams) || rawParams.length === 0) {
+    return defaultVariables;
+  }
+
+  const variables = { ...defaultVariables };
+
+  rawParams.forEach((rawParam) => {
+    if (typeof rawParam !== "string") {
+      return;
+    }
+
+    const param = rawParam.trim();
+
+    if (/^first:\s*\d+$/i.test(param)) {
+      variables.first = parseInt(param.replace(/first:\s*/i, ""), 10);
+      return;
+    }
+
+    if (/^last:\s*\d+$/i.test(param)) {
+      variables.last = parseInt(param.replace(/last:\s*/i, ""), 10);
+      return;
+    }
+
+    if (/^after:\s*"/.test(param)) {
+      variables.after = param.replace(/^after:\s*"|"$/g, "");
+      return;
+    }
+
+    if (/^before:\s*"/.test(param)) {
+      variables.before = param.replace(/^before:\s*"|"$/g, "");
+      return;
+    }
+
+    if (/^orderBy:\s*\[/.test(param)) {
+      try {
+        const orderByJson = param.replace(/^orderBy:\s*/, "");
+        variables.orderBy = JSON.parse(orderByJson);
+      } catch (_error) {
+        // Ignore and keep default orderBy
+      }
+      return;
+    }
+
+    if (/^modifiedAt_Gte:\s*"/.test(param)) {
+      variables.dateFrom = param.replace(/^modifiedAt_Gte:\s*"|"$/g, "");
+      return;
+    }
+
+    if (/^modifiedAt_Lte:\s*"/.test(param)) {
+      variables.dateTo = param.replace(/^modifiedAt_Lte:\s*"|"$/g, "");
+    }
+  });
+
+  return variables;
+}
+
+export function fetchUserRoleHistory(filters = {}, page = 0, pageSize = 20, afterCursor = null) {
   return (dispatch) => {
     const variables = {
-      userId: filters.userId || undefined,
-      roleId: filters.roleId != null && filters.roleId !== "" ? parseInt(filters.roleId, 10) : undefined,
-      entityType: filters.entityType || undefined,
-      action: filters.action || undefined,
-      dateFrom: filters.dateFrom ? (filters.dateFrom.toISOString ? filters.dateFrom.toISOString() : filters.dateFrom) : undefined,
-      dateTo: filters.dateTo ? (filters.dateTo.toISOString ? filters.dateTo.toISOString() : filters.dateTo) : undefined,
       first: pageSize,
-      offset: page * pageSize,
-      orderBy: ["-performedAt"],
+      orderBy: ["-modifiedAt"],
+      after: afterCursor || undefined,
+      dateFrom: filters.dateFrom || undefined,
+      dateTo: filters.dateTo || undefined,
     };
+    return dispatch(graphqlWithVariables(USER_ROLE_HISTORY_QUERY, variables, "USER_ROLE_HISTORY"));
+  };
+}
+
+export function fetchUserRoleHistoryWithParams(prms) {
+  return (dispatch) => {
+    const parsed = parseUserRoleHistoryParams(prms);
+    const variables = {
+      first: parsed.first,
+      orderBy: parsed.orderBy,
+    };
+    if (parsed.after) variables.after = parsed.after;
+    if (parsed.before) variables.before = parsed.before;
+    if (parsed.last != null) variables.last = parsed.last;
+    if (parsed.dateFrom) variables.dateFrom = parsed.dateFrom;
+    if (parsed.dateTo) variables.dateTo = parsed.dateTo;
     return dispatch(graphqlWithVariables(USER_ROLE_HISTORY_QUERY, variables, "USER_ROLE_HISTORY"));
   };
 }

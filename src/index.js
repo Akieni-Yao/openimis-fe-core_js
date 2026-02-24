@@ -62,6 +62,7 @@ import {
   clearCurrentPaginationPage,
   login,
   fetchUserRoleHistory,
+  fetchUserRoleHistoryWithParams,
 } from "./actions";
 import {
   formatMessage,
@@ -271,4 +272,5 @@ export {
   CommonSnackbar,
   login,
   fetchUserRoleHistory,
+  fetchUserRoleHistoryWithParams,
 };
