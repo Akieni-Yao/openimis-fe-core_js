@@ -517,9 +517,9 @@ export function roleNameSetValid() {
   };
 }
 
-const USER_ROLE_HISTORY_QUERY = `
-  query UserRoleHistory($first: Int, $last: Int, $orderBy: [String], $after: String, $before: String, $dateFrom: DateTime, $dateTo: DateTime) {
-    userRoleHistory(first: $first, last: $last, orderBy: $orderBy, after: $after, before: $before, dateFrom: $dateFrom, dateTo: $dateTo) {
+const USER_PROFILE_AUDIT_LOG_QUERY = `
+  query UserProfileAuditLog($first: Int, $last: Int, $orderBy: [String], $after: String, $before: String, $dateFrom: DateTime, $dateTo: DateTime) {
+    userProfileAuditLog(first: $first, last: $last, orderBy: $orderBy, after: $after, before: $before, dateFrom: $dateFrom, dateTo: $dateTo) {
       totalCount
       edgeCount
       edges {
@@ -558,7 +558,7 @@ const USER_ROLE_HISTORY_QUERY = `
   }
 `;
 
-function parseUserRoleHistoryParams(rawParams) {
+function parseUserProfileAuditLogParams(rawParams) {
   const defaultVariables = {
     first: 10,
     orderBy: ["-modifiedAt"],
@@ -620,7 +620,7 @@ function parseUserRoleHistoryParams(rawParams) {
   return variables;
 }
 
-export function fetchUserRoleHistory(filters = {}, page = 0, pageSize = 20, afterCursor = null) {
+export function fetchUserProfileAuditLog(filters = {}, page = 0, pageSize = 20, afterCursor = null) {
   return (dispatch) => {
     const variables = {
       first: pageSize,
@@ -629,13 +629,13 @@ export function fetchUserRoleHistory(filters = {}, page = 0, pageSize = 20, afte
       dateFrom: filters.dateFrom || undefined,
       dateTo: filters.dateTo || undefined,
     };
-    return dispatch(graphqlWithVariables(USER_ROLE_HISTORY_QUERY, variables, "USER_ROLE_HISTORY"));
+    return dispatch(graphqlWithVariables(USER_PROFILE_AUDIT_LOG_QUERY, variables, "USER_PROFILE_AUDIT_LOG"));
   };
 }
 
-export function fetchUserRoleHistoryWithParams(prms) {
+export function fetchUserProfileAuditLogWithParams(prms) {
   return (dispatch) => {
-    const parsed = parseUserRoleHistoryParams(prms);
+    const parsed = parseUserProfileAuditLogParams(prms);
     const variables = {
       first: parsed.first,
       orderBy: parsed.orderBy,
@@ -645,7 +645,7 @@ export function fetchUserRoleHistoryWithParams(prms) {
     if (parsed.last != null) variables.last = parsed.last;
     if (parsed.dateFrom) variables.dateFrom = parsed.dateFrom;
     if (parsed.dateTo) variables.dateTo = parsed.dateTo;
-    return dispatch(graphqlWithVariables(USER_ROLE_HISTORY_QUERY, variables, "USER_ROLE_HISTORY"));
+    return dispatch(graphqlWithVariables(USER_PROFILE_AUDIT_LOG_QUERY, variables, "USER_PROFILE_AUDIT_LOG"));
   };
 }
 
