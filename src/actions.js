@@ -1,14 +1,14 @@
-import { RSAA } from "redux-api-middleware";
-import uuid from "lodash-uuid";
 import _ from "lodash";
+import uuid from "lodash-uuid";
+import { RSAA } from "redux-api-middleware";
 import {
-  formatQuery,
-  formatPageQuery,
-  formatPageQueryWithCount,
+  decodeId,
   formatGQLString,
   formatMutation,
+  formatPageQuery,
+  formatPageQueryWithCount,
+  formatQuery,
   formatServerError,
-  decodeId,
 } from "./helpers/api";
 
 const ROLE_FULL_PROJECTION = () => [
@@ -514,6 +514,138 @@ export function roleNameValidationClear() {
 export function roleNameSetValid() {
   return (dispatch) => {
     dispatch({ type: `CORE_ROLE_NAME_VALIDATION_FIELDS_SET_VALID` });
+  };
+}
+
+const USER_PROFILE_AUDIT_LOG_QUERY = `
+  query UserProfileAuditLog($first: Int, $last: Int, $orderBy: [String], $after: String, $before: String, $dateFrom: DateTime, $dateTo: DateTime) {
+    userProfileAuditLog(first: $first, last: $last, orderBy: $orderBy, after: $after, before: $before, dateFrom: $dateFrom, dateTo: $dateTo) {
+      totalCount
+      edgeCount
+      edges {
+        cursor
+        node {
+          id
+          uuid
+          entityType
+          action
+          modifiedAt
+          oldValues
+          newValues
+          userId
+          targetUserIdentifier
+          user {
+            id
+            username
+          }
+          targetUser {
+            id
+            username
+          }
+          role {
+            id
+            name
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+`;
+
+function parseUserProfileAuditLogParams(rawParams) {
+  const defaultVariables = {
+    first: 10,
+    orderBy: ["-modifiedAt"],
+  };
+
+  if (!Array.isArray(rawParams) || rawParams.length === 0) {
+    return defaultVariables;
+  }
+
+  const variables = { ...defaultVariables };
+
+  rawParams.forEach((rawParam) => {
+    if (typeof rawParam !== "string") {
+      return;
+    }
+
+    const param = rawParam.trim();
+
+    if (/^first:\s*\d+$/i.test(param)) {
+      variables.first = parseInt(param.replace(/first:\s*/i, ""), 10);
+      return;
+    }
+
+    if (/^last:\s*\d+$/i.test(param)) {
+      variables.last = parseInt(param.replace(/last:\s*/i, ""), 10);
+      return;
+    }
+
+    if (/^after:\s*"/.test(param)) {
+      variables.after = param.replace(/^after:\s*"|"$/g, "");
+      return;
+    }
+
+    if (/^before:\s*"/.test(param)) {
+      variables.before = param.replace(/^before:\s*"|"$/g, "");
+      return;
+    }
+
+    if (/^orderBy:\s*\[/.test(param)) {
+      try {
+        const orderByJson = param.replace(/^orderBy:\s*/, "");
+        variables.orderBy = JSON.parse(orderByJson);
+      } catch (_error) {
+        // Ignore and keep default orderBy
+      }
+      return;
+    }
+
+    if (/^modifiedAt_Gte:\s*"/.test(param)) {
+      variables.dateFrom = param.replace(/^modifiedAt_Gte:\s*"|"$/g, "");
+      return;
+    }
+
+    if (/^modifiedAt_Lte:\s*"/.test(param)) {
+      variables.dateTo = param.replace(/^modifiedAt_Lte:\s*"|"$/g, "");
+    }
+  });
+
+  return variables;
+}
+
+export function fetchUserProfileAuditLog(filters = {}, page = 0, pageSize = 20, afterCursor = null) {
+  return (dispatch) => {
+    const variables = {
+      first: pageSize,
+      orderBy: ["-modifiedAt"],
+      after: afterCursor || undefined,
+      dateFrom: filters.dateFrom || undefined,
+      dateTo: filters.dateTo || undefined,
+    };
+    return dispatch(graphqlWithVariables(USER_PROFILE_AUDIT_LOG_QUERY, variables, "USER_PROFILE_AUDIT_LOG"));
+  };
+}
+
+export function fetchUserProfileAuditLogWithParams(prms) {
+  return (dispatch) => {
+    const parsed = parseUserProfileAuditLogParams(prms);
+    const variables = {
+      first: parsed.first,
+      orderBy: parsed.orderBy,
+    };
+    if (parsed.after) variables.after = parsed.after;
+    if (parsed.before) variables.before = parsed.before;
+    if (parsed.last != null) variables.last = parsed.last;
+    if (parsed.dateFrom) variables.dateFrom = parsed.dateFrom;
+    if (parsed.dateTo) variables.dateTo = parsed.dateTo;
+    return dispatch(graphqlWithVariables(USER_PROFILE_AUDIT_LOG_QUERY, variables, "USER_PROFILE_AUDIT_LOG"));
   };
 }
 

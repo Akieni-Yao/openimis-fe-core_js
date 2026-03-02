@@ -61,6 +61,8 @@ import {
   prepareMutation,
   clearCurrentPaginationPage,
   login,
+  fetchUserProfileAuditLog,
+  fetchUserProfileAuditLogWithParams,
 } from "./actions";
 import {
   formatMessage,
@@ -269,4 +271,6 @@ export {
   useBoolean,
   CommonSnackbar,
   login,
+  fetchUserProfileAuditLog,
+  fetchUserProfileAuditLogWithParams,
 };

@@ -87,6 +87,7 @@
   "core.routes.affiliation.biometricExport.title": "Biometric Export",
   "core.routes.affiliation.biometricExport.subtitle": "Export biometric data for insureds",
   "core.routes.administration.users.subtitle": "Manage system users",
+  "core.routes.administration.userProfileAuditLog.subtitle": "View history of user and role changes",
   "core.routes.administration.bank.title": "Bank",
   "core.routes.administration.bank.subtitle": "Manage banking information",
   "core.routes.administration.fosaCategories.title": "FOSA Categories",

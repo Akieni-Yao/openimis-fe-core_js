@@ -40,6 +40,12 @@ const administration = [
   },
   {
     parent: "admin.mainMenu",
+    path: "/admin/user-profile-audit-log",
+    title: "admin.menu.userProfileAuditLog",
+    subtitle: "core.routes.administration.userProfileAuditLog.subtitle",
+  },
+  {
+    parent: "admin.mainMenu",
     path: "/admin/bank",
     title: "core.routes.administration.bank.title",
     subtitle: "core.routes.administration.bank.subtitle",
